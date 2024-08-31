@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use Override;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Volt\Volt;
 
@@ -12,6 +13,7 @@ class VoltServiceProvider extends ServiceProvider
     /**
      * Register services.
      */
+    #[Override]
     public function register(): void {}
 
     /**
