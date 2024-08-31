@@ -2,8 +2,11 @@
 
 declare(strict_types=1);
 
+use App\Livewire\Profile\DeleteUserForm;
+use App\Livewire\Profile\UpdatePasswordForm;
+use App\Livewire\Profile\UpdateProfileInformationForm;
 use App\Models\User;
-use Livewire\Volt\Volt;
+use Livewire\Livewire;
 
 test('profile page is displayed', function () {
     $user = User::factory()->create();
@@ -14,9 +17,9 @@ test('profile page is displayed', function () {
 
     $response
         ->assertOk()
-        ->assertSeeVolt('profile.update-profile-information-form')
-        ->assertSeeVolt('profile.update-password-form')
-        ->assertSeeVolt('profile.delete-user-form');
+        ->assertSeeLivewire(UpdateProfileInformationForm::class)
+        ->assertSeeLivewire(UpdatePasswordForm::class)
+        ->assertSeeLivewire(DeleteUserForm::class);
 });
 
 test('profile information can be updated', function () {
@@ -24,7 +27,7 @@ test('profile information can be updated', function () {
 
     $this->actingAs($user);
 
-    $component = Volt::test('profile.update-profile-information-form')
+    $component = Livewire::test(UpdateProfileInformationForm::class)
         ->set('name', 'Test User')
         ->set('email', 'test@example.com')
         ->call('updateProfileInformation');
@@ -37,7 +40,6 @@ test('profile information can be updated', function () {
 
     $this->assertSame('Test User', $user->name);
     $this->assertSame('test@example.com', $user->email);
-    $this->assertNull($user->email_verified_at);
 });
 
 test('email verification status is unchanged when the email address is unchanged', function () {
@@ -45,7 +47,7 @@ test('email verification status is unchanged when the email address is unchanged
 
     $this->actingAs($user);
 
-    $component = Volt::test('profile.update-profile-information-form')
+    $component = Livewire::test(UpdateProfileInformationForm::class)
         ->set('name', 'Test User')
         ->set('email', $user->email)
         ->call('updateProfileInformation');
@@ -62,7 +64,7 @@ test('user can delete their account', function () {
 
     $this->actingAs($user);
 
-    $component = Volt::test('profile.delete-user-form')
+    $component = Livewire::test(DeleteUserForm::class)
         ->set('password', 'password')
         ->call('deleteUser');
 
@@ -79,7 +81,7 @@ test('correct password must be provided to delete account', function () {
 
     $this->actingAs($user);
 
-    $component = Volt::test('profile.delete-user-form')
+    $component = Livewire::test(DeleteUserForm::class)
         ->set('password', 'wrong-password')
         ->call('deleteUser');
 

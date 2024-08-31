@@ -4,18 +4,19 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Auth;
 
-use Livewire\Volt\Volt;
+use App\Livewire\Pages\Auth\Register;
+use Livewire\Livewire;
 
 test('registration screen can be rendered', function () {
     $response = $this->get('/register');
 
     $response
         ->assertOk()
-        ->assertSeeVolt('pages.auth.register');
+        ->assertSeeLivewire(Register::class);
 });
 
 test('new users can register', function () {
-    $component = Volt::test('pages.auth.register')
+    $component = Livewire::test(Register::class)
         ->set('name', 'Test User')
         ->set('email', 'test@example.com')
         ->set('password', 'password')

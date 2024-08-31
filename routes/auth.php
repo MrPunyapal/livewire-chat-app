@@ -2,24 +2,28 @@
 
 declare(strict_types=1);
 
+use App\Livewire\Pages\Auth\ConfirmPassword;
+use App\Livewire\Pages\Auth\ForgotPassword;
+use App\Livewire\Pages\Auth\Login;
+use App\Livewire\Pages\Auth\Register;
+use App\Livewire\Pages\Auth\ResetPassword;
 use Illuminate\Support\Facades\Route;
-use Livewire\Volt\Volt;
 
 Route::middleware('guest')->group(function () {
-    Volt::route('register', 'pages.auth.register')
+    Route::get('register', Register::class)
         ->name('register');
 
-    Volt::route('login', 'pages.auth.login')
+    Route::get('login', Login::class)
         ->name('login');
 
-    Volt::route('forgot-password', 'pages.auth.forgot-password')
+    Route::get('forgot-password', ForgotPassword::class)
         ->name('password.request');
 
-    Volt::route('reset-password/{token}', 'pages.auth.reset-password')
+    Route::get('reset-password/{token}', ResetPassword::class)
         ->name('password.reset');
 });
 
 Route::middleware('auth')->group(function () {
-    Volt::route('confirm-password', 'pages.auth.confirm-password')
+    Route::get('confirm-password', ConfirmPassword::class)
         ->name('password.confirm');
 });
