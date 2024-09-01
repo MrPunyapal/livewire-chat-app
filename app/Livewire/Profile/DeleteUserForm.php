@@ -19,6 +19,8 @@ class DeleteUserForm extends Component
     public function deleteUser(Logout $logout): void
     {
         if (Auth::user() === null) {
+            $this->redirectRoute('login', navigate: true);
+
             return;
         }
 

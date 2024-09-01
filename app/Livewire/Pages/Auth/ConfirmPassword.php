@@ -22,6 +22,8 @@ class ConfirmPassword extends Component
     public function confirmPassword(): void
     {
         if (Auth::user() === null) {
+            $this->redirectRoute('login', navigate: true);
+
             return;
         }
 

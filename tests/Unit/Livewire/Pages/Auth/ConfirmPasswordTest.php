@@ -32,6 +32,15 @@ test('password is not confirmed with invalid password', function () {
     $component->call('confirmPassword');
 
     $component
-        ->assertNoRedirect()
-        ->assertHasErrors('password');
+    ->assertNoRedirect()
+    ->assertHasErrors('password');
+});
+
+test('unauthenticated users are redirected to login', function () {
+    $component = Livewire::test(ConfirmPassword::class)
+        ->set('password', 'any-password');
+
+    $component->call('confirmPassword');
+
+    $component->assertRedirect(route('login'));
 });

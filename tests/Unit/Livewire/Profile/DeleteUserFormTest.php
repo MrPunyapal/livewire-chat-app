@@ -38,3 +38,12 @@ test('correct password must be provided to delete account', function () {
 
     $this->assertNotNull($user->fresh());
 });
+
+test('unauthenticated users are redirected to login', function () {
+    $component = Livewire::test(DeleteUserForm::class)
+        ->set('password', 'any-password');
+
+    $component->call('deleteUser');
+
+    $component->assertRedirect(route('login'));
+});

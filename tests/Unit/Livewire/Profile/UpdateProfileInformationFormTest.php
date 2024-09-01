@@ -42,3 +42,20 @@ test('email verification status is unchanged when the email address is unchanged
 
     $this->assertNotNull($user->refresh()->email_verified_at);
 });
+
+test('unauthenticated users are redirected to login', function () {
+    $component = Livewire::test(UpdateProfileInformationForm::class);
+
+    $component->assertRedirect(route('login'));
+
+    $component = Livewire::actingAs(User::factory()->create())
+        ->test(UpdateProfileInformationForm::class)
+        ->set('name', 'Test User')
+        ->set('email', 'test@example.com');
+
+    auth()->logout();
+
+    $component->call('updateProfileInformation');
+
+    $component->assertRedirect(route('login'));
+});

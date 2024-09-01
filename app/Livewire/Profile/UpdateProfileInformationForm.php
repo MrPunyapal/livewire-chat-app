@@ -22,6 +22,8 @@ class UpdateProfileInformationForm extends Component
     public function mount(): void
     {
         if (Auth::user() === null) {
+            $this->redirectRoute('login', navigate: true);
+
             return;
         }
 
@@ -37,6 +39,8 @@ class UpdateProfileInformationForm extends Component
         $user = Auth::user();
 
         if ($user === null) {
+            $this->redirectRoute('login', navigate: true);
+
             return;
         }
 

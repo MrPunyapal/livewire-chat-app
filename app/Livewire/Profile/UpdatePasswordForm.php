@@ -25,6 +25,8 @@ class UpdatePasswordForm extends Component
     public function updatePassword(): void
     {
         if (Auth::user() === null) {
+            $this->redirectRoute('login', navigate: true);
+
             return;
         }
 
