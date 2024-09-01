@@ -31,7 +31,25 @@ test('users can not authenticate with invalid password', function () {
     $component->call('login');
 
     $component
-        ->assertHasErrors()
+        ->assertHasErrors(['form.email'])
+        ->assertNoRedirect();
+
+    $this->assertGuest();
+});
+
+test('login form is rate limited', function () {
+    $user = User::factory()->create();
+
+    $component = Livewire::test(Login::class)
+        ->set('form.email', $user->email)
+        ->set('form.password', 'wrong-password');
+
+    for ($i = 0; $i < 6; $i++) {
+        $component->call('login');
+    }
+
+    $component
+        ->assertHasErrors(['form.email'])
         ->assertNoRedirect();
 
     $this->assertGuest();
