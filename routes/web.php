@@ -2,15 +2,17 @@
 
 declare(strict_types=1);
 
+use App\Livewire\Dashboard;
+use App\Livewire\Profile;
 use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'welcome');
 
-Route::view('dashboard', 'dashboard')
-    ->middleware(['auth', 'verified'])
+Route::get('dashboard', Dashboard::class)
+    ->middleware(['auth'])
     ->name('dashboard');
 
-Route::view('profile', 'profile')
+Route::get('profile', Profile::class)
     ->middleware(['auth'])
     ->name('profile');
 
