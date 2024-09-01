@@ -22,9 +22,9 @@ test('reset password screen can be rendered', function () {
 
     $user = User::factory()->create();
 
-    Password::sendResetLink(
-        $user->email
-    );
+    Password::sendResetLink([
+        'email' => $user->email,
+    ]);
 
     Notification::assertSentTo($user, ResetPasswordNotification::class, function ($notification) {
         $response = $this->get('/reset-password/'.$notification->token);

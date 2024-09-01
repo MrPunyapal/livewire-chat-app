@@ -1,8 +1,10 @@
 <?php
+
+declare(strict_types=1);
 use App\Livewire\Pages\Auth\ForgotPassword;
 use App\Models\User;
-use Livewire\Livewire;
 use Illuminate\Auth\Notifications\ResetPassword as ResetPasswordNotification;
+use Livewire\Livewire;
 
 test('reset password link can be requested', function () {
     Notification::fake();

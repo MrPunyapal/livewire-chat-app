@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Auth;
-
 use App\Livewire\Pages\Auth\ConfirmPassword;
 use App\Models\User;
 
