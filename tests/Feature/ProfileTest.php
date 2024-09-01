@@ -6,7 +6,6 @@ use App\Livewire\Profile\DeleteUserForm;
 use App\Livewire\Profile\UpdatePasswordForm;
 use App\Livewire\Profile\UpdateProfileInformationForm;
 use App\Models\User;
-use Livewire\Livewire;
 
 test('profile page is displayed', function () {
     $user = User::factory()->create();
