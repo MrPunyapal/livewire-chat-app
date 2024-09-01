@@ -16,7 +16,7 @@ use Livewire\Attributes\Layout;
 use Livewire\Attributes\Locked;
 use Livewire\Component;
 
-#[Layout('layouts.guest')]
+#[Layout('components.layouts.guest')]
 class ResetPassword extends Component
 {
     #[Locked]
