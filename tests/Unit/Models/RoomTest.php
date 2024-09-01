@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Models\Room;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Collection;
 
 test('to array', function () {
     $room = Room::factory()->create()->fresh();
@@ -18,7 +19,11 @@ test('to array', function () {
 });
 
 test('relationships', function () {
-    $room = Room::factory()->create();
+    $room = Room::factory()
+        ->has(User::factory()->count(3), 'members')
+        ->create();
 
-    expect($room->user)->toBeInstanceOf(User::class);
+    expect($room->user)->toBeInstanceOf(User::class)
+        ->and($room->members)->toBeInstanceOf(Collection::class)
+        ->and($room->members)->each->toBeInstanceOf(User::class);
 });

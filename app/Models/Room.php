@@ -8,6 +8,7 @@ use Database\Factories\RoomFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Carbon;
 
 /**
@@ -18,6 +19,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property-read User $user
+ * @property-read User[] $members
  */
 class Room extends Model
 {
@@ -32,5 +34,15 @@ class Room extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Get the members for the room.
+     *
+     * @return BelongsToMany<User>
+     */
+    public function members(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'members');
     }
 }
