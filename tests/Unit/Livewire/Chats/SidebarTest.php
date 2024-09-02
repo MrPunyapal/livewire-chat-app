@@ -15,3 +15,11 @@ test('sidebar component contains rooms', function () {
         ->test(Sidebar::class)
         ->assertViewHas('rooms', Room::all());
 });
+
+test('sidebar component withou rooms', function () {
+    $user = User::factory()->create();
+
+    Livewire::actingAs($user)
+        ->test(Sidebar::class)
+        ->assertSeeHtml('No rooms found');
+});

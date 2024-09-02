@@ -7,7 +7,7 @@
         <div
             class="mt-4 h-[calc(100vh-155px)] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
             <div class="flex flex-col gap-4">
-                @foreach ($rooms as $room)
+                @forelse ($rooms as $room)
                     <div class="bg-white dark:bg-gray-700 shadow-md rounded-lg py-4">
                         <a href="" class="group flex items-center gap-3 px-4" wire:navigate>
                             <figure
@@ -32,7 +32,13 @@
                             </div>
                         </a>
                     </div>
-                @endforeach
+                @empty
+                    <div class="bg-white dark:bg-gray-700 shadow-md rounded-lg py-4">
+                        <div class="flex items-center gap-3 px-4">
+                            <p class="text-gray-500 dark:text-gray-400">No rooms found</p>
+                        </div>
+                    </div>
+                @endforelse
             </div>
         </div>
     </div>
