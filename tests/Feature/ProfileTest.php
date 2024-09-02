@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Livewire\Pages\Profile;
 use App\Livewire\Profile\DeleteUserForm;
 use App\Livewire\Profile\UpdatePasswordForm;
 use App\Livewire\Profile\UpdateProfileInformationForm;
@@ -16,6 +17,7 @@ test('profile page is displayed', function () {
 
     $response
         ->assertOk()
+        ->assertSeeLivewire(Profile::class)
         ->assertSeeLivewire(UpdateProfileInformationForm::class)
         ->assertSeeLivewire(UpdatePasswordForm::class)
         ->assertSeeLivewire(DeleteUserForm::class);
