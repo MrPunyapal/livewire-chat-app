@@ -21,6 +21,12 @@
 - Established relationships between Room, Member, and Chat, and added tests for them
 
 ### 2nd Sep
+- Moved dashboard and Profile components to pages directory
+- Added Profile Attribute to User model and updated tests
+- Created Chats component and added tests
+- Refactored web.php to use middleware group for auth routes
+- designed the sidebar and added the sidebar component
+- Added tests for the sidebar component with and without rooms
 
 More updates to come... 
 
