@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use App\Livewire\Dashboard;
-use App\Livewire\Profile;
+use App\Livewire\Pages\Dashboard;
+use App\Livewire\Pages\Profile;
 use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'welcome');
