@@ -26,3 +26,9 @@ test('relationships', function () {
     expect($user->rooms)->toBeInstanceOf(Collection::class);
     expect($user->rooms)->each->toBeInstanceOf(Room::class);
 });
+
+test('attributes', function () {
+    $user = User::factory()->create();
+
+    expect($user->profile)->toBeUrl();
+});
