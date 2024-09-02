@@ -14,10 +14,6 @@ class Chats extends Component
 {
     public function render(): View
     {
-        // add 10 rooms to the database with the factory
-        // Room::factory()->count(10)->create(); // only uncomment once
-        return view('livewire.pages.chats', [
-            'rooms' => Room::all(),
-        ]);
+        return view('livewire.pages.chats');
     }
 }
