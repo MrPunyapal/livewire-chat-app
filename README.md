@@ -28,5 +28,9 @@
 - designed the sidebar and added the sidebar component
 - Added tests for the sidebar component with and without rooms
 
+### 3rd Sep
+
+- We got our first PR #1
+
 More updates to come... 
 
