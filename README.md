@@ -30,7 +30,7 @@
 
 ### 3rd Sep
 
-- We got our first PR #1
+- We got our first PR [#1](https://github.com/MrPunyapal/livewire-chat-app/pull/1)
 
 More updates to come... 
 
