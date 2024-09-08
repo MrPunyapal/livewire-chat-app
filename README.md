@@ -29,8 +29,13 @@
 - Added tests for the sidebar component with and without rooms
 
 ### 3rd Sep
-
 - We got our first PR [#1](https://github.com/MrPunyapal/livewire-chat-app/pull/1)
+
+### 7th Sep
+- Updated dependencies
+- Added chats into navigation
+- Designed Chats UI and moved it into component
+- Added some tests to make sure everything is going right.
 
 More updates to come... 
 
