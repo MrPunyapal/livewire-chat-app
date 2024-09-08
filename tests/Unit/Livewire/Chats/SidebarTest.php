@@ -16,7 +16,7 @@ test('sidebar component contains rooms', function () {
         ->assertViewHas('rooms', Room::all());
 });
 
-test('sidebar component withou rooms', function () {
+test('sidebar component without rooms', function () {
     $user = User::factory()->create();
 
     Livewire::actingAs($user)
