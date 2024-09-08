@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Livewire\Chats\Index;
 use App\Livewire\Chats\Sidebar;
 use App\Livewire\Pages\Chats;
 use App\Models\User;
@@ -13,5 +14,6 @@ test('Chats page is displayed', function () {
         ->get('/chats')
         ->assertSeeLivewire(Chats::class)
         ->assertSeeLivewire(Sidebar::class)
+        ->assertSeeLivewire(Index::class)
         ->assertOk();
 });
