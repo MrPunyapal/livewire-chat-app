@@ -28,8 +28,10 @@ class Index extends Component
     public function render(): View
     {
         // add 10 chats to the database with the factory
-        // Chat::factory()->count(10)->create(['room_id' => $this->roomId]); // only uncomment once
-        // $this->roomId = 1;
+
+        // Chat::factory()->count(10)->create(['room_id' => Room::factory()->create()->id]); // only uncomment once
+        $this->roomId = 1;
+
         return view('livewire.chats.index', [
             'room' => $this->room,
             'chats' => $this->room !== null ? Chat::query()->where('room_id', $this->roomId)->get() : [],
