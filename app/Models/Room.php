@@ -29,6 +29,16 @@ class Room extends Model
     use HasFactory;
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var list<string>
+     */
+    protected $fillable = [
+        'name',
+        'user_id',
+    ];
+
+    /**
      * Get the user that owns the room.
      *
      * @return BelongsTo<User, Room>
