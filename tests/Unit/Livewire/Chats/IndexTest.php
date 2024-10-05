@@ -31,3 +31,13 @@ it('renders without room and chats', function () {
         ->assertSee('No chats found')
         ->assertViewHas('chats', []);
 });
+
+it('selects room', function () {
+    $user = User::factory()->create();
+    $room = Room::factory()->create();
+
+    Livewire::actingAs($user)
+        ->test(Index::class)
+        ->dispatch('room-selected', id: $room->id)
+        ->assertSet('roomId', $room->id);
+});

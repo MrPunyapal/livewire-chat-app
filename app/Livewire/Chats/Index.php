@@ -9,6 +9,8 @@ use App\Models\Room;
 use Illuminate\View\View;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Locked;
+use Livewire\Attributes\On;
+use Livewire\Attributes\Url;
 use Livewire\Component;
 
 /**
@@ -17,6 +19,7 @@ use Livewire\Component;
 class Index extends Component
 {
     #[Locked]
+    #[Url]
     public ?int $roomId = null;
 
     #[Computed]
@@ -25,11 +28,16 @@ class Index extends Component
         return $this->roomId === null ? null : Room::query()->find($this->roomId);
     }
 
+    #[On('room-selected')]
+    public function selectRoom(int $id): void
+    {
+        $this->roomId = $id;
+    }
+
     public function render(): View
     {
         // add 10 chats to the database with the factory
         // Chat::factory()->count(10)->create(['room_id' => $this->roomId]); // only uncomment once
-        // $this->roomId = 1;
         return view('livewire.chats.index', [
             'room' => $this->room,
             'chats' => $this->room !== null ? Chat::query()->where('room_id', $this->roomId)->get() : [],
