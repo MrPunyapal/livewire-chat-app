@@ -9,7 +9,7 @@
 
         <div class="mt-4">
             <x-input-label for="members" value="Members" />
-            <x-select wire:model="members" id="members" name="members" :options="$users" multiple />
+            <x-select-input wire:model="members" id="members" name="members" :options="$users" multiple />
             <x-input-error class="mt-2" :messages="$errors->get('members')" />
         </div>
 
