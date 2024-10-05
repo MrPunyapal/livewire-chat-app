@@ -37,5 +37,12 @@
 - Designed Chats UI and moved it into component
 - Added some tests to make sure everything is going right.
 
+### 5th Oct
+- Added a Select component
+- Added a create room feature
+- Added a switch room feature
+- Added tests for the new features
+- Some minor refactoring
+
 More updates to come... 
 
