@@ -42,7 +42,9 @@ class Create extends Component
             'name' => $validated['name'],
         ]);
 
-        $room->members()->attach($validated['members'] + [auth()->id()]);
+        $validated['members'][] = auth()->id();
+
+        $room->users()->attach($validated['members']);
 
         $this->dispatch('room-created');
         $this->dispatch('room-selected', id: $room->id);

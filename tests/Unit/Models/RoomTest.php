@@ -21,18 +21,18 @@ test('to array', function () {
 
 test('relationships', function () {
     $room = Room::factory()
-        ->has(User::factory()->count(3), 'members')
+        ->has(User::factory()->count(3), 'users')
         ->create();
 
     Chat::factory()
         ->count(3)
         ->for($room)
-        ->for($room->members->first(), 'user')
+        ->for($room->users->first(), 'user')
         ->create();
 
     expect($room->user)->toBeInstanceOf(User::class)
-        ->and($room->members)->toBeInstanceOf(Collection::class)
-        ->and($room->members)->each->toBeInstanceOf(User::class)
+        ->and($room->users)->toBeInstanceOf(Collection::class)
+        ->and($room->users)->each->toBeInstanceOf(User::class)
         ->and($room->chats)->toBeInstanceOf(Collection::class)
         ->and($room->chats)->each->toBeInstanceOf(Chat::class);
 });

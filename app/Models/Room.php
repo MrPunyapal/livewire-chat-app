@@ -20,7 +20,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property-read User $user
- * @property-read User[] $members
+ * @property-read User[] $users
  * @property-read Chat[] $chats
  */
 class Room extends Model
@@ -43,7 +43,7 @@ class Room extends Model
      *
      * @return BelongsToMany<User>
      */
-    public function members(): BelongsToMany
+    public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'members');
     }

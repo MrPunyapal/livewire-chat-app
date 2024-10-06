@@ -59,6 +59,7 @@ it('can create a chat room', function () {
 
     $this->assertDatabaseHas('rooms', ['name' => 'Test Room']);
     $this->assertDatabaseHas('members', ['user_id' => $member->id, 'room_id' => 1]);
+    $this->assertDatabaseHas('members', ['user_id' => $user->id, 'room_id' => 1]);
 });
 
 it('redirects to login page if user is not authenticated', function () {
