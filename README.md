@@ -44,5 +44,12 @@
 - Added tests for the new features
 - Some minor refactoring
 
+### 6th Oct
+- Updated dependencies
+- Updated sidebar to show rooms from user
+- Updated index component to room from user
+- Updated tests to reflect the changes
+- Some minor refactoring
+
 More updates to come... 
 
