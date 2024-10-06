@@ -7,13 +7,20 @@ use App\Models\User;
 use Livewire\Livewire;
 
 test('sidebar component contains rooms', function () {
-    $user = User::factory()->create();
+    $user = User::factory()
+        ->create();
 
-    Room::factory()->count(10)->create();
+    $rooms = Room::factory(5)
+        ->hasAttached($user, relationship: 'users')
+        ->create();
+
+    $room = Room::factory()->create();
 
     Livewire::actingAs($user)
         ->test(Sidebar::class)
-        ->assertViewHas('rooms', Room::all());
+        ->assertViewHas('rooms', $rooms)
+        ->assertDontSee($room->name)
+        ->assertDontSee('No rooms found');
 });
 
 test('sidebar component without rooms', function () {
@@ -21,5 +28,5 @@ test('sidebar component without rooms', function () {
 
     Livewire::actingAs($user)
         ->test(Sidebar::class)
-        ->assertSeeHtml('No rooms found');
+        ->assertSee('No rooms found');
 });

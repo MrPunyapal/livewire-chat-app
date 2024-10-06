@@ -15,7 +15,10 @@ class Sidebar extends Component
     public function render(): View
     {
         return view('livewire.chats.sidebar', [
-            'rooms' => Room::query()->latest()->get(),
+            'rooms' => Room::query()
+                ->whereRelation('users', 'users.id', auth()->id())
+                ->latest()
+                ->get(),
         ]);
     }
 }
