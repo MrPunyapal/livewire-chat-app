@@ -25,7 +25,9 @@ class Index extends Component
     #[Computed]
     public function room(): ?Room
     {
-        return $this->roomId === null ? null : Room::query()->find($this->roomId);
+        return $this->roomId === null ? null : Room::query()
+            ->whereRelation('users', 'users.id', auth()->id())
+            ->find($this->roomId);
     }
 
     #[On('room-selected')]
