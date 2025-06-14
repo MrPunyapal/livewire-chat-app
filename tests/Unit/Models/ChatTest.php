@@ -28,7 +28,6 @@ test('relationships', function () {
     $chat->favouritedBy()->attach($chat->user->id);
     $chat->favouritedBy()->attach(User::factory()->create()->id);
 
-
     expect($chat->user)->toBeInstanceOf(User::class);
     expect($chat->room)->toBeInstanceOf(Room::class);
     expect($chat->parent)->toBeInstanceOf(Chat::class);
