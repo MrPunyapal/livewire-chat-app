@@ -55,7 +55,7 @@ class ListChats extends Component
                     $query->where('users.id', auth()->id());
                 })
                 ->orderBy('created_at', 'desc')
-                ->with('user', 'favouritedBy')
+                ->with('user', 'favoritedBy')
                 ->limit($this->limit)
                 ->offset($this->offset)
                 ->get(),

@@ -128,7 +128,7 @@ it('only shows the delete button if the chat is not deleted', function (): void 
         ->assertDontSeeHtml('title="Delete message"');
 });
 
-it('can toggle chat as favourite', function (): void {
+it('can toggle chat as Favorite', function (): void {
     $user = User::factory()->create();
 
     $room = Room::factory()
@@ -139,29 +139,29 @@ it('can toggle chat as favourite', function (): void {
         ->for($room)
         ->create();
 
-    expect($chat->favouritedBy()->count())->toBe(0);
+    expect($chat->favoritedBy()->count())->toBe(0);
 
-    // Toggle favourite for the first time
+    // Toggle Favorite for the first time
     Livewire::actingAs($chat->user)
         ->test(Show::class, ['chat' => $chat])
-        ->call('toggleFavourite')
-        ->assertSeeHtml('Remove from favourite chats');
+        ->call('toggleFavorite')
+        ->assertSeeHtml('Remove from Favorite chats');
 
     Livewire::actingAs($user)
         ->test(Show::class, ['chat' => $chat])
-        ->call('toggleFavourite')
-        ->assertDontSeeHtml('Mark as favourite');
+        ->call('toggleFavorite')
+        ->assertDontSeeHtml('Mark as Favorite');
 
-    expect($chat->favouritedBy()->count())->toBe(2);
+    expect($chat->favoritedBy()->count())->toBe(2);
 
-    // Toggle again to remove from favourite chats
+    // Toggle again to remove from Favorite chats
     Livewire::actingAs($user)
         ->test(Show::class, ['chat' => $chat])
-        ->call('toggleFavourite')
-        ->assertSeeHtml('Mark as favourite');
+        ->call('toggleFavorite')
+        ->assertSeeHtml('Mark as Favorite');
 
     $chat->refresh();
-    expect($chat->favouritedBy()->count())->toBe(1);
+    expect($chat->favoritedBy()->count())->toBe(1);
 });
 
 it('deletes message when confirmed', function (): void {

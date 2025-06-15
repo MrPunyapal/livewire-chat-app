@@ -68,19 +68,19 @@
                     </button>
 
                     <button
-                        wire:click="toggleFavourite"
+                        wire:click="toggleFavorite"
                         @class([
                             'p-1.5 rounded-md transition-colors duration-150',
-                            'text-gray-500 hover:text-yellow-600 hover:bg-yellow-50 dark:hover:bg-yellow-900/30 dark:hover:text-yellow-400' => $chat->favouritedBy->doesntContain(
+                            'text-gray-500 hover:text-yellow-600 hover:bg-yellow-50 dark:hover:bg-yellow-900/30 dark:hover:text-yellow-400' => $chat->favoritedBy->doesntContain(
                                 auth()->id()),
-                            'text-yellow-600 bg-yellow-50 dark:bg-yellow-900/30 dark:text-yellow-400' => $chat->favouritedBy->contains(
+                            'text-yellow-600 bg-yellow-50 dark:bg-yellow-900/30 dark:text-yellow-400' => $chat->favoritedBy->contains(
                                 auth()->id()),
                         ])
-                        title="{{ $chat->favouritedBy->contains(auth()->id()) ? 'Remove from favourite chats' : 'Mark as favourite' }}"
+                        title="{{ $chat->favoritedBy->contains(auth()->id()) ? 'Remove from Favorite chats' : 'Mark as Favorite' }}"
                     >
                         <x-icons.star @class([
                             'h-3.5 w-3.5',
-                            'fill-current' => $chat->favouritedBy->contains(auth()->id()),
+                            'fill-current' => $chat->favoritedBy->contains(auth()->id()),
                         ]) />
                     </button>
                 @endif
@@ -136,7 +136,7 @@
             'justify-end' => $isCurrentUser,
         ])>
             <span>{{ $chat->updated_at->diffForHumans() }}</span>
-            @if ($chat->favouritedBy->contains(auth()->id()))
+            @if ($chat->favoritedBy->contains(auth()->id()))
                 <x-icons.star class="h-3 w-3 text-yellow-500 fill-current" />
             @endif
         </div>
