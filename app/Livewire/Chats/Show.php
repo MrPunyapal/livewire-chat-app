@@ -23,8 +23,8 @@ class Show extends Component
     public function delete(): void
     {
         abort_unless($this->isCurrentUser(), 403, 'You are not authorized to delete this chat.');
-
         $this->chat->touch('deleted_at');
+        $this->dispatch('chat:deleted', chatId: $this->chat->id);
 
         broadcast(new ChatUpdated(
             chatId: $this->chat->id,
