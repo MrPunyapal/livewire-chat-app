@@ -185,7 +185,10 @@
   border-right: 10px solid white;
   border-top: 8px solid transparent;
   border-bottom: 8px solid transparent;
-  @media (prefers-color-scheme: dark) {
+}
+
+@media (prefers-color-scheme: dark) {
+  .chat-bubble-other::after {
     border-right-color: rgb(55 65 81); /* gray-700 */
   }
 }
