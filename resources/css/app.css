@@ -27,3 +27,183 @@
     border-color: var(--color-gray-200, currentColor);
   }
 }
+
+/* Custom scrollbar styles */
+.scrollbar-thin {
+  scrollbar-width: thin;
+}
+
+/* Default gray-300 theme for scrollbar */
+.scrollbar-thin.scrollbar-thumb-gray-300 {
+  scrollbar-color: rgb(209 213 219) transparent;
+}
+
+/* Dark mode gray-600 theme for scrollbar */
+.dark .scrollbar-thin.scrollbar-thumb-gray-600 {
+  scrollbar-color: rgb(75 85 99) transparent;
+}
+
+.scrollbar-track-transparent {
+  scrollbar-color: transparent transparent;
+}
+
+/* Webkit scrollbar styles for all thin scrollbars */
+.scrollbar-thin::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Default WebKit thumb color (gray-300) */
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background-color: rgb(209 213 219);
+  border-radius: 3px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background-color: rgb(156 163 175);
+}
+
+/* Dark mode WebKit scrollbar styles */
+.dark .scrollbar-thin::-webkit-scrollbar-thumb {
+  background-color: rgb(75 85 99);
+}
+
+.dark .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background-color: rgb(107 114 128);
+}
+
+/* Force visibility of scrollbars when content overflows */
+.scrollbar-thin {
+  overflow: auto;
+  scrollbar-gutter: stable;
+}
+
+/* Additional utility to ensure scrollbars are always visible when needed */
+.scrollbar-thin.scrollbar-always {
+  overflow-y: scroll;
+}
+
+/* Fallback styles for browsers that don't support custom scrollbars */
+@supports not (scrollbar-width: thin) {
+  .scrollbar-thin {
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* Ensure proper scrollbar dimensions on different browsers */
+.scrollbar-thin::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Better scrollbar contrast for accessibility */
+.scrollbar-thin::-webkit-scrollbar-thumb:active {
+  background-color: rgb(107 114 128);
+}
+
+.dark .scrollbar-thin::-webkit-scrollbar-thumb:active {
+  background-color: rgb(156 163 175);
+}
+
+/* Animation for fade-in effect */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out;
+}
+
+/* Chat bubble animation */
+@keyframes slide-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-slide-in-left {
+  animation: slide-in-left 0.3s ease-out;
+}
+
+.animate-slide-in-right {
+  animation: slide-in-right 0.3s ease-out;
+}
+
+/* Word wrapping for chat messages */
+.word-wrap {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+
+/* Chat bubble tails using pseudo-elements for better rendering */
+.chat-bubble-user::after {
+  content: '';
+  position: absolute;
+  right: -8px;
+  bottom: 12px;
+  width: 0;
+  height: 0;
+  border-left: 10px solid #2563eb; /* blue-600 */
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+}
+
+.chat-bubble-other::after {
+  content: '';
+  position: absolute;
+  left: -8px;
+  bottom: 12px;
+  width: 0;
+  height: 0;
+  border-right: 10px solid white;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  @media (prefers-color-scheme: dark) {
+    border-right-color: rgb(55 65 81); /* gray-700 */
+  }
+}
+
+/* Enhanced focus styles for accessibility */
+.focus-visible:focus-visible {
+  outline: 2px solid rgb(59 130 246);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Smooth hover transitions for chat bubbles */
+.group:hover .group-hover\:shadow-lg {
+  transition: box-shadow 0.2s ease-in-out;
+}
+
+/* Better backdrop blur support */
+.backdrop-blur-sm {
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
