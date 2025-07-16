@@ -17,7 +17,7 @@ it('renders with room without chats', function () {
     Livewire::actingAs($user)
         ->test(ListChats::class, ['roomId' => $room->id])
         ->assertViewHas('chats', new Collection)
-        ->assertSee('No chats found');
+        ->assertSee('No messages yet');
 });
 
 it('renders with room with chats', function () {
