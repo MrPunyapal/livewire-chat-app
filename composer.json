@@ -23,7 +23,7 @@
         "pestphp/pest": "^3.0",
         "pestphp/pest-plugin-laravel": "^3.0",
         "pestphp/pest-plugin-type-coverage": "^3.0",
-        "phpstan/phpstan": "2.1.17",
+        "phpstan/phpstan": "^2.1.18",
         "rector/rector": "^2.0"
     },
     "autoload": {
