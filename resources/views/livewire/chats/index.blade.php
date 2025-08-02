@@ -1,9 +1,9 @@
 <div class="bg-white dark:bg-gray-800 flex-1 flex flex-col">
     <!-- Chat Header -->
     <div class="flex-shrink-0 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-4">
-        <div class="flex justify-between items-center">
-            <div class="flex items-center gap-4">
-                @if ($room !== null)
+        @if ($room !== null)
+            <div class="flex justify-between">
+                <div class="flex gap-4">
                     <figure class="relative flex-shrink-0">
                         <img
                             src="{{ $room->user->profile }}"
@@ -18,35 +18,64 @@
                         <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">{{ $room->name }}</h2>
                         <p class="text-sm text-gray-500 dark:text-gray-400">Active now</p>
                     </div>
-                @else
-                    <div class="flex items-center gap-3">
-                        <div
-                            class="w-10 h-10 bg-gray-200 dark:bg-gray-600 rounded-full flex items-center justify-center">
-                            <svg
-                                class="w-5 h-5 text-gray-400 dark:text-gray-500"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                            >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
-                                ></path>
-                            </svg>
-                        </div>
-                        <div>
-                            <h2 class="text-xl font-semibold text-gray-500 dark:text-gray-400">
-                                Select a room to start chatting
-                            </h2>
-                            <p class="text-sm text-gray-400 dark:text-gray-500">Choose from the rooms on the left</p>
-                        </div>
+                </div> 
+                {{-- Chat filter options --}}
+                <div class="relative" x-data="{ show: false}" @click.away="show = false">
+                    <button type="button" class="px-4 py-2 cursor-pointer" @click="show = !show">
+                        <x-icons.ellipsis-vertical/>
+                    </button>
+                    <div class="absolute z-30 border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 min-w-36 right-4 rounded-md shadow-lg space-y-2 py-4 px-2" x-show="show" x-transition>
+                        <p class="font-semibold text-gray-500 dark:text-gray-400 text-sm px-2">Filter chats by</p>
+                        {{-- filter by favorites --}}
+                        <button 
+                            wire:click="toggleFilter('favorites')"
+                            type="button" 
+                            @class([
+                                'w-full px-2 py-1 flex font-light gap-2 items-center text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 text-sm cursor-pointer rounded-md',
+                                'dark:bg-gray-700' => in_array('favorites',$filters)
+                            ])
+                        >
+                            <span>
+                                <x-icons.star 
+                                    @class([
+                                        'size-4!',
+                                        'text-yellow-500 fill-yellow-500' => in_array('favorites',$filters)
+                                    ])
+                                />
+                            </span>
+                            Favorites
+                        </button>
                     </div>
-                @endif
-            </div>
-        </div>
+                </div>                       
+            </div>                    
+        @else
+            <div class="flex gap-3">
+                <div
+                    class="w-10 h-10 bg-gray-200 dark:bg-gray-600 rounded-full flex items-center justify-center">
+                    <svg
+                        class="w-5 h-5 text-gray-400 dark:text-gray-500"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+                        ></path>
+                    </svg>
+                </div>
+                <div>
+                    <h2 class="text-xl font-semibold text-gray-500 dark:text-gray-400">
+                        Select a room to start chatting
+                    </h2>
+                    <p class="text-sm text-gray-400 dark:text-gray-500">Choose from the rooms on the left</p>
+                </div>
+            </div>                        
+        @endif
     </div>
+
 
     <!-- Messages Area -->
     <div class="flex-1 overflow-hidden bg-gray-50 dark:bg-gray-900">
@@ -56,6 +85,7 @@
                 <livewire:chats.list-chats
                     :roomId="$roomId"
                     :key="'list-chats-' . $roomId . '-0'"
+                    :$filters
                 />
             </div>
         @else

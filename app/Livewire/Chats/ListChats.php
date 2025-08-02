@@ -7,6 +7,7 @@ namespace App\Livewire\Chats;
 use App\Models\Chat;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\View\View;
+use Livewire\Attributes\Reactive;
 use Livewire\Component;
 use Livewire\Features\SupportEvents\Event;
 
@@ -17,6 +18,9 @@ class ListChats extends Component
     public int $limit = 10;
 
     public int $offset = 0;
+
+    #[Reactive]
+    public ?array $filters = [];
 
     public function placeholder(): string
     {
@@ -54,6 +58,12 @@ class ListChats extends Component
                 ->whereHas('room.users', function (Builder $query): void {
                     $query->where('users.id', auth()->id());
                 })
+                ->when(
+                    value: count($this->filters) && in_array('favorites', $this->filters, true),
+                    callback: function (Builder $query) {
+                        $query->whereHas('favoritedBy', fn ($query) => $query->where('user_id', auth()->id())
+                        );
+                    })
                 ->orderBy('created_at', 'desc')
                 ->with('user', 'favoritedBy')
                 ->limit($this->limit)
