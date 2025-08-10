@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Livewire\Chats;
 
+use App\Enums\ChatFilterEnum;
 use App\Models\Chat;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\View\View;
@@ -59,8 +60,8 @@ class ListChats extends Component
                     $query->where('users.id', auth()->id());
                 })
                 ->when(
-                    value: count($this->filters) && in_array('favorites', $this->filters, true),
-                    callback: function (Builder $query) {
+                    count($this->filters) && in_array(ChatFilterEnum::Favorites->value, $this->filters, true),
+                    function (Builder $query) {
                         $query->whereHas('favoritedBy', fn ($query) => $query->where('user_id', auth()->id())
                         );
                     })

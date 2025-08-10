@@ -47,7 +47,7 @@ class Index extends Component
         $this->roomId = $id;
     }
 
-    public function toggleFilter($type): void
+    public function toggleFilter(string $type): void
     {
         if (empty($type)) {
             return;
@@ -56,12 +56,11 @@ class Index extends Component
         if (in_array($type, $this->filters, true)) {
             $key = array_search($type, $this->filters, true);
             unset($this->filters[$key]);
-            info('array after unset', ['value' => $this->filters]);
             $this->filters = array_values($this->filters);
             $this->filterBy = implode(',', $this->filters);
-
             return;
         }
+        
         $this->filters[] = $type;
         $this->filterBy = implode(',', $this->filters);
     }

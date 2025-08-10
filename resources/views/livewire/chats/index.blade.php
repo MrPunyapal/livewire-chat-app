@@ -1,3 +1,6 @@
+@php
+    use App\Enums\ChatFilterEnum;
+@endphp
 <div class="bg-white dark:bg-gray-800 flex-1 flex flex-col">
     <!-- Chat Header -->
     <div class="flex-shrink-0 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-4">
@@ -28,7 +31,7 @@
                         <p class="font-semibold text-gray-500 dark:text-gray-400 text-sm px-2">Filter chats by</p>
                         {{-- filter by favorites --}}
                         <button 
-                            wire:click="toggleFilter('favorites')"
+                            wire:click="toggleFilter( '{{ ChatFilterEnum::Favorites->value }}' )"
                             type="button" 
                             @class([
                                 'w-full px-2 py-1 flex font-light gap-2 items-center text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 text-sm cursor-pointer rounded-md',
