@@ -21,14 +21,15 @@ class Index extends Component
     #[Url]
     public ?int $roomId = null;
 
+    /** @var array<string> */
     public ?array $filters = [];
 
     #[Url]
-    public ?string $filterBy;
+    public ?string $filterBy = null;
 
-    public function mount()
+    public function mount(): void
     {
-        $this->filters = ! empty($this->filterBy) ? explode(',', $this->filterBy) : [];
+        $this->filters = $this->filterBy === null || $this->filterBy === '' || $this->filterBy === '0' ? [] : explode(',', $this->filterBy);
     }
 
     #[Computed]
@@ -49,19 +50,18 @@ class Index extends Component
 
     public function toggleFilter(string $type): void
     {
-        if (empty($type)) {
+        if ($type === '' || $type === '0') {
             return;
         }
 
+        $this->filters ??= [];
+
         if (in_array($type, $this->filters, true)) {
-            $key = array_search($type, $this->filters, true);
-            unset($this->filters[$key]);
-            $this->filters = array_values($this->filters);
-            $this->filterBy = implode(',', $this->filters);
-            return;
+            $this->filters = array_values(array_diff($this->filters, [$type]));
+        } else {
+            $this->filters[] = $type;
         }
-        
-        $this->filters[] = $type;
+
         $this->filterBy = implode(',', $this->filters);
     }
 

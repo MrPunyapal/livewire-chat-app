@@ -2,14 +2,17 @@
 
 declare(strict_types=1);
 
+use App\Enums\ChatFilterEnum;
 use App\Livewire\Chats\Index as ChatsIndex;
 use App\Livewire\Chats\ListChats;
 use App\Livewire\Chats\Save as CreateChat;
 use App\Livewire\Pages\Chats;
 use App\Livewire\Rooms\Create as CreateRoom;
 use App\Livewire\Rooms\Index as RoomsIndex;
+use App\Models\Chat;
 use App\Models\Room;
 use App\Models\User;
+use Livewire\Livewire;
 
 test('chats page is displayed', function () {
     $user = User::factory()->create();
@@ -39,4 +42,51 @@ test('create chat component should be there if room is selected', function (): v
         ->assertSeeLivewire(CreateChat::class)
         ->assertSeeLivewire(ListChats::class)
         ->assertOk();
+});
+
+// test when user selects from dropdown
+test('filter starred chats from filter dropdown', function () {
+    $user = User::factory()->create();
+    $room = Room::factory()
+        ->hasAttached($user, relationship: 'users')
+        ->create(['name' => 'Laragang']);
+
+    $this->actingAs($user)
+        ->get('/chats?roomId='.$room->id)
+        ->assertSeeLivewire(Chats::class)
+        ->assertSeeLivewire(ChatsIndex::class)
+        ->assertSeeLivewire(RoomsIndex::class)
+        ->assertSeeLivewire(CreateRoom::class)
+        ->assertSeeLivewire(CreateChat::class)
+        ->assertSeeLivewire(ListChats::class)
+        ->assertOk();
+
+    Livewire::test(ChatsIndex::class, ['roomId' => $room->id])
+        ->call('toggleFilter', '')
+        ->assertSet('filters', [], true)
+        ->call('toggleFilter', ChatFilterEnum::Favorites->value)
+        ->assertSet('filters', [ChatFilterEnum::Favorites->value], true);
+});
+
+// test when url has filter applied of starred chat
+test('filter starred chats from query string', function () {
+    $user = User::factory()->create();
+    $room = Room::factory()
+        ->hasAttached($user, relationship: 'users')
+        ->create(['name' => 'Laragang']);
+
+    $this->actingAs($user)
+        ->get('/chats?roomId='.$room->id)
+        ->assertSeeLivewire(Chats::class)
+        ->assertSeeLivewire(ChatsIndex::class)
+        ->assertSeeLivewire(RoomsIndex::class)
+        ->assertSeeLivewire(CreateRoom::class)
+        ->assertSeeLivewire(CreateChat::class)
+        ->assertSeeLivewire(ListChats::class)
+        ->assertOk();
+
+    Livewire::test(ChatsIndex::class, ['roomId' => $room->id, 'filterBy' => ChatFilterEnum::Favorites->value])
+        ->assertSet('filters', [ChatFilterEnum::Favorites->value], true)
+        ->call('toggleFilter', ChatFilterEnum::Favorites->value)
+        ->assertSet('filters', [], true);
 });

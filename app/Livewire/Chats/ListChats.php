@@ -20,8 +20,9 @@ class ListChats extends Component
 
     public int $offset = 0;
 
+    /** @var array<string> */
     #[Reactive]
-    public ?array $filters = [];
+    public array $filters = [];
 
     public function placeholder(): string
     {
@@ -61,8 +62,8 @@ class ListChats extends Component
                 })
                 ->when(
                     count($this->filters) && in_array(ChatFilterEnum::Favorites->value, $this->filters, true),
-                    function (Builder $query) {
-                        $query->whereHas('favoritedBy', fn ($query) => $query->where('user_id', auth()->id())
+                    function (Builder $query): void {
+                        $query->whereHas('favoritedBy', fn (Builder $query) => $query->where('user_id', auth()->id())
                         );
                     })
                 ->orderBy('created_at', 'desc')
