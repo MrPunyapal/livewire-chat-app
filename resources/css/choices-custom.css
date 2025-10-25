@@ -1,0 +1,32 @@
+/* Choices.js Dark Mode - Using CSS Custom Properties */
+/* todo not working */
+
+:root {
+  /* Light mode colors */
+  --choices-bg-color: #ffffff;
+  --choices-bg-color-dropdown: #ffffff;
+  --choices-text-color: #111827; /* gray-900 */
+  --choices-keyline-color: #d1d5db; /* gray-300 */
+  --choices-primary-color: #2563eb; /* blue-600 */
+  --choices-disabled-color: #f3f4f6; /* gray-100 */
+  --choices-highlighted-color: #eff6ff; /* blue-50 */
+  --choices-button-opacity-hover: 0.8;
+
+  /* Customize to match your app */
+  --choices-border-radius: 0.5rem; /* rounded-lg */
+  --choices-font-size-md: 0.875rem; /* text-sm */
+}
+
+/* Dark mode - uses prefers-color-scheme */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --choices-bg-color: #374151; /* gray-700 */
+    --choices-bg-color-dropdown: #374151; /* gray-700 */
+    --choices-text-color: #f3f4f6; /* gray-100 */
+    --choices-keyline-color: #4b5563; /* gray-600 */
+    --choices-primary-color: #2563eb; /* blue-600 */
+    --choices-disabled-color: #1f2937; /* gray-800 */
+    --choices-highlighted-color: #4b5563; /* gray-600 */
+    --choices-item-color: #ffffff; /* white text in badges */
+  }
+}
