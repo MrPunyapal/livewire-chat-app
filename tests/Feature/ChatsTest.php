@@ -9,7 +9,6 @@ use App\Livewire\Chats\Save as CreateChat;
 use App\Livewire\Pages\Chats;
 use App\Livewire\Rooms\Create as CreateRoom;
 use App\Livewire\Rooms\Index as RoomsIndex;
-use App\Models\Chat;
 use App\Models\Room;
 use App\Models\User;
 use Livewire\Livewire;
@@ -44,7 +43,6 @@ test('create chat component should be there if room is selected', function (): v
         ->assertOk();
 });
 
-// test when user selects from dropdown
 test('filter starred chats from filter dropdown', function () {
     $user = User::factory()->create();
     $room = Room::factory()
@@ -68,7 +66,6 @@ test('filter starred chats from filter dropdown', function () {
         ->assertSet('filters', [ChatFilterEnum::Favorites->value], true);
 });
 
-// test when url has filter applied of starred chat
 test('filter starred chats from query string', function () {
     $user = User::factory()->create();
     $room = Room::factory()
@@ -85,7 +82,7 @@ test('filter starred chats from query string', function () {
         ->assertSeeLivewire(ListChats::class)
         ->assertOk();
 
-    Livewire::test(ChatsIndex::class, ['roomId' => $room->id, 'filterBy' => ChatFilterEnum::Favorites->value])
+    Livewire::test(ChatsIndex::class, ['roomId' => $room->id, 'filters' => [ChatFilterEnum::Favorites->value]])
         ->assertSet('filters', [ChatFilterEnum::Favorites->value], true)
         ->call('toggleFilter', ChatFilterEnum::Favorites->value)
         ->assertSet('filters', [], true);

@@ -22,15 +22,8 @@ class Index extends Component
     public ?int $roomId = null;
 
     /** @var array<string> */
-    public ?array $filters = [];
-
     #[Url]
-    public ?string $filterBy = null;
-
-    public function mount(): void
-    {
-        $this->filters = $this->filterBy === null || $this->filterBy === '' || $this->filterBy === '0' ? [] : explode(',', $this->filterBy);
-    }
+    public ?array $filters = [];
 
     #[Computed]
     public function room(): ?Room
@@ -62,7 +55,6 @@ class Index extends Component
             $this->filters[] = $type;
         }
 
-        $this->filterBy = implode(',', $this->filters);
     }
 
     public function render(): View
