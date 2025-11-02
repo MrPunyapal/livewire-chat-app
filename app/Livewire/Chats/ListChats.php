@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\Livewire\Chats;
 
+use App\Enums\ChatFilterEnum;
 use App\Models\Chat;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\View\View;
+use Livewire\Attributes\Reactive;
 use Livewire\Component;
 use Livewire\Features\SupportEvents\Event;
 
@@ -17,6 +19,10 @@ class ListChats extends Component
     public int $limit = 10;
 
     public int $offset = 0;
+
+    /** @var array<string> */
+    #[Reactive]
+    public array $filters = [];
 
     public function placeholder(): string
     {
@@ -54,6 +60,12 @@ class ListChats extends Component
                 ->whereHas('room.users', function (Builder $query): void {
                     $query->where('users.id', auth()->id());
                 })
+                ->when(
+                    count($this->filters) && in_array(ChatFilterEnum::Favorites->value, $this->filters, true),
+                    function (Builder $query): void {
+                        $query->whereHas('favoritedBy', fn (Builder $query) => $query->where('user_id', auth()->id()));
+                    }
+                  )
                 ->orderBy('created_at', 'desc')
                 ->with('user', 'favoritedBy')
                 ->limit($this->limit)

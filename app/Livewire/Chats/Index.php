@@ -21,6 +21,10 @@ class Index extends Component
     #[Url]
     public ?int $roomId = null;
 
+    /** @var array<string> */
+    #[Url]
+    public ?array $filters = [];
+
     #[Computed]
     public function room(): ?Room
     {
@@ -35,6 +39,22 @@ class Index extends Component
         $this->dispatch('room-closed', roomId: $this->roomId);
 
         $this->roomId = $id;
+    }
+
+    public function toggleFilter(string $type): void
+    {
+        if ($type === '' || $type === '0') {
+            return;
+        }
+
+        $this->filters ??= [];
+
+        if (in_array($type, $this->filters, true)) {
+            $this->filters = array_values(array_diff($this->filters, [$type]));
+        } else {
+            $this->filters[] = $type;
+        }
+
     }
 
     public function render(): View
