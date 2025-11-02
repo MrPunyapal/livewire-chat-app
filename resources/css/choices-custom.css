@@ -1,0 +1,98 @@
+/* Choices.js custom theming with dark/light mode */
+.choices__inner {
+  background-color: var(--choices-bg-color);
+  color: var(--choices-text-color);
+  border-color: var(--choices-keyline-color);
+  border-radius: var(--choices-border-radius);
+  font-size: var(--choices-font-size-md);
+}
+
+.choices__input,
+.choices__input--cloned{
+  background-color: var(--choices-bg-color-input);
+}
+
+.choices__list[aria-expanded]{
+  background-color: var(--choices-bg-color-input);
+}
+
+/* Dropdown background */
+.choices__list
+.choices__list--dropdown {
+  background-color: var(--choices-bg-color-dropdown);
+  color: var(--choices-text-color);
+  border-color: var(--choices-keyline-color);
+}
+
+/* Highlighted item */
+.choices__item--selectable
+.is-highlighted {
+  background-color: var(--choices-highlighted-color);
+  color: var(--choices-text-color);
+}
+
+.is-highlighted{
+  background-color: var(--choices-highlighted-color);
+
+}
+
+.is-focused .choices__inner,
+.is-open .choices__inner{
+  border-color: var(--choices-keyline-color);
+}
+
+.is-open .choices__list--dropdown,
+.is-open .choices__list[aria-expanded]{
+  border-color: var(--choices-keyline-color);
+}
+
+.choices__list--multiple
+.choices__item{
+  background-color: var(--choices-primary-color);
+}
+
+.choices__list--dropdown 
+.choices__item--selectable.is-highlighted, 
+.choices__list[aria-expanded] 
+.choices__item--selectable.is-highlighted{
+  background-color: var(--choices-highlighted-color);
+}
+
+.choices__list--dropdown 
+.choices__item,
+.choices__list[aria-expanded] .choices__item{
+  color: var(--choices-text-color);
+}
+
+
+:root {
+  /* Light mode colors */
+  --choices-bg-color: #ffffff;
+  --choices-bg-color-dropdown: #ffffff;
+  --choices-text-color: #111827; /* gray-900 */
+  --choices-keyline-color: #d1d5db; /* gray-300 */
+  --choices-primary-color: #2563eb; /* blue-600 */
+  --choices-disabled-color: #f3f4f6; /* gray-100 */
+  --choices-highlighted-color: #e5e7eb; /* gray-200 */
+  --choices-button-opacity-hover: 0.8;
+ --choices-bg-color-input: #f3f4f6;  /* gray-100 */
+
+  /* Customize to match your app */
+  --choices-border-radius: 0.5rem; /* rounded-lg */
+  --choices-font-size-md: 0.875rem; /* text-sm */
+}
+
+/* Dark mode - uses prefers-color-scheme */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --choices-bg-color: #101828; /* gray-900 */
+    --choices-bg-color-dropdown: #364153; /* gray-700 */
+    --choices-text-color: #d1d5dc; /* gray-300 */
+    --choices-keyline-color: #364153; /* gray-700 */
+    --choices-primary-color: #2563eb; /* blue-600 */
+    --choices-disabled-color: #1f2937; /* gray-800 */
+    --choices-highlighted-color: #4a5565; /* gray-600 */
+    --choices-item-color: #ffffff; /* white text in badges */
+    --choices-bg-color-input: #364153;  /* gray-700 */
+  }
+}
