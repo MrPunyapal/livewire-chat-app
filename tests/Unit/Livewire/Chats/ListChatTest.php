@@ -60,7 +60,7 @@ it('dispatch the chats:loaded event if offset is greater than zero', function ()
         ->assertDispatched('chats:loaded');
 });
 
-it('filters room chats with starred chats', function () {
+it('filters room chats with favorite chats', function () {
     $user = User::factory()->create();
     $room = Room::factory()
         ->hasAttached($user, relationship: 'users')

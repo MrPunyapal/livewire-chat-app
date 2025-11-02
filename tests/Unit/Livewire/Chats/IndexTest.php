@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Enums\ChatFilterEnum;
 use App\Livewire\Chats\Index;
 use App\Models\Room;
 use App\Models\User;
@@ -47,4 +48,25 @@ it('renders room only if user is a member', function () {
         ->test(Index::class, ['roomId' => $room->id])
         ->assertViewHas('room', $room)
         ->assertDontSee('Please select room.');
+});
+
+it('filters room by favorite chats', function () {
+    $room = Room::factory()
+        ->create(['name' => 'Laragang']);
+
+    Livewire::test(Index::class, ['roomId' => $room->id])
+        ->call('toggleFilter', '')
+        ->assertSet('filters', [], true)
+        ->call('toggleFilter', ChatFilterEnum::Favorites->value)
+        ->assertSet('filters', [ChatFilterEnum::Favorites->value], true);
+});
+
+it('filters room by favorite chats from query string', function () {
+    $room = Room::factory()
+        ->create(['name' => 'Laragang']);
+
+    Livewire::test(Index::class, ['roomId' => $room->id, 'filters' => [ChatFilterEnum::Favorites->value]])
+        ->assertSet('filters', [ChatFilterEnum::Favorites->value], true)
+        ->call('toggleFilter', ChatFilterEnum::Favorites->value)
+        ->assertSet('filters', [], true);
 });
