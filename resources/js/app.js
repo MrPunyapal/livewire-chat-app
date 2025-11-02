@@ -2,8 +2,7 @@ import './bootstrap';
 import { Livewire, Alpine } from '../../vendor/livewire/livewire/dist/livewire.esm'
 import { saveChat } from './save-chat.js'
 import { notifications, notify } from './notification.js'
-import { multiSelect } from './multi-select.js'
-import 'choices.js/public/assets/styles/choices.min.css'
+import { multiSelect } from "./multi-select.js";
 
 window.Alpine = Alpine
 
