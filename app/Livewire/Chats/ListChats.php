@@ -64,7 +64,8 @@ class ListChats extends Component
                     count($this->filters) && in_array(ChatFilterEnum::Favorites->value, $this->filters, true),
                     function (Builder $query): void {
                         $query->whereHas('favoritedBy', fn (Builder $query) => $query->where('user_id', auth()->id()));
-                    })
+                    }
+                  )
                 ->orderBy('created_at', 'desc')
                 ->with('user', 'favoritedBy')
                 ->limit($this->limit)
