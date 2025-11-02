@@ -1,5 +1,5 @@
 <svg 
-      {{ $attributes->merge(['class' => 'lucide lucide-ellipsis-vertical-icon lucide-ellipsis-vertical w-6 h-6 text-gray-400 dark:text-white']) }}  
+      {{ $attributes->merge(['class' => 'w-6 h-6 text-gray-400 dark:text-white']) }}  
     viewBox="0 0 24 24" 
     fill="none" 
     stroke="currentColor" 
