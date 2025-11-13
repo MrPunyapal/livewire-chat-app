@@ -54,9 +54,15 @@
             "@php -r \"file_exists('database/database.sqlite') || touch('database/database.sqlite');\"",
             "@php artisan migrate --graceful --ansi"
         ],
-        "lint": "pint --parallel",
+        "lint": [
+            "rector",
+            "pint --parallel"
+        ],
         "refactor": "rector",
-        "test:lint": "pint --test --parallel",
+        "test:lint": [
+            "rector --dry-run",
+            "pint --test --parallel"
+        ],
         "test:refactor": "rector --dry-run",
         "test:types": "phpstan analyse",
         "test:arch": "pest --filter=arch",

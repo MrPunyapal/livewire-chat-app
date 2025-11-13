@@ -123,13 +123,9 @@ Follow these steps to set up a development environment:
     ```
 
     ```bash
-    # Lint the code using Pint
+    # Lint and refactor the code using Rector, then format with Pint
     composer lint
     composer test:lint
-
-    # Refactor the code using Rector
-    composer refactor
-    composer test:refactor
 
     # Run PHPStan
     composer test:types
