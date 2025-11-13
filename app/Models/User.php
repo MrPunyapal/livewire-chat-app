@@ -65,7 +65,7 @@ class User extends Authenticatable
     /**
      * Get the user's profile image.
      */
-    public function getProfileAttribute(): string
+    protected function getProfileAttribute(): string
     {
         return 'https://ui-avatars.com/api/?name='.urlencode($this->name).'&color=7F9CF5&background=EBF4FF';
     }
