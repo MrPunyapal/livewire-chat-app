@@ -65,8 +65,8 @@ class ListChats extends Component
                     function (Builder $query): void {
                         $query->whereHas('favoritedBy', fn (Builder $query) => $query->where('user_id', auth()->id()));
                     }
-                  )
-                ->orderBy('created_at', 'desc')
+                )
+                ->latest()
                 ->with('user', 'favoritedBy')
                 ->limit($this->limit)
                 ->offset($this->offset)
