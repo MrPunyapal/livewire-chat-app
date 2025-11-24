@@ -73,7 +73,7 @@ it('filters room chats with favorite chats', function () {
 
     $favoritedChats = Chat::factory(3)
         ->for($room)
-        ->hasAttached($user, relationship: 'favoritedBy')
+        ->hasAttached($user, relationship: 'favoriteUsers')
         ->create();
 
     Livewire::actingAs($user)

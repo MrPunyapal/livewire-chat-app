@@ -25,12 +25,12 @@ test('relationships', function () {
     $chat = Chat::factory()
         ->for(Chat::factory(), 'parent')
         ->create();
-    $chat->favoritedBy()->attach($chat->user->id);
-    $chat->favoritedBy()->attach(User::factory()->create()->id);
+    $chat->favoriteUsers()->attach($chat->user->id);
+    $chat->favoriteUsers()->attach(User::factory()->create()->id);
 
     expect($chat->user)->toBeInstanceOf(User::class);
     expect($chat->room)->toBeInstanceOf(Room::class);
     expect($chat->parent)->toBeInstanceOf(Chat::class);
-    expect($chat->favoritedBy)->toBeInstanceOf(Collection::class);
-    expect($chat->favoritedBy)->each()->toBeInstanceOf(User::class);
+    expect($chat->favoriteUsers)->toBeInstanceOf(Collection::class);
+    expect($chat->favoriteUsers)->each()->toBeInstanceOf(User::class);
 });

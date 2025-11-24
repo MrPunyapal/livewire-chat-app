@@ -139,7 +139,7 @@ it('can toggle chat as Favorite', function (): void {
         ->for($room)
         ->create();
 
-    expect($chat->favoritedBy()->count())->toBe(0);
+    expect($chat->favoriteUsers()->count())->toBe(0);
 
     // Toggle Favorite for the first time
     Livewire::actingAs($chat->user)
@@ -152,7 +152,7 @@ it('can toggle chat as Favorite', function (): void {
         ->call('toggleFavorite')
         ->assertDontSeeHtml('Mark as Favorite');
 
-    expect($chat->favoritedBy()->count())->toBe(2);
+    expect($chat->favoriteUsers()->count())->toBe(2);
 
     // Toggle again to remove from Favorite chats
     Livewire::actingAs($user)
@@ -161,7 +161,7 @@ it('can toggle chat as Favorite', function (): void {
         ->assertSeeHtml('Mark as Favorite');
 
     $chat->refresh();
-    expect($chat->favoritedBy()->count())->toBe(1);
+    expect($chat->favoriteUsers()->count())->toBe(1);
 });
 
 it('deletes message when confirmed', function (): void {
