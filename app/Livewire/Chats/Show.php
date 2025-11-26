@@ -41,7 +41,7 @@ class Show extends Component
 
     public function toggleFavorite(): void
     {
-        $this->chat->favoritedBy()->toggle(auth()->id());
+        $this->chat->favoriteUsers()->toggle(auth()->id());
     }
 
     public function render(): View

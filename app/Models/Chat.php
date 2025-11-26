@@ -24,7 +24,7 @@ use Override;
  * @property-read Chat|null $parent
  * @property-read User $user
  * @property-read Room $room
- * @property-read User[] $favoritedBy
+ * @property-read User[] $favoriteUsers
  */
 class Chat extends Model
 {
@@ -66,7 +66,7 @@ class Chat extends Model
      *
      * @return BelongsToMany<User, $this>
      */
-    public function favoritedBy(): BelongsToMany
+    public function favoriteUsers(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'chat_user_favorite', 'chat_id', 'user_id');
     }
