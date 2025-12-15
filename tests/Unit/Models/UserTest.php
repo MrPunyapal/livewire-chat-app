@@ -23,8 +23,7 @@ test('relationships', function (): void {
         ->has(Room::factory()->count(3))
         ->create();
 
-    expect($user->rooms)->toBeInstanceOf(Collection::class);
-    expect($user->rooms)->each->toBeInstanceOf(Room::class);
+    expect($user->rooms)->toBeInstanceOf(Collection::class)->each->toBeInstanceOf(Room::class);
 });
 
 test('attributes', function (): void {
