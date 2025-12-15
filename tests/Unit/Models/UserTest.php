@@ -6,7 +6,7 @@ use App\Models\Room;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 
-test('to array', function () {
+test('to array', function (): void {
     $user = User::factory()->create()->fresh();
     expect(array_keys($user->toArray()))->toEqual([
         'id',
@@ -18,7 +18,7 @@ test('to array', function () {
     ]);
 });
 
-test('relationships', function () {
+test('relationships', function (): void {
     $user = User::factory()
         ->has(Room::factory()->count(3))
         ->create();
@@ -27,7 +27,7 @@ test('relationships', function () {
     expect($user->rooms)->each->toBeInstanceOf(Room::class);
 });
 
-test('attributes', function () {
+test('attributes', function (): void {
     $user = User::factory()->create();
 
     expect($user->profile)->toBeUrl();

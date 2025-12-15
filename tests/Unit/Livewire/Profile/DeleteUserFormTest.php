@@ -6,7 +6,7 @@ use App\Livewire\Profile\DeleteUserForm;
 use App\Models\User;
 use Livewire\Livewire;
 
-test('user can delete their account', function () {
+test('user can delete their account', function (): void {
     $user = User::factory()->create();
 
     $this->actingAs($user);
@@ -23,7 +23,7 @@ test('user can delete their account', function () {
     $this->assertNull($user->fresh());
 });
 
-test('correct password must be provided to delete account', function () {
+test('correct password must be provided to delete account', function (): void {
     $user = User::factory()->create();
 
     $this->actingAs($user);
@@ -39,7 +39,7 @@ test('correct password must be provided to delete account', function () {
     $this->assertNotNull($user->fresh());
 });
 
-test('unauthenticated users are redirected to login', function () {
+test('unauthenticated users are redirected to login', function (): void {
     $component = Livewire::test(DeleteUserForm::class)
         ->set('password', 'any-password');
 

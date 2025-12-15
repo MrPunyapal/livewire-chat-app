@@ -6,7 +6,7 @@ use App\Livewire\Layout\Navigation;
 use App\Models\User;
 use Livewire\Livewire;
 
-test('users can logout', function () {
+test('users can logout', function (): void {
     $user = User::factory()->create();
 
     $this->actingAs($user);

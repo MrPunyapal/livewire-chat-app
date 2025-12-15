@@ -87,9 +87,7 @@ it('can delete', function (): void {
 
     expect($chat->fresh()->deleted_at)->not()->toBeNull();
 
-    Event::assertDispatched(ChatUpdated::class, function (ChatUpdated $event) use ($chat): bool {
-        return $event->chatId === $chat->id && $event->roomId === $chat->room_id;
-    });
+    Event::assertDispatched(ChatUpdated::class, fn (ChatUpdated $event): bool => $event->chatId === $chat->id && $event->roomId === $chat->room_id);
 });
 
 it('can not delete if the user is not the owner of the chat', function (): void {
@@ -175,9 +173,7 @@ it('deletes message when confirmed', function (): void {
 
     expect($chat->fresh()->deleted_at)->not()->toBeNull();
 
-    Event::assertDispatched(ChatUpdated::class, function (ChatUpdated $event) use ($chat): bool {
-        return $event->chatId === $chat->id && $event->roomId === $chat->room_id;
-    });
+    Event::assertDispatched(ChatUpdated::class, fn (ChatUpdated $event): bool => $event->chatId === $chat->id && $event->roomId === $chat->room_id);
 });
 
 it('only renders delete confirmation modal if user is the owner of the chat', function (): void {

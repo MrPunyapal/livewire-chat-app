@@ -9,7 +9,7 @@ use Illuminate\Auth\Notifications\ResetPassword as ResetPasswordNotification;
 use Illuminate\Support\Facades\Notification;
 use Livewire\Livewire;
 
-test('password can be reset with valid token', function () {
+test('password can be reset with valid token', function (): void {
     Notification::fake();
 
     $user = User::factory()->create();
@@ -18,7 +18,7 @@ test('password can be reset with valid token', function () {
         ->set('email', $user->email)
         ->call('sendPasswordResetLink');
 
-    Notification::assertSentTo($user, ResetPasswordNotification::class, function ($notification) use ($user) {
+    Notification::assertSentTo($user, ResetPasswordNotification::class, function ($notification) use ($user): true {
         $component = Livewire::test(ResetPassword::class, ['token' => $notification->token])
             ->set('email', $user->email)
             ->set('password', 'password')
@@ -34,7 +34,7 @@ test('password can be reset with valid token', function () {
     });
 });
 
-test('password cannot be reset with invalid token', function () {
+test('password cannot be reset with invalid token', function (): void {
     Notification::fake();
 
     $user = User::factory()->create();
@@ -43,7 +43,7 @@ test('password cannot be reset with invalid token', function () {
         ->set('email', $user->email)
         ->call('sendPasswordResetLink');
 
-    Notification::assertSentTo($user, ResetPasswordNotification::class, function ($notification) use ($user) {
+    Notification::assertSentTo($user, ResetPasswordNotification::class, function ($notification) use ($user): true {
         $component = Livewire::test(ResetPassword::class, ['token' => 'invalid-token'])
             ->set('email', $user->email)
             ->set('password', 'password')

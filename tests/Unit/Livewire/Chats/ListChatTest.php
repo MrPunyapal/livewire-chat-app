@@ -9,7 +9,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 use Livewire\Livewire;
 
-it('renders with room without chats', function () {
+it('renders with room without chats', function (): void {
     $user = User::factory()->create();
     $room = Room::factory()
         ->hasAttached($user, relationship: 'users')
@@ -21,7 +21,7 @@ it('renders with room without chats', function () {
         ->assertSee('No messages yet');
 });
 
-it('renders with room with chats', function () {
+it('renders with room with chats', function (): void {
     $user = User::factory()->create();
     $room = Room::factory()
         ->hasAttached($user, relationship: 'users')
@@ -38,7 +38,7 @@ it('renders with room with chats', function () {
         ->assertDontSee('No chats found');
 });
 
-it('dispatch the chats:loaded event if offset is greater than zero', function () {
+it('dispatch the chats:loaded event if offset is greater than zero', function (): void {
     $user = User::factory()->create();
     $room = Room::factory()
         ->hasAttached($user, relationship: 'users')
@@ -60,7 +60,7 @@ it('dispatch the chats:loaded event if offset is greater than zero', function ()
         ->assertDispatched('chats:loaded');
 });
 
-it('filters room chats with favorite chats', function () {
+it('filters room chats with favorite chats', function (): void {
     $user = User::factory()->create();
     $room = Room::factory()
         ->hasAttached($user, relationship: 'users')

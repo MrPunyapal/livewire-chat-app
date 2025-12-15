@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use App\Livewire\Pages\Auth\Register;
 
-test('registration screen can be rendered', function () {
+test('registration screen can be rendered', function (): void {
     $response = $this->get('/register');
 
     $response

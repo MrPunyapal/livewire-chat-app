@@ -11,7 +11,7 @@ use App\Livewire\Rooms\Index as RoomsIndex;
 use App\Models\Room;
 use App\Models\User;
 
-test('chats page is displayed', function () {
+test('chats page is displayed', function (): void {
     $user = User::factory()->create();
 
     $this->actingAs($user)

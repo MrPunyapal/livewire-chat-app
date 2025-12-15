@@ -8,7 +8,7 @@ use App\Models\Room;
 use App\Models\User;
 use Livewire\Livewire;
 
-it('renders with room', function () {
+it('renders with room', function (): void {
     $user = User::factory()->create();
     $room = Room::factory()
         ->hasAttached($user, relationship: 'users')
@@ -20,7 +20,7 @@ it('renders with room', function () {
         ->assertDontSee('Please select room.');
 });
 
-it('renders without room', function () {
+it('renders without room', function (): void {
     $user = User::factory()->create();
 
     Livewire::actingAs($user)
@@ -29,7 +29,7 @@ it('renders without room', function () {
         ->assertSee('Select a room to start chatting');
 });
 
-it('selects room', function () {
+it('selects room', function (): void {
     $user = User::factory()->create();
     $room = Room::factory()->create();
 
@@ -39,7 +39,7 @@ it('selects room', function () {
         ->assertSet('roomId', $room->id);
 });
 
-it('renders room only if user is a member', function () {
+it('renders room only if user is a member', function (): void {
     $user = User::factory()->create();
     $room = Room::factory()->create();
     $room->users()->attach($user);
@@ -50,7 +50,7 @@ it('renders room only if user is a member', function () {
         ->assertDontSee('Please select room.');
 });
 
-it('filters room by favorite chats', function () {
+it('filters room by favorite chats', function (): void {
     $room = Room::factory()
         ->create(['name' => 'Laragang']);
 
@@ -61,7 +61,7 @@ it('filters room by favorite chats', function () {
         ->assertSet('filters', [ChatFilterEnum::Favorites->value], true);
 });
 
-it('filters room by favorite chats from query string', function () {
+it('filters room by favorite chats from query string', function (): void {
     $room = Room::factory()
         ->create(['name' => 'Laragang']);
 

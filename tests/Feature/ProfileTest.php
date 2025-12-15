@@ -8,7 +8,7 @@ use App\Livewire\Profile\UpdatePasswordForm;
 use App\Livewire\Profile\UpdateProfileInformationForm;
 use App\Models\User;
 
-test('profile page is displayed', function () {
+test('profile page is displayed', function (): void {
     $user = User::factory()->create();
 
     $this->actingAs($user);

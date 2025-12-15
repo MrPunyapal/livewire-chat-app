@@ -7,7 +7,7 @@ use App\Models\Room;
 use App\Models\User;
 use Livewire\Livewire;
 
-test('sidebar component contains rooms', function () {
+test('sidebar component contains rooms', function (): void {
     $user = User::factory()
         ->create();
 
@@ -24,7 +24,7 @@ test('sidebar component contains rooms', function () {
         ->assertDontSee('No rooms found');
 });
 
-test('sidebar component without rooms', function () {
+test('sidebar component without rooms', function (): void {
     $user = User::factory()->create();
 
     Livewire::actingAs($user)
@@ -32,7 +32,7 @@ test('sidebar component without rooms', function () {
         ->assertSee('No rooms found');
 });
 
-test('sidebar component can show active room', function () {
+test('sidebar component can show active room', function (): void {
     $user = User::factory()->create();
     $room = Room::factory()->create();
 

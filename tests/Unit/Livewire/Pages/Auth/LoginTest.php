@@ -5,7 +5,7 @@ use App\Livewire\Pages\Auth\Login;
 use App\Models\User;
 use Livewire\Livewire;
 
-test('users can authenticate using the login screen', function () {
+test('users can authenticate using the login screen', function (): void {
     $user = User::factory()->create();
 
     $component = Livewire::test(Login::class)
@@ -21,7 +21,7 @@ test('users can authenticate using the login screen', function () {
     $this->assertAuthenticated();
 });
 
-test('users can not authenticate with invalid password', function () {
+test('users can not authenticate with invalid password', function (): void {
     $user = User::factory()->create();
 
     $component = Livewire::test(Login::class)
@@ -37,7 +37,7 @@ test('users can not authenticate with invalid password', function () {
     $this->assertGuest();
 });
 
-test('login form is rate limited', function () {
+test('login form is rate limited', function (): void {
     $user = User::factory()->create();
 
     $component = Livewire::test(Login::class)

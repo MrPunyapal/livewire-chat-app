@@ -6,7 +6,7 @@ use App\Livewire\Pages\Auth\ConfirmPassword;
 use App\Models\User;
 use Livewire\Livewire;
 
-test('password can be confirmed', function () {
+test('password can be confirmed', function (): void {
     $user = User::factory()->create();
 
     $this->actingAs($user);
@@ -21,7 +21,7 @@ test('password can be confirmed', function () {
         ->assertHasNoErrors();
 });
 
-test('password is not confirmed with invalid password', function () {
+test('password is not confirmed with invalid password', function (): void {
     $user = User::factory()->create();
 
     $this->actingAs($user);
@@ -36,7 +36,7 @@ test('password is not confirmed with invalid password', function () {
         ->assertHasErrors('password');
 });
 
-test('unauthenticated users are redirected to login', function () {
+test('unauthenticated users are redirected to login', function (): void {
     $component = Livewire::test(ConfirmPassword::class)
         ->set('password', 'any-password');
 

@@ -7,7 +7,7 @@ use App\Models\Room;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 
-test('to array', function () {
+test('to array', function (): void {
     $chat = Chat::factory()->create()->fresh();
     expect(array_keys($chat->toArray()))->toEqual([
         'id',
@@ -21,7 +21,7 @@ test('to array', function () {
     ]);
 });
 
-test('relationships', function () {
+test('relationships', function (): void {
     $chat = Chat::factory()
         ->for(Chat::factory(), 'parent')
         ->create();

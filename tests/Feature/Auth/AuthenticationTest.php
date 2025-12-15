@@ -6,7 +6,7 @@ use App\Livewire\Layout\Navigation;
 use App\Livewire\Pages\Auth\Login;
 use App\Models\User;
 
-test('login screen can be rendered', function () {
+test('login screen can be rendered', function (): void {
     $response = $this->get('/login');
 
     $response
@@ -14,7 +14,7 @@ test('login screen can be rendered', function () {
         ->assertSeeLivewire(Login::class);
 });
 
-test('navigation menu can be rendered', function () {
+test('navigation menu can be rendered', function (): void {
     $user = User::factory()->create();
 
     $this->actingAs($user);
