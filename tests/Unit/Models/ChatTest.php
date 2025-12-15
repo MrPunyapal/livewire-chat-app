@@ -31,5 +31,5 @@ test('relationships', function (): void {
     expect($chat->user)->toBeInstanceOf(User::class)
         ->and($chat->room)->toBeInstanceOf(Room::class)
         ->and($chat->parent)->toBeInstanceOf(Chat::class)
-        ->and($chat->favoriteUsers)->each()->toBeInstanceOf(Collection::class)->toBeInstanceOf(User::class);
+        ->and($chat->favoriteUsers)->toBeInstanceOf(Collection::class)->each()->toBeInstanceOf(User::class);
 });
