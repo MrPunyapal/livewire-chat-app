@@ -1,12 +1,14 @@
 <?php
 
 declare(strict_types=1);
+
 use App\Livewire\Pages\Auth\ForgotPassword;
 use App\Models\User;
 use Illuminate\Auth\Notifications\ResetPassword as ResetPasswordNotification;
+use Illuminate\Support\Facades\Notification;
 use Livewire\Livewire;
 
-test('reset password link can be requested', function () {
+test('reset password link can be requested', function (): void {
     Notification::fake();
 
     $user = User::factory()->create();
@@ -18,7 +20,7 @@ test('reset password link can be requested', function () {
     Notification::assertSentTo($user, ResetPasswordNotification::class);
 });
 
-test('reset password link is not sent to invalid email', function () {
+test('reset password link is not sent to invalid email', function (): void {
     Notification::fake();
 
     Livewire::test(ForgotPassword::class)

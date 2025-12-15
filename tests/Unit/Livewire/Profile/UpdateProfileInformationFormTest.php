@@ -6,7 +6,7 @@ use App\Livewire\Profile\UpdateProfileInformationForm;
 use App\Models\User;
 use Livewire\Livewire;
 
-test('profile information can be updated', function () {
+test('profile information can be updated', function (): void {
     $user = User::factory()->create();
 
     $this->actingAs($user);
@@ -26,7 +26,7 @@ test('profile information can be updated', function () {
     $this->assertSame('test@example.com', $user->email);
 });
 
-test('email verification status is unchanged when the email address is unchanged', function () {
+test('email verification status is unchanged when the email address is unchanged', function (): void {
     $user = User::factory()->create();
 
     $this->actingAs($user);
@@ -43,7 +43,7 @@ test('email verification status is unchanged when the email address is unchanged
     $this->assertNotNull($user->refresh()->email_verified_at);
 });
 
-test('unauthenticated users are redirected to login', function () {
+test('unauthenticated users are redirected to login', function (): void {
     $component = Livewire::test(UpdateProfileInformationForm::class);
 
     $component->assertRedirect(route('login'));

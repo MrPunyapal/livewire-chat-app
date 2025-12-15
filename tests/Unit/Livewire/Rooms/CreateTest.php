@@ -6,7 +6,7 @@ use App\Livewire\Rooms\Create;
 use App\Models\User;
 use Livewire\Livewire;
 
-it('can render the create room component', function () {
+it('can render the create room component', function (): void {
     $this->actingAs(User::factory()->create());
 
     Livewire::test(Create::class)
@@ -14,7 +14,7 @@ it('can render the create room component', function () {
         ->assertViewIs('livewire.rooms.create');
 });
 
-it('validates the name field', function () {
+it('validates the name field', function (): void {
     $this->actingAs(User::factory()->create());
 
     Livewire::test(Create::class)
@@ -43,7 +43,7 @@ it('validates the name field', function () {
         ->assertHasErrors(['members.*']);
 });
 
-it('can create a chat room', function () {
+it('can create a chat room', function (): void {
     $user = User::factory()->create();
 
     $this->actingAs($user);
@@ -62,7 +62,7 @@ it('can create a chat room', function () {
     $this->assertDatabaseHas('members', ['user_id' => $user->id, 'room_id' => 1]);
 });
 
-it('redirects to login page if user is not authenticated', function () {
+it('redirects to login page if user is not authenticated', function (): void {
     Livewire::test(Create::class)
         ->call('store')
         ->assertRedirect(route('login'));

@@ -7,7 +7,7 @@ use App\Models\Room;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 
-test('to array', function () {
+test('to array', function (): void {
     $room = Room::factory()->create()->fresh();
     expect(array_keys($room->toArray()))->toEqual([
         'id',
@@ -19,7 +19,7 @@ test('to array', function () {
     ]);
 });
 
-test('relationships', function () {
+test('relationships', function (): void {
     $room = Room::factory()
         ->has(User::factory()->count(3), 'users')
         ->create();

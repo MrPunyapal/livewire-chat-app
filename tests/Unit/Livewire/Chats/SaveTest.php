@@ -10,18 +10,18 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Event;
 use Livewire\Livewire;
 
-beforeEach(function () {
+beforeEach(function (): void {
     Event::fake();
 });
 
-it('can render the create chat component', function () {
+it('can render the create chat component', function (): void {
     Livewire::actingAs(User::factory()->create())
         ->test(Save::class, ['roomId' => Room::factory()->create()->getKey()])
         ->assertStatus(200)
         ->assertViewIs('livewire.chats.save');
 });
 
-it('validates the message field', function () {
+it('validates the message field', function (): void {
     Livewire::actingAs(User::factory()->create())
         ->test(Save::class, ['roomId' => Room::factory()->create()->getKey()])
         ->set('message', '')
@@ -29,7 +29,7 @@ it('validates the message field', function () {
         ->assertHasErrors(['message']);
 });
 
-it('checks for exception when roomId is invalid', function () {
+it('checks for exception when roomId is invalid', function (): void {
     $this->actingAs(User::factory()->create());
 
     $this->expectException(ModelNotFoundException::class);
@@ -40,7 +40,7 @@ it('checks for exception when roomId is invalid', function () {
         ->assertNotFound();
 });
 
-it('can create a chat', function () {
+it('can create a chat', function (): void {
 
     $john = User::factory()->create(['name' => 'John Doe']);
 
@@ -62,12 +62,10 @@ it('can create a chat', function () {
 
     $this->assertDatabaseHas('chats', ['message' => 'message from John']);
 
-    Event::assertDispatched(ChatCreated::class, function (ChatCreated $event) use ($room) {
-        return $event->roomId === $room->id && $event->chatId === 1;
-    });
+    Event::assertDispatched(ChatCreated::class, fn (ChatCreated $event): bool => $event->roomId === $room->id && $event->chatId === 1);
 });
 
-it('can not create a chat as an invalid user/member ', function () {
+it('can not create a chat as an invalid user/member ', function (): void {
 
     $john = User::factory()->create(['name' => 'John Doe']);
 
@@ -86,7 +84,7 @@ it('can not create a chat as an invalid user/member ', function () {
     Event::assertNotDispatched(ChatCreated::class);
 });
 
-it('can edit a chat', function () {
+it('can edit a chat', function (): void {
 
     $john = User::factory()->create(['name' => 'John Doe']);
 
@@ -112,12 +110,10 @@ it('can edit a chat', function () {
 
     $this->assertDatabaseHas('chats', ['message' => 'edited message from John']);
 
-    Event::assertDispatched(ChatUpdated::class, function (ChatUpdated $event) use ($room) {
-        return $event->roomId === $room->id && $event->chatId === 1;
-    });
+    Event::assertDispatched(ChatUpdated::class, fn (ChatUpdated $event): bool => $event->roomId === $room->id && $event->chatId === 1);
 });
 
-it('can reply to a chat', function () {
+it('can reply to a chat', function (): void {
 
     $john = User::factory()->create(['name' => 'John Doe']);
 
@@ -143,12 +139,10 @@ it('can reply to a chat', function () {
 
     $this->assertDatabaseHas('chats', ['message' => 'reply message from John', 'parent_id' => 1]);
 
-    Event::assertDispatched(ChatCreated::class, function (ChatCreated $event) use ($room) {
-        return $event->roomId === $room->id && $event->chatId === 2;
-    });
+    Event::assertDispatched(ChatCreated::class, fn (ChatCreated $event): bool => $event->roomId === $room->id && $event->chatId === 2);
 });
 
-it('can not edit a chat as an invalid user/member ', function () {
+it('can not edit a chat as an invalid user/member ', function (): void {
 
     $john = User::factory()->create(['name' => 'John Doe']);
 
@@ -176,7 +170,7 @@ it('can not edit a chat as an invalid user/member ', function () {
     Event::assertNotDispatched(ChatUpdated::class);
 });
 
-it('sets chatId and message for chat-editing event', function () {
+it('sets chatId and message for chat-editing event', function (): void {
     $john = User::factory()->create(['name' => 'John Doe']);
 
     $this->actingAs($john);
@@ -196,7 +190,7 @@ it('sets chatId and message for chat-editing event', function () {
         ->assertSet('message', 'edited message from John');
 });
 
-it('clears the parentId and replyMessage for chat-editing event', function () {
+it('clears the parentId and replyMessage for chat-editing event', function (): void {
     $john = User::factory()->create(['name' => 'John Doe']);
 
     $this->actingAs($john);
@@ -220,7 +214,7 @@ it('clears the parentId and replyMessage for chat-editing event', function () {
         ->assertSet('message', 'edited message from John');
 });
 
-it('sets parentId and replyMessage for chat-replying event', function () {
+it('sets parentId and replyMessage for chat-replying event', function (): void {
     $john = User::factory()->create(['name' => 'John Doe']);
 
     $this->actingAs($john);
@@ -240,7 +234,7 @@ it('sets parentId and replyMessage for chat-replying event', function () {
         ->assertSet('replyMessage', 'reply message from John');
 });
 
-it('clears the chatId and message for chat-replying event', function () {
+it('clears the chatId and message for chat-replying event', function (): void {
     $john = User::factory()->create(['name' => 'John Doe']);
 
     $this->actingAs($john);

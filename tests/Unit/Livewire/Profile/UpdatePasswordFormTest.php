@@ -7,7 +7,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Livewire;
 
-test('password can be updated', function () {
+test('password can be updated', function (): void {
     $user = User::factory()->create();
 
     $this->actingAs($user);
@@ -25,7 +25,7 @@ test('password can be updated', function () {
     $this->assertTrue(Hash::check('new-password', $user->refresh()->password));
 });
 
-test('correct password must be provided to update password', function () {
+test('correct password must be provided to update password', function (): void {
     $user = User::factory()->create();
 
     $this->actingAs($user);
@@ -41,7 +41,7 @@ test('correct password must be provided to update password', function () {
         ->assertNoRedirect();
 });
 
-test('unauthenticated users are redirected to login', function () {
+test('unauthenticated users are redirected to login', function (): void {
     $component = Livewire::test(UpdatePasswordForm::class)
         ->set('current_password', 'password')
         ->set('password', 'new-password')

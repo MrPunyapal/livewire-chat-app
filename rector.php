@@ -6,6 +6,7 @@ use Rector\Config\RectorConfig;
 use Rector\ValueObject\PhpVersion;
 use RectorLaravel\Rector\StaticCall\EloquentMagicMethodToQueryBuilderRector;
 use RectorLaravel\Set\LaravelSetList;
+use RectorPest\Set\PestSetList;
 
 return RectorConfig::configure()
     ->withPaths([
@@ -14,6 +15,7 @@ return RectorConfig::configure()
         __DIR__.'/config',
         __DIR__.'/database',
         __DIR__.'/public',
+        __DIR__.'/tests',
     ])
     ->withPhpSets(php83: true)
     ->withPhpVersion(PhpVersion::PHP_83)
@@ -35,6 +37,7 @@ return RectorConfig::configure()
         LaravelSetList::LARAVEL_ELOQUENT_MAGIC_METHOD_TO_QUERY_BUILDER,
         LaravelSetList::LARAVEL_CONTAINER_STRING_TO_FULLY_QUALIFIED_NAME,
         LaravelSetList::LARAVEL_ARRAYACCESS_TO_METHOD_CALL,
+        PestSetList::PEST_CODE_QUALITY,
     ])->withConfiguredRule(EloquentMagicMethodToQueryBuilderRector::class, [
         'exclude_methods' => [
             'create',

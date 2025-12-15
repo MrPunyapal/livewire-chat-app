@@ -5,7 +5,7 @@ declare(strict_types=1);
 use App\Livewire\Pages\Auth\Register;
 use Livewire\Livewire;
 
-test('new users can register', function () {
+test('new users can register', function (): void {
     $component = Livewire::test(Register::class)
         ->set('name', 'Test User')
         ->set('email', 'test@example.com')
