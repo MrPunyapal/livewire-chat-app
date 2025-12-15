@@ -7977,16 +7977,16 @@
         },
         {
             "name": "mrpunyapal/rector-pest",
-            "version": "0.1.0",
+            "version": "0.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/MrPunyapal/rector-pest.git",
-                "reference": "5354e8a427cfc2f3fd9da134866be5325cabfac8"
+                "reference": "8af49292847ed7454eb030f4de3a75d8cc29279a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/MrPunyapal/rector-pest/zipball/5354e8a427cfc2f3fd9da134866be5325cabfac8",
-                "reference": "5354e8a427cfc2f3fd9da134866be5325cabfac8",
+                "url": "https://api.github.com/repos/MrPunyapal/rector-pest/zipball/8af49292847ed7454eb030f4de3a75d8cc29279a",
+                "reference": "8af49292847ed7454eb030f4de3a75d8cc29279a",
                 "shasum": ""
             },
             "require": {
@@ -8032,9 +8032,9 @@
             ],
             "support": {
                 "issues": "https://github.com/MrPunyapal/rector-pest/issues",
-                "source": "https://github.com/MrPunyapal/rector-pest/tree/0.1.0"
+                "source": "https://github.com/MrPunyapal/rector-pest/tree/0.1.1"
             },
-            "time": "2025-12-15T12:22:58+00:00"
+            "time": "2025-12-15T12:54:16+00:00"
         },
         {
             "name": "myclabs/deep-copy",
