@@ -7,5 +7,6 @@ namespace App\Enums;
 enum ChatFilterEnum: string
 {
     case Favorites = 'favorites';
+
     // other upcoming filters (eg: files)
 }
