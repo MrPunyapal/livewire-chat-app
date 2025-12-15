@@ -28,9 +28,8 @@ test('relationships', function (): void {
     $chat->favoriteUsers()->attach($chat->user->id);
     $chat->favoriteUsers()->attach(User::factory()->create()->id);
 
-    expect($chat->user)->toBeInstanceOf(User::class);
-    expect($chat->room)->toBeInstanceOf(Room::class);
-    expect($chat->parent)->toBeInstanceOf(Chat::class);
-    expect($chat->favoriteUsers)->toBeInstanceOf(Collection::class);
-    expect($chat->favoriteUsers)->each()->toBeInstanceOf(User::class);
+    expect($chat->user)->toBeInstanceOf(User::class)
+        ->and($chat->room)->toBeInstanceOf(Room::class)
+        ->and($chat->parent)->toBeInstanceOf(Chat::class)
+        ->and($chat->favoriteUsers)->each()->toBeInstanceOf(Collection::class)->toBeInstanceOf(User::class);
 });
