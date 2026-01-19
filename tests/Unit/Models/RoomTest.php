@@ -32,7 +32,7 @@ test('relationships', function (): void {
 
     expect($room->user)->toBeInstanceOf(User::class)
         ->and($room->users)->toBeInstanceOf(Collection::class)
-        ->and($room->users)->each->toBeInstanceOf(User::class)
+        ->and($room->users)->toContainOnlyInstancesOf(User::class)
         ->and($room->chats)->toBeInstanceOf(Collection::class)
-        ->and($room->chats)->each->toBeInstanceOf(Chat::class);
+        ->and($room->chats)->toContainOnlyInstancesOf(Chat::class);
 });
