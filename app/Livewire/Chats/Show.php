@@ -9,6 +9,7 @@ use App\Models\Chat;
 use Illuminate\View\View;
 use Livewire\Attributes\On;
 use Livewire\Component;
+use Override;
 
 #[On('chat:updated.{chat.id}')]
 class Show extends Component
@@ -59,6 +60,7 @@ class Show extends Component
     /**
      * @return array<array-key, string>
      */
+    #[Override]
     protected function getListeners(): array
     {
         if ($this->chat->parent_id !== null) {
