@@ -9,7 +9,7 @@
         "laravel/framework": "^12.38.1",
         "laravel/reverb": "^1.6.1",
         "laravel/tinker": "^2.10.1",
-        "livewire/livewire": "4.0"
+        "livewire/livewire": "^4.1"
     },
     "require-dev": {
         "driftingly/rector-laravel": "^2.1.3",
