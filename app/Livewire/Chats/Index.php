@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Livewire\Chats;
 
+use App\Enums\ChatFilterEnum;
 use App\Models\Chat;
 use App\Models\Room;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\View\View;
 use Livewire\Attributes\Computed;
@@ -13,11 +15,10 @@ use Livewire\Attributes\Locked;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Url;
 use Livewire\Component;
-use App\Enums\ChatFilterEnum;
-use Illuminate\Database\Eloquent\Builder;
 
 /**
  * @property-read ?Room $room
+ * @property-read Collection<array-key, Chat> $chats
  */
 class Index extends Component
 {
@@ -29,7 +30,7 @@ class Index extends Component
 
     /** @var array<string> */
     #[Url]
-    public ?array $filters = [];
+    public array $filters = [];
 
     public int $offset = 0;
 
@@ -76,30 +77,33 @@ class Index extends Component
     {
         $this->offset += self::LIMIT;
 
-        if($this->chats->count() < self::LIMIT){
+        if ($this->chats->count() < self::LIMIT) {
             $this->dispatch('no-more-chats');
         }
     }
 
+    /**
+     * @return Collection<array-key, Chat>
+     */
     #[Computed]
     public function chats(): Collection
     {
         return Chat::query()
-                ->where('room_id', $this->roomId)
-                ->whereHas('room.users', function (Builder $query): void {
-                    $query->where('users.id', auth()->id());
-                })
-                ->when(
-                    count($this->filters) && in_array(ChatFilterEnum::Favorites->value, $this->filters, true),
-                    function (Builder $query): void {
-                        $query->whereHas('favoriteUsers', fn (Builder $query) => $query->where('user_id', auth()->id()));
-                    }
-                )
-                ->latest()
-                ->with('user', 'favoriteUsers')
-                ->limit(self::LIMIT)
-                ->offset($this->offset)
-                ->get();
+            ->where('room_id', $this->roomId)
+            ->whereHas('room.users', function (Builder $query): void {
+                $query->where('users.id', auth()->id());
+            })
+            ->when(
+                count($this->filters) && in_array(ChatFilterEnum::Favorites->value, $this->filters, true),
+                function (Builder $query): void {
+                    $query->whereHas('favoriteUsers', fn (Builder $query) => $query->where('user_id', auth()->id()));
+                }
+            )
+            ->latest()
+            ->with('user', 'favoriteUsers')
+            ->limit(self::LIMIT)
+            ->offset($this->offset)
+            ->get();
     }
 
     public function render(): View
