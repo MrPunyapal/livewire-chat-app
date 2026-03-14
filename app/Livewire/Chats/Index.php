@@ -6,6 +6,7 @@ namespace App\Livewire\Chats;
 
 use App\Models\Chat;
 use App\Models\Room;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\View\View;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Locked;
@@ -20,6 +21,8 @@ use Illuminate\Database\Eloquent\Builder;
  */
 class Index extends Component
 {
+    const int LIMIT = 10;
+
     #[Locked]
     #[Url]
     public ?int $roomId = null;
@@ -29,8 +32,6 @@ class Index extends Component
     public ?array $filters = [];
 
     public int $offset = 0;
-
-    public int $limit = 10;
 
     #[Computed]
     public function room(): ?Room
@@ -47,7 +48,11 @@ class Index extends Component
 
         $this->roomId = $id;
 
-        $this->limit = 10;
+        $this->offset = 0;
+
+        $this->js(<<<'JS'
+            $wire.$island('chat-list').$refresh()
+        JS);
     }
 
     public function toggleFilter(string $type): void
@@ -64,18 +69,22 @@ class Index extends Component
             $this->filters[] = $type;
         }
 
+        $this->offset = 0;
     }
 
     public function loadMore(): void
     {
-        $this->limit += $this->limit;
+        $this->offset += self::LIMIT;
+
+        if($this->chats->count() < self::LIMIT){
+            $this->dispatch('no-more-chats');
+        }
     }
 
-    public function render(): View
+    #[Computed]
+    public function chats(): Collection
     {
-        return view('livewire.chats.index', [
-            'room' => $this->room,
-            'chats' => Chat::query()
+        return Chat::query()
                 ->where('room_id', $this->roomId)
                 ->whereHas('room.users', function (Builder $query): void {
                     $query->where('users.id', auth()->id());
@@ -88,9 +97,15 @@ class Index extends Component
                 )
                 ->latest()
                 ->with('user', 'favoriteUsers')
-                ->limit($this->limit)
+                ->limit(self::LIMIT)
                 ->offset($this->offset)
-                ->get(),
+                ->get();
+    }
+
+    public function render(): View
+    {
+        return view('livewire.chats.index', [
+            'room' => $this->room,
         ]);
     }
 }

@@ -94,17 +94,17 @@
         @if ($room !== null)
             <div
                 class="h-full flex flex-col-reverse overflow-y-auto px-6 py-4 scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600 scrollbar-track-transparent">
-                <div class="flex flex-col-reverse gap-6 px-2">
-                    {{-- @island() --}}
-                        @foreach ($chats as $chat)
+                <div class="flex flex-col-reverse gap-6 px-2" id="chat-list">
+                    @island(name: 'chat-list')
+                        @foreach ($this->chats as $chat)
                             <livewire:chats.show
                                 :chat="$chat"
                                 :key="'chat-' . $chat->id"
                             />
                         @endforeach
-                    {{-- @endisland --}}
+                    @endisland
 
-                    @if ($offset === 0 && $chats->isEmpty())
+                    @if ($offset === 0 && $this->chats->isEmpty())
                         <div
                             class="flex justify-center items-center py-12"
                             id="not-chats-found"
@@ -130,17 +130,43 @@
                             </div>
                         </div>
                     @else
-                        @if ($chats->count() === $limit)
-                            <div wire:intersect='loadMore' ></div>
-                        @else
-                            <div class="flex justify-center py-8">
+                        <div
+                            x-data="{
+                                hasMoreChats: true,
+                            }"
+                            x-on:no-more-chats.document="hasMoreChats = false"
+                        >
+                            <div
+                                x-show="hasMoreChats"
+                                wire:intersect='loadMore'
+                                wire:island.append="chat-list"
+                            >
+                                <div class="flex items-center justify-center w-full h-full">
+                                    <div class="animate-pulse">
+                                        <div class="flex space-x-4">
+                                            <div class="w-12 h-12 bg-gray-200 rounded-full"></div>
+                                            <div class="flex-1 space-y-4 py-1">
+                                                <div class="h-4 bg-gray-200 rounded w-3/4"></div>
+                                                <div class="space-y-2">
+                                                    <div class="h-4 bg-gray-200 rounded"></div>
+                                                    <div class="h-4 bg-gray-200 rounded w-5/6"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div
+                                x-show="!hasMoreChats"
+                                class="flex justify-center py-8"
+                            >
                                 <div class="flex items-center gap-3 text-gray-400 dark:text-gray-500">
                                     <div class="h-px bg-gray-200 dark:bg-gray-600 flex-1 w-12"></div>
                                     <span class="text-sm font-medium">You've reached the beginning</span>
                                     <div class="h-px bg-gray-200 dark:bg-gray-600 flex-1 w-12"></div>
                                 </div>
                             </div>
-                        @endif
+                        </div>
                     @endif
                 </div>
             </div>
