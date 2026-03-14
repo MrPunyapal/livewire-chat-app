@@ -25,7 +25,7 @@ it('renders without room', function (): void {
 
     Livewire::actingAs($user)
         ->test(Index::class)
-        ->assertViewHas('room', null)
+        ->assertViewHas('room')
         ->assertSee('Select a room to start chatting');
 });
 
