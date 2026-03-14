@@ -10,20 +10,20 @@ use App\Livewire\Pages\Auth\ResetPassword;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
-    Route::get('register', Register::class)
+    Route::livewire('register', Register::class)
         ->name('register');
 
-    Route::get('login', Login::class)
+    Route::livewire('login', Login::class)
         ->name('login');
 
-    Route::get('forgot-password', ForgotPassword::class)
+    Route::livewire('forgot-password', ForgotPassword::class)
         ->name('password.request');
 
-    Route::get('reset-password/{token}', ResetPassword::class)
+    Route::livewire('reset-password/{token}', ResetPassword::class)
         ->name('password.reset');
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('confirm-password', ConfirmPassword::class)
+    Route::livewire('confirm-password', ConfirmPassword::class)
         ->name('password.confirm');
 });

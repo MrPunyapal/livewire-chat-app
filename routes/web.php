@@ -11,13 +11,13 @@ Route::view('/', 'welcome');
 
 Route::middleware('auth')
     ->group(function (): void {
-        Route::get('dashboard', Dashboard::class)
+        Route::livewire('dashboard', Dashboard::class)
             ->name('dashboard');
 
-        Route::get('profile', Profile::class)
+        Route::livewire('profile', Profile::class)
             ->name('profile');
 
-        Route::get('chats', Chats::class)
+        Route::livewire('chats', Chats::class)
             ->name('chats');
     });
 
