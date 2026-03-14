@@ -60,7 +60,6 @@
             "rector",
             "pint --parallel"
         ],
-        "refactor": "rector",
         "test:lint": [
             "rector --dry-run",
             "pint --test --parallel"
@@ -72,7 +71,6 @@
         "test:unit": "pest --parallel --coverage --min=100",
         "test": [
             "@test:lint",
-            "@test:refactor",
             "@test:types",
             "@test:type-coverage",
             "@test:unit"
