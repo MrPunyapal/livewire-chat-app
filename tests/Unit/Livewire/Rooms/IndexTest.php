@@ -15,12 +15,18 @@ test('sidebar component contains rooms', function (): void {
         ->hasAttached($user, relationship: 'users')
         ->create();
 
-    $room = Room::factory()->create();
+    $otherRoom = Room::factory()->create();
 
-    Livewire::actingAs($user)
-        ->test(Index::class)
-        ->assertViewHas('rooms', $rooms)
-        ->assertDontSee($room->name)
+    $component = Livewire::actingAs($user)
+        ->test(Index::class);
+
+    expect($component->instance()->rooms)
+        ->toHaveCount(5)
+        ->and($component->instance()->rooms->pluck('id')->sort()->values())
+        ->toEqual($rooms->pluck('id')->sort()->values());
+
+    $component
+        ->assertDontSee($otherRoom->name)
         ->assertDontSee('No rooms found');
 });
 
@@ -40,4 +46,21 @@ test('sidebar component can show active room', function (): void {
         ->test(Index::class)
         ->dispatch('room-selected', id: $room->id)
         ->assertSet('activeRoomId', $room->id);
+});
+
+test('search rooms', function (): void {
+    $user = User::factory()
+        ->create();
+
+    $rooms = Room::factory(5)
+        ->hasAttached($user, relationship: 'users')
+        ->create();
+
+    $component = Livewire::actingAs($user)
+        ->test(Index::class)
+        ->set('search', $rooms->first()->name);
+
+    expect($component->instance()->rooms)->toHaveCount(1);
+
+    $component->assertSee($rooms->first()->name);
 });
