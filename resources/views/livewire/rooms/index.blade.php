@@ -78,12 +78,12 @@
                     @forelse ($this->rooms as $room)
                         <div
                             @class([
-        'rounded-xl p-4 cursor-pointer transition-all duration-200 hover:shadow-md',
-        'bg-blue-50 dark:bg-blue-900/20 border-2 border-blue-200 dark:border-blue-700 shadow-sm' =>
-            $room->id == $activeRoomId,
-        'bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 border border-gray-200 dark:border-gray-600' =>
-            $room->id != $activeRoomId,
-    ])
+                                'rounded-xl p-4 cursor-pointer transition-all duration-200 hover:shadow-md',
+                                'bg-blue-50 dark:bg-blue-900/20 border-2 border-blue-200 dark:border-blue-700 shadow-sm' =>
+                                    $room->id == $activeRoomId,
+                                'bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 border border-gray-200 dark:border-gray-600' =>
+                                    $room->id != $activeRoomId,
+                            ])
                             x-on:click="$dispatch('room-selected', { id: {{ $room->id }} })"
                         >
                             <div class="flex items-center gap-3">
