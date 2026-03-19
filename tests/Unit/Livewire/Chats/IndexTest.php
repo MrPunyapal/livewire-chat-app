@@ -150,3 +150,39 @@ it('filters room chats with favorite chats', function (): void {
         ->test(Index::class, ['roomId' => $room->id, 'filters' => []])
         ->assertSet('chats', fn ($actual): bool => $actual->pluck('id')->sort()->values()->toArray() === $chats->pluck('id')->sort()->values()->toArray());
 });
+
+it('loads more chats and dispatches no-more-chats when all chats are loaded', function (): void {
+    $user = User::factory()->create();
+    $room = Room::factory()
+        ->hasAttached($user, relationship: 'users')
+        ->create();
+
+    Chat::factory(2)
+        ->for($room)
+        ->for($user, 'user')
+        ->create();
+
+    Livewire::actingAs($user)
+        ->test(Index::class, ['roomId' => $room->id])
+        ->call('loadMore')
+        ->assertSet('offset', Index::LIMIT)
+        ->assertDispatched('no-more-chats');
+});
+
+it('loads more chats without dispatching no-more-chats when more chats remain', function (): void {
+    $user = User::factory()->create();
+    $room = Room::factory()
+        ->hasAttached($user, relationship: 'users')
+        ->create();
+
+    Chat::factory(Index::LIMIT * 2)
+        ->for($room)
+        ->for($user, 'user')
+        ->create();
+
+    Livewire::actingAs($user)
+        ->test(Index::class, ['roomId' => $room->id])
+        ->call('loadMore')
+        ->assertSet('offset', Index::LIMIT)
+        ->assertNotDispatched('no-more-chats');
+});
