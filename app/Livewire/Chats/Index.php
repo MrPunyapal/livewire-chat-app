@@ -71,6 +71,10 @@ class Index extends Component
         }
 
         $this->offset = 0;
+
+        $this->js(<<<'JS'
+            $wire.$island('chat-list').$refresh()
+        JS);
     }
 
     public function loadMore(): void
