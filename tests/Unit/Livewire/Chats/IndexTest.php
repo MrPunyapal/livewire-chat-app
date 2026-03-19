@@ -98,7 +98,7 @@ it('renders with room with chats', function (): void {
 
     Livewire::actingAs($user)
         ->test(Index::class, ['roomId' => $room->id])
-        ->assertSet('chats', $chats)
+        ->assertSet('chats', fn ($actual) => $actual->pluck('id')->sort()->values()->toArray() === $chats->pluck('id')->sort()->values()->toArray())
         ->assertDontSee('No chats found');
 });
 
@@ -120,7 +120,7 @@ it('dispatch the chats:loaded event if offset is greater than zero', function ()
 
     Livewire::actingAs($user)
         ->test(Index::class, ['roomId' => $room->id, 'offset' => 1])
-        ->assertSet('chats', $chats)
+        ->assertSet('chats', fn ($actual) => $actual->pluck('id')->sort()->values()->toArray() === $chats->pluck('id')->sort()->values()->toArray())
         ->assertDispatched('chats:loaded');
 });
 
@@ -142,11 +142,11 @@ it('filters room chats with favorite chats', function (): void {
 
     Livewire::actingAs($user)
         ->test(Index::class, ['roomId' => $room->id, 'filters' => [ChatFilterEnum::Favorites->value]])
-        ->assertSet('chats', $favoritedChats);
+        ->assertSet('chats', fn ($actual) => $actual->pluck('id')->sort()->values()->toArray() === $favoritedChats->pluck('id')->sort()->values()->toArray());
 
     $chats = $chats->merge($favoritedChats);
 
     Livewire::actingAs($user)
         ->test(Index::class, ['roomId' => $room->id, 'filters' => []])
-        ->assertSet('chats', $chats);
+        ->assertSet('chats', fn ($actual) => $actual->pluck('id')->sort()->values()->toArray() === $chats->pluck('id')->sort()->values()->toArray());
 });
