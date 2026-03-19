@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 use App\Livewire\Chats\Index as ChatsIndex;
-use App\Livewire\Chats\ListChats;
 use App\Livewire\Chats\Save as CreateChat;
 use App\Livewire\Pages\Chats;
 use App\Livewire\Rooms\Create as CreateRoom;
@@ -37,6 +36,5 @@ test('create chat component should be there if room is selected', function (): v
         ->assertSeeLivewire(RoomsIndex::class)
         ->assertSeeLivewire(CreateRoom::class)
         ->assertSeeLivewire(CreateChat::class)
-        ->assertSeeLivewire(ListChats::class)
         ->assertOk();
 });

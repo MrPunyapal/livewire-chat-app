@@ -199,7 +199,7 @@
     @script
         <script>
             $wire.on('chat:created', (e) => {
-                const mainContainer = 'list-chats-0';
+                const mainContainer = 'chat-list';
                 const currentContainer = 'created-chat';
 
                 requestAnimationFrame(() => {
