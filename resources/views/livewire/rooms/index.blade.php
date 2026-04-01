@@ -75,7 +75,7 @@
             <div
                 class="hidden md:block h-full overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600 scrollbar-track-transparent">
                 <div class="space-y-2">
-                    @forelse ($this->rooms as $room)
+                    @forelse ($rooms as $room)
                         <div
                             @class([
                                 'rounded-xl p-4 cursor-pointer transition-all duration-200 hover:shadow-md',

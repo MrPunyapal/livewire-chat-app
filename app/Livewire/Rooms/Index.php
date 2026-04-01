@@ -27,7 +27,7 @@ class Index extends Component
 
     public function render(): View
     {
-        $search = $this->search ? trim($this->search) : null;
+        $search = filled($this->search) ? trim($this->search) : null;
 
         return view('livewire.rooms.index', [
             'rooms' => Room::query()

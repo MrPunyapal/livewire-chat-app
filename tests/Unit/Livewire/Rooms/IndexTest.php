@@ -15,18 +15,12 @@ test('sidebar component contains rooms', function (): void {
         ->hasAttached($user, relationship: 'users')
         ->create();
 
-    $otherRoom = Room::factory()->create();
+    $room = Room::factory()->create();
 
-    $component = Livewire::actingAs($user)
-        ->test(Index::class);
-
-    expect($component->instance()->rooms)
-        ->toHaveCount(5)
-        ->and($component->instance()->rooms->pluck('id')->sort()->values())
-        ->toEqual($rooms->pluck('id')->sort()->values());
-
-    $component
-        ->assertDontSee($otherRoom->name)
+    Livewire::actingAs($user)
+        ->test(Index::class)
+        ->assertViewHas('rooms', $rooms)
+        ->assertDontSee($room->name)
         ->assertDontSee('No rooms found');
 });
 
