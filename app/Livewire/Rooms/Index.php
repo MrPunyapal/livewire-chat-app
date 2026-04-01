@@ -7,7 +7,6 @@ namespace App\Livewire\Rooms;
 use App\Models\Room;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\View\View;
-use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Url;
 use Livewire\Component;
