@@ -54,6 +54,23 @@
                 </svg>
             </div>
 
+            <!-- search room -->
+            @if ($rooms->isNotEmpty() || $search )    
+                <div class="relative flex items-center my-3">
+                
+                    <x-icons.magnifying-glass @class(['absolute left-5 z-50 size-5']) />
+                
+                    <x-text-input 
+                        x-ref="searchInput" 
+                        wire:model.live.debounce.500ms="search" 
+                        name="q" 
+                        placeholder="Search for rooms..."
+                        class="w-full mx-1 rounded-2xl! dark:bg-slate-950! bg-slate-50! bg-opacity-80! py-3 pl-14" 
+                    />
+                </div>
+            @endif
+                     
+
             <!-- Rooms list -->
             <div
                 class="hidden md:block h-full overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600 scrollbar-track-transparent">
@@ -101,7 +118,7 @@
                         </div>
                     @empty
                         <div
-                            class="bg-white dark:bg-gray-700 rounded-xl p-6 text-center border border-gray-200 dark:border-gray-600">
+                            class="mt-4 bg-white dark:bg-gray-700 rounded-xl p-6 text-center border border-gray-200 dark:border-gray-600">
                             <div class="text-gray-400 dark:text-gray-500 mb-2">
                                 <svg
                                     class="w-12 h-12 mx-auto"
