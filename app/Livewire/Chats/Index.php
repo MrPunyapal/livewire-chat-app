@@ -62,8 +62,6 @@ class Index extends Component
             return;
         }
 
-        $this->filters ??= [];
-
         if (in_array($type, $this->filters, true)) {
             $this->filters = array_values(array_diff($this->filters, [$type]));
         } else {
