@@ -41,3 +41,36 @@ test('sidebar component can show active room', function (): void {
         ->dispatch('room-selected', id: $room->id)
         ->assertSet('activeRoomId', $room->id);
 });
+
+test('search rooms', function (): void {
+    $user = User::factory()
+        ->create();
+
+    $rooms = Room::factory(5)
+        ->hasAttached($user, relationship: 'users')
+        ->create();
+
+    $component = Livewire::actingAs($user)
+        ->test(Index::class)
+        ->set('search', $rooms->first()->name);
+
+    $component->assertSee($rooms->first()->name)
+        ->assertDontSee($rooms->last()->name)
+        ->assertSet('search', $rooms->first()->name)
+        ->assertViewHas('rooms')
+        ->assertHasNoErrors('search')
+        ->assertOk();
+});
+
+test('search with no match shows empty state', function (): void {
+    $user = User::factory()->create();
+
+    $rooms = Room::factory(3)
+        ->hasAttached($user, relationship: 'users')
+        ->create();
+
+    Livewire::actingAs($user)
+        ->test(Index::class, ['search' => 'room-that-does-not-exist'])
+        ->assertViewHas('rooms', fn ($rooms) => $rooms->isEmpty())
+        ->assertSee('No rooms found');
+});
