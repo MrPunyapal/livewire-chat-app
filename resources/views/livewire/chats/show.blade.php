@@ -51,7 +51,7 @@
                             <flux:icon.pencil-square class="h-3.5 w-3.5" />
                         </button>
                         <button
-                            x-on:click="$dispatch('modal:open', 'confirm-chat-deletion-{{ $chat->id }}')"
+                            x-on:click="$dispatch('modal-show', { name: 'confirm-chat-deletion-{{ $chat->id }}' })"
                             class="p-1.5 rounded-md text-zinc-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/30 dark:hover:text-red-400 transition-colors duration-150"
                             title="Delete message"
                         >
@@ -163,7 +163,7 @@
                     <flux:modal.close>
                         <flux:button>{{ __('Cancel') }}</flux:button>
                     </flux:modal.close>
-                    <flux:button variant="danger" wire:click="delete" x-on:click="$dispatch('modal:close', 'confirm-chat-deletion-{{ $chat->id }}')">
+                    <flux:button variant="danger" wire:click="delete" x-on:click="$dispatch('modal-close', { name: 'confirm-chat-deletion-{{ $chat->id }}' })">
                         {{ __('Delete Message') }}
                     </flux:button>
                 </div>

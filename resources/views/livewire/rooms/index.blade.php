@@ -8,7 +8,7 @@
                 </flux:button>
             </flux:modal.trigger>
 
-            <flux:modal name="create-room" class="md:w-96" x-on:room-created.window="$dispatch('modal:close', 'create-room')">
+            <flux:modal name="create-room" class="md:w-96" x-on:room-created.window="$dispatch('modal-close', { name: 'create-room' })">
                 <flux:heading size="lg">{{ __('Create New Room') }}</flux:heading>
                 <flux:subheading class="mb-4">{{ __('Start a new conversation with your team.') }}</flux:subheading>
 

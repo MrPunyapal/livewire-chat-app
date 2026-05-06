@@ -219,8 +219,8 @@ it('renders modal with correct chat ID in the Alpine.js event listeners', functi
     Livewire::actingAs($chat->user)
         ->test(Show::class, ['chat' => $chat])
         ->assertSeeHtml('confirm-chat-deletion-'.$chat->id)
-        ->assertSeeHtml('modal:open')
-        ->assertSeeHtml('modal:close');
+        ->assertSeeHtml('modal-show')
+        ->assertSeeHtml('modal-close');
 });
 
 it('modal contains correct action buttons', function (): void {
