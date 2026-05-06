@@ -5,3 +5,11 @@
  */
 
 import './echo';
+
+import { saveChat } from './save-chat';
+import { multiSelect } from './multi-select';
+
+document.addEventListener('alpine:init', () => {
+    Alpine.data('saveChat', saveChat);
+    Alpine.data('multiSelect', multiSelect);
+});

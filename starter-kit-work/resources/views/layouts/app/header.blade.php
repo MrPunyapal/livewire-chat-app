@@ -13,6 +13,10 @@
                 <flux:navbar.item icon="layout-grid" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>
                     {{ __('Dashboard') }}
                 </flux:navbar.item>
+
+                <flux:navbar.item icon="chat-bubble-left-right" :href="route('chats')" :current="request()->routeIs('chats')" wire:navigate>
+                    {{ __('Chats') }}
+                </flux:navbar.item>
             </flux:navbar>
 
             <flux:spacer />
@@ -55,6 +59,10 @@
                 <flux:sidebar.group :heading="__('Platform')">
                     <flux:sidebar.item icon="layout-grid" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>
                         {{ __('Dashboard')  }}
+                    </flux:sidebar.item>
+
+                    <flux:sidebar.item icon="chat-bubble-left-right" :href="route('chats')" :current="request()->routeIs('chats')" wire:navigate>
+                        {{ __('Chats') }}
                     </flux:sidebar.item>
                 </flux:sidebar.group>
             </flux:sidebar.nav>

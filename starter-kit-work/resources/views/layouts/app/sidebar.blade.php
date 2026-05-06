@@ -15,6 +15,10 @@
                     <flux:sidebar.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>
                         {{ __('Dashboard') }}
                     </flux:sidebar.item>
+
+                    <flux:sidebar.item icon="chat-bubble-left-right" :href="route('chats')" :current="request()->routeIs('chats')" wire:navigate>
+                        {{ __('Chats') }}
+                    </flux:sidebar.item>
                 </flux:sidebar.group>
             </flux:sidebar.nav>
 
@@ -65,8 +69,8 @@
                     <flux:menu.separator />
 
                     <flux:menu.radio.group>
-                        <flux:menu.item :href="route('profile.edit')" icon="cog" wire:navigate>
-                            {{ __('Settings') }}
+                        <flux:menu.item :href="route('profile')" icon="cog" wire:navigate>
+                            {{ __('Profile') }}
                         </flux:menu.item>
                     </flux:menu.radio.group>
 
