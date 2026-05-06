@@ -1,7 +1,7 @@
-<aside class="bg-white dark:bg-gray-800 w-16 md:w-80 border-r border-gray-200 dark:border-gray-700 flex flex-col">
-    <div class="flex-shrink-0 px-4 py-6 border-b border-gray-200 dark:border-gray-700">
+<aside class="bg-white dark:bg-zinc-800 w-16 md:w-80 border-r border-zinc-200 dark:border-zinc-700 flex flex-col">
+    <div class="flex-shrink-0 px-4 py-6 border-b border-zinc-200 dark:border-zinc-700">
         <div class="flex justify-between items-center">
-            <h1 class="hidden md:block text-2xl font-bold text-gray-900 dark:text-gray-100">Chats</h1>
+            <h1 class="hidden md:block text-2xl font-bold text-zinc-900 dark:text-zinc-100">Chats</h1>
             <flux:modal.trigger name="create-room">
                 <flux:button icon="plus" size="sm" variant="primary">
                     <span class="hidden md:inline">{{ __('New Chat') }}</span>
@@ -60,7 +60,7 @@
                                 'rounded-xl p-4 cursor-pointer transition-all duration-200 hover:shadow-md',
                                 'bg-blue-50 dark:bg-blue-900/20 border-2 border-blue-200 dark:border-blue-700 shadow-sm' =>
                                     $room->id == $activeRoomId,
-                                'bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 border border-gray-200 dark:border-gray-600' =>
+                                'bg-white dark:bg-zinc-700 hover:bg-zinc-50 dark:hover:bg-zinc-600 border border-zinc-200 dark:border-zinc-600' =>
                                     $room->id != $activeRoomId,
                             ])
                             x-on:click="$dispatch('room-selected', { id: {{ $room->id }} })"
@@ -70,26 +70,26 @@
                                     <img
                                         src="{{ $room->user->profile }}"
                                         alt="{{ $room->user->name }}"
-                                        class="w-12 h-12 rounded-full object-cover ring-2 ring-gray-200 dark:ring-gray-600"
+                                        class="w-12 h-12 rounded-full object-cover ring-2 ring-zinc-200 dark:ring-zinc-600"
                                     />
                                     <div
-                                        class="absolute -bottom-0.5 -right-0.5 w-4 h-4 bg-green-400 border-2 border-white dark:border-gray-800 rounded-full">
+                                        class="absolute -bottom-0.5 -right-0.5 w-4 h-4 bg-green-400 border-2 border-white dark:border-zinc-800 rounded-full">
                                     </div>
                                 </figure>
 
                                 <div class="flex-1 min-w-0">
                                     <div class="flex items-center justify-between mb-1">
                                         <h3
-                                            class="font-semibold text-gray-900 dark:text-gray-100 truncate text-sm"
+                                            class="font-semibold text-zinc-900 dark:text-zinc-100 truncate text-sm"
                                             title="{{ $room->name }}"
                                         >
                                             {{ $room->name }}
                                         </h3>
-                                        <span class="text-xs text-gray-500 dark:text-gray-400 flex-shrink-0 ml-2">
+                                        <span class="text-xs text-zinc-500 dark:text-zinc-400 flex-shrink-0 ml-2">
                                             {{ $room->created_at->diffForHumans(short: true) }}
                                         </span>
                                     </div>
-                                    <p class="text-sm text-gray-500 dark:text-gray-400 truncate">
+                                    <p class="text-sm text-zinc-500 dark:text-zinc-400 truncate">
                                         Click to start chatting...
                                     </p>
                                 </div>
@@ -97,8 +97,8 @@
                         </div>
                     @empty
                         <div
-                            class="mt-4 bg-white dark:bg-gray-700 rounded-xl p-6 text-center border border-gray-200 dark:border-gray-600">
-                            <div class="text-gray-400 dark:text-gray-500 mb-2">
+                            class="mt-4 bg-white dark:bg-zinc-700 rounded-xl p-6 text-center border border-zinc-200 dark:border-zinc-600">
+                            <div class="text-zinc-400 dark:text-zinc-500 mb-2">
                                 <svg
                                     class="w-12 h-12 mx-auto"
                                     fill="none"
@@ -113,8 +113,8 @@
                                     ></path>
                                 </svg>
                             </div>
-                            <p class="text-gray-500 dark:text-gray-400 text-sm">No rooms found</p>
-                            <p class="text-gray-400 dark:text-gray-500 text-xs mt-1">Create your first room to get
+                            <p class="text-zinc-500 dark:text-zinc-400 text-sm">No rooms found</p>
+                            <p class="text-zinc-400 dark:text-zinc-500 text-xs mt-1">Create your first room to get
                                 started</p>
                         </div>
                     @endforelse
