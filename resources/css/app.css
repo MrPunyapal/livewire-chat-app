@@ -1,5 +1,6 @@
 @import 'tailwindcss';
 @import '../../vendor/livewire/flux/dist/flux.css';
+@import 'choices.js/public/assets/styles/base.css';
 
 @source '../views';
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
@@ -64,3 +65,59 @@ select:focus[data-flux-control] {
 /* \[:where(&)\]:size-4 {
     @apply size-4;
 } */
+
+/* choices.js — match Flux zinc theme */
+.choices {
+    @apply w-full relative;
+}
+.choices__inner {
+    @apply bg-white border border-zinc-200 rounded-lg px-2 py-1.5 min-h-[2.25rem] text-sm text-zinc-900 cursor-pointer;
+}
+.choices__list--dropdown,
+.choices__list[aria-expanded] {
+    display: none;
+}
+.choices__list--dropdown.is-active,
+.choices__list[aria-expanded="true"] {
+    display: block;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    margin-top: 0.25rem;
+    @apply bg-white border border-zinc-200 rounded-lg shadow-lg text-sm text-zinc-900;
+}
+.choices__list--dropdown .choices__item--selectable.is-highlighted,
+.choices__list[aria-expanded="true"] .choices__item--selectable.is-highlighted {
+    @apply bg-zinc-100 text-zinc-900;
+}
+.choices__input {
+    @apply bg-transparent text-zinc-900 placeholder-zinc-400 text-sm border-0 p-0 m-0;
+}
+.choices__item--selectable {
+    @apply px-3 py-1.5;
+}
+.choices[data-type*='select-multiple'] .choices__button,
+.choices[data-type*='text'] .choices__button {
+    @apply border-l border-zinc-300 ml-1 pl-1 opacity-60 hover:opacity-100;
+}
+
+.dark .choices__inner {
+    @apply bg-zinc-800 border-zinc-700 text-zinc-100;
+}
+.dark .choices__list--dropdown.is-active,
+.dark .choices__list[aria-expanded="true"] {
+    @apply bg-zinc-800 border-zinc-700 text-zinc-100;
+}
+.dark .choices__list--dropdown .choices__item--selectable.is-highlighted,
+.dark .choices__list[aria-expanded="true"] .choices__item--selectable.is-highlighted {
+    @apply bg-zinc-700 text-zinc-100;
+}
+.dark .choices__input {
+    @apply text-zinc-100 placeholder-zinc-500;
+}
+.dark .choices[data-type*='select-multiple'] .choices__button,
+.dark .choices[data-type*='text'] .choices__button {
+    @apply border-zinc-600;
+}
