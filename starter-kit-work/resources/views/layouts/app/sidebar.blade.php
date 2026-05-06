@@ -4,22 +4,20 @@
         @include('partials.head')
     </head>
     <body class="min-h-screen bg-white dark:bg-zinc-800">
-        <flux:sidebar sticky collapsible="mobile" class="border-e border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900">
+        <flux:sidebar sticky collapsible class="border-e border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900">
             <flux:sidebar.header>
                 <x-app-logo :sidebar="true" href="{{ route('dashboard') }}" wire:navigate />
-                <flux:sidebar.collapse class="lg:hidden" />
+                <flux:sidebar.collapse />
             </flux:sidebar.header>
 
             <flux:sidebar.nav>
-                <flux:sidebar.group :heading="__('Platform')" class="grid">
-                    <flux:sidebar.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>
-                        {{ __('Dashboard') }}
-                    </flux:sidebar.item>
+                <flux:sidebar.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate tooltip="Dashboard">
+                    {{ __('Dashboard') }}
+                </flux:sidebar.item>
 
-                    <flux:sidebar.item icon="chat-bubble-left-right" :href="route('chats')" :current="request()->routeIs('chats')" wire:navigate>
-                        {{ __('Chats') }}
-                    </flux:sidebar.item>
-                </flux:sidebar.group>
+                <flux:sidebar.item icon="chat-bubble-left-right" :href="route('chats')" :current="request()->routeIs('chats')" wire:navigate tooltip="Chats">
+                    {{ __('Chats') }}
+                </flux:sidebar.item>
             </flux:sidebar.nav>
 
             <flux:spacer />
@@ -99,6 +97,22 @@
                 <flux:toast />
             </flux:toast.group>
         @endpersist
+
+        <script>
+            document.addEventListener('livewire:navigated', function () {
+                const sidebar = document.querySelector('[data-flux-sidebar]');
+                if (!sidebar) return;
+
+                const isChats = window.location.pathname.startsWith('/chats');
+                const isCollapsed = sidebar.hasAttribute('data-flux-sidebar-collapsed-desktop');
+
+                if (isChats && !isCollapsed) {
+                    window.dispatchEvent(new CustomEvent('flux-sidebar-toggle'));
+                } else if (!isChats && isCollapsed) {
+                    window.dispatchEvent(new CustomEvent('flux-sidebar-toggle'));
+                }
+            });
+        </script>
 
         @fluxScripts
     </body>
