@@ -2,26 +2,49 @@
 
 declare(strict_types=1);
 
+namespace Tests\Feature;
+
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
-test('guests are redirected to the login page', function (): void {
-    $this->get(route('dashboard'))->assertRedirect(route('login'));
-});
+class DashboardTest extends TestCase
+{
+    use RefreshDatabase;
 
-test('authenticated users can visit the dashboard', function (): void {
-    $this->actingAs(User::factory()->create())
-        ->get(route('dashboard'))
-        ->assertOk();
-});
+    public function test_guests_are_redirected_to_the_login_page(): void
+    {
+        $response = $this->get(route('dashboard'));
+        $response->assertRedirect(route('login'));
+    }
 
-test('authenticated users can visit the chats route', function (): void {
-    $this->actingAs(User::factory()->create())
-        ->get(route('chats'))
-        ->assertOk();
-});
+    public function test_authenticated_users_can_visit_the_dashboard(): void
+    {
+        $user = User::factory()->create();
+        $this->actingAs($user);
 
-test('authenticated users are redirected to profile settings from profile route', function (): void {
-    $this->actingAs(User::factory()->create())
-        ->get(route('profile'))
-        ->assertRedirect(route('profile.edit'));
-});
+        $response = $this->get(route('dashboard'));
+        $response->assertOk();
+        $response->assertSee(route('chats'));
+    }
+
+    public function test_authenticated_users_can_visit_the_chats_route(): void
+    {
+        $user = User::factory()->create();
+        $this->actingAs($user);
+
+        $response = $this->get(route('chats'));
+
+        $response->assertOk();
+    }
+
+    public function test_authenticated_users_are_redirected_to_profile_settings_from_profile_route(): void
+    {
+        $user = User::factory()->create();
+        $this->actingAs($user);
+
+        $response = $this->get(route('profile'));
+
+        $response->assertRedirect(route('profile.edit'));
+    }
+}

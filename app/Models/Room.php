@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Database\Factories\RoomFactory;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -16,7 +17,7 @@ use Illuminate\Support\Carbon;
 /**
  * @property int $id
  * @property string $name
- * @property string $description
+ * @property string|null $description
  * @property int $user_id
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
@@ -24,6 +25,7 @@ use Illuminate\Support\Carbon;
  * @property-read Collection<array-key, User> $users
  * @property-read Collection<array-key, Chat> $chats
  */
+#[Fillable(['name', 'description', 'user_id'])]
 class Room extends Model
 {
     /** @use HasFactory<RoomFactory> */

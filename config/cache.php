@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 use Illuminate\Support\Str;
 
 return [
@@ -29,7 +27,8 @@ return [
     | same cache driver to group types of items stored in your caches.
     |
     | Supported drivers: "array", "database", "file", "memcached",
-    |                    "redis", "dynamodb", "octane", "null"
+    |                    "redis", "dynamodb", "octane",
+    |                    "failover", "null"
     |
     */
 
@@ -92,6 +91,14 @@ return [
             'driver' => 'octane',
         ],
 
+        'failover' => [
+            'driver' => 'failover',
+            'stores' => [
+                'database',
+                'array',
+            ],
+        ],
+
     ],
 
     /*
@@ -105,21 +112,19 @@ return [
     |
     */
 
-    'prefix' => env('CACHE_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_').'_cache_'),
+    'prefix' => env('CACHE_PREFIX', Str::slug((string) env('APP_NAME', 'laravel')).'-cache-'),
 
     /*
     |--------------------------------------------------------------------------
-    | Cache Serializable Classes
+    | Serializable Classes
     |--------------------------------------------------------------------------
     |
-    | This option controls which PHP classes may be deserialized from the
-    | cache. Set this to false to harden unserialization behavior and prevent
-    | PHP deserialization gadget chain attacks if your APP_KEY is leaked.
-    |
-    | If your application stores PHP objects in cache, list the allowed
-    | classes here. Otherwise, keep this set to false.
+    | This value determines the classes that can be unserialized from cache
+    | storage. By default, no PHP classes will be unserialized from your
+    | cache to prevent gadget chain attacks if your APP_KEY is leaked.
     |
     */
 
     'serializable_classes' => false,
+
 ];

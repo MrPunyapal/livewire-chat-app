@@ -1,21 +1,27 @@
 {
+    "$schema": "https://www.schemastore.org/package.json",
     "private": true,
     "type": "module",
     "scripts": {
-        "dev": "vite",
-        "build": "vite build"
-    },
-    "devDependencies": {
-        "@tailwindcss/forms": "^0.5.2",
-        "@tailwindcss/vite": "^4.1.7",
-        "axios": "^1.15.0",
-        "laravel-echo": "^1.16.1",
-        "laravel-vite-plugin": "^3.0",
-        "pusher-js": "^8.4.0-rc2",
-        "tailwindcss": "^4.1.7",
-        "vite": "^8.0.0"
+        "build": "vite build",
+        "dev": "vite"
     },
     "dependencies": {
-        "choices.js": "^11.1.0"
+        "@tailwindcss/vite": "^4.1.11",
+        "autoprefixer": "^10.4.20",
+        "concurrently": "^9.0.1",
+        "laravel-vite-plugin": "^3.1",
+        "tailwindcss": "^4.0.7",
+        "vite": "^8.0.0"
+    },
+    "optionalDependencies": {
+        "@rollup/rollup-linux-x64-gnu": "4.9.5",
+        "@tailwindcss/oxide-linux-x64-gnu": "^4.0.1",
+        "lightningcss-linux-x64-gnu": "^1.29.1"
+    },
+    "devDependencies": {
+        "choices.js": "^11.1.0",
+        "laravel-echo": "^2.3.4",
+        "pusher-js": "^8.5.0"
     }
 }
