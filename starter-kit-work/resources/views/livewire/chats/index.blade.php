@@ -1,7 +1,7 @@
 @php
     use App\Enums\ChatFilterEnum;
 @endphp
-<div class="bg-white dark:bg-zinc-800 flex-1 flex flex-col">
+<div class="flex min-h-0 min-w-0 flex-1 flex-col bg-white dark:bg-zinc-800">
     <!-- Chat Header -->
     <div class="flex-shrink-0 bg-white dark:bg-zinc-800 border-b border-zinc-200 dark:border-zinc-700 px-6 py-4">
         @if ($room !== null)
@@ -90,10 +90,10 @@
 
 
     <!-- Messages Area -->
-    <div class="flex-1 overflow-hidden bg-zinc-50 dark:bg-zinc-900">
+    <div class="min-h-0 flex-1 overflow-hidden bg-zinc-50 dark:bg-zinc-900">
         @if ($room !== null)
             <div
-                class="h-full flex flex-col-reverse overflow-y-auto px-6 py-4 scrollbar-thin scrollbar-thumb-zinc-300 dark:scrollbar-thumb-zinc-600 scrollbar-track-transparent">
+                class="flex h-full min-h-0 flex-col-reverse overflow-y-auto px-6 py-4 scrollbar-thin scrollbar-thumb-zinc-300 scrollbar-track-transparent dark:scrollbar-thumb-zinc-600">
                 <div class="flex flex-col-reverse gap-6 px-2" id="chat-list">
                     @island(name: 'chat-list')
                         @foreach ($this->chats as $chat)
@@ -197,7 +197,7 @@
 
     <!-- Message Input Area -->
     @if ($room !== null)
-        <div class="flex-shrink-0 bg-white dark:bg-zinc-800 border-t border-zinc-200 dark:border-zinc-700 px-6 py-4">
+        <div class="shrink-0 border-t border-zinc-200 bg-white px-6 py-4 dark:border-zinc-700 dark:bg-zinc-800">
             <livewire:chats.save
                 :roomId="$room->id"
                 key="save-chat-{{ $room->id }}"

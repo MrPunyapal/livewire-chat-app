@@ -1,4 +1,4 @@
-<aside class="bg-white dark:bg-zinc-800 w-16 md:w-80 border-r border-zinc-200 dark:border-zinc-700 flex flex-col">
+<aside class="flex h-dvh max-h-dvh min-h-0 w-16 shrink-0 flex-col border-r border-zinc-200 bg-white dark:border-zinc-700 dark:bg-zinc-800 md:w-80">
     <div class="flex-shrink-0 px-4 py-6 border-b border-zinc-200 dark:border-zinc-700">
         <div class="flex justify-between items-center">
             <h1 class="hidden md:block text-2xl font-bold text-zinc-900 dark:text-zinc-100">Chats</h1>
@@ -17,8 +17,8 @@
         </div>
     </div>
 
-    <div class="flex-1 overflow-hidden">
-        <div class="h-full px-4 pb-4">
+    <div class="flex min-h-0 flex-1 overflow-hidden">
+        <div class="flex min-h-0 flex-1 flex-col px-4 pb-4">
             <!-- Mobile chat icon -->
             <div class="flex justify-center md:hidden mb-4">
                 <svg
@@ -52,7 +52,7 @@
 
             <!-- Rooms list -->
             <div
-                class="hidden md:block h-full overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600 scrollbar-track-transparent">
+                class="hidden min-h-0 flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent dark:scrollbar-thumb-gray-600 md:block">
                 <div class="space-y-2">
                     @forelse ($rooms as $room)
                         <div
