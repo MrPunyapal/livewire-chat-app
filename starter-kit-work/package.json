@@ -18,5 +18,9 @@
         "@rollup/rollup-linux-x64-gnu": "4.9.5",
         "@tailwindcss/oxide-linux-x64-gnu": "^4.0.1",
         "lightningcss-linux-x64-gnu": "^1.29.1"
+    },
+    "devDependencies": {
+        "laravel-echo": "^2.3.4",
+        "pusher-js": "^8.5.0"
     }
 }
