@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature\Settings;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Fortify\Features;
 use Livewire\Livewire;
@@ -30,7 +33,7 @@ class SecurityTest extends TestCase
         $user = User::factory()->create();
 
         $this->actingAs($user)
-            ->withSession(['auth.password_confirmed_at' => time()])
+            ->withSession(['auth.password_confirmed_at' => Date::now()->getTimestamp()])
             ->get(route('security.edit'))
             ->assertOk()
             ->assertSee('Two-factor authentication')
@@ -54,7 +57,7 @@ class SecurityTest extends TestCase
         $user = User::factory()->create();
 
         $this->actingAs($user)
-            ->withSession(['auth.password_confirmed_at' => time()])
+            ->withSession(['auth.password_confirmed_at' => Date::now()->getTimestamp()])
             ->get(route('security.edit'))
             ->assertOk()
             ->assertSee('Update password')

@@ -9,7 +9,7 @@ use App\Models\User;
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\assertDatabaseHas;
 
-beforeEach(function () {
+beforeEach(function (): void {
     config([
         'broadcasting.default' => 'reverb',
         'broadcasting.connections.reverb.key' => 'test-key',
@@ -20,7 +20,7 @@ beforeEach(function () {
     require base_path('routes/channels.php');
 });
 
-it('authorizes room members for chat channels', function () {
+it('authorizes room members for chat channels', function (): void {
     $user = User::factory()->create();
     $room = Room::factory()->create();
 
@@ -44,7 +44,7 @@ it('authorizes room members for chat channels', function () {
         ->assertSuccessful();
 });
 
-it('forbids non-members from chat channels', function () {
+it('forbids non-members from chat channels', function (): void {
     $member = User::factory()->create();
     $room = Room::factory()->create();
 
@@ -63,7 +63,7 @@ it('forbids non-members from chat channels', function () {
         ->assertForbidden();
 });
 
-it('builds a profile avatar url accessor', function () {
+it('builds a profile avatar url accessor', function (): void {
     $user = User::factory()->make([
         'name' => 'Jane Doe',
     ]);
