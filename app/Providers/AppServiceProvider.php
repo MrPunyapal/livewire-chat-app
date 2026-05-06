@@ -38,6 +38,7 @@ class AppServiceProvider extends ServiceProvider
             app()->isProduction(),
         );
 
+        // @codeCoverageIgnoreStart
         Password::defaults(fn (): ?Password => app()->isProduction()
             ? Password::min(12)
                 ->mixedCase()
@@ -47,5 +48,6 @@ class AppServiceProvider extends ServiceProvider
                 ->uncompromised()
             : null,
         );
+        // @codeCoverageIgnoreEnd
     }
 }
