@@ -22,20 +22,15 @@
 
             <flux:spacer />
 
-            <div x-data="{ isChats: window.location.pathname.startsWith('/chats') }"
-                 x-on:livewire:navigated.window="isChats = window.location.pathname.startsWith('/chats')"
-                 x-show="!isChats"
-            >
-                <flux:sidebar.nav>
-                    <flux:sidebar.item icon="folder-git-2" href="https://github.com/laravel/livewire-starter-kit" target="_blank">
-                        {{ __('Repository') }}
-                    </flux:sidebar.item>
+            <flux:sidebar.nav>
+                <flux:sidebar.item icon="folder-git-2" href="https://github.com/laravel/livewire-starter-kit" target="_blank">
+                    {{ __('Repository') }}
+                </flux:sidebar.item>
 
-                    <flux:sidebar.item icon="book-open-text" href="https://laravel.com/docs/starter-kits#livewire" target="_blank">
-                        {{ __('Documentation') }}
-                    </flux:sidebar.item>
-                </flux:sidebar.nav>
-            </div>
+                <flux:sidebar.item icon="book-open-text" href="https://laravel.com/docs/starter-kits#livewire" target="_blank">
+                    {{ __('Documentation') }}
+                </flux:sidebar.item>
+            </flux:sidebar.nav>
 
             <x-desktop-user-menu class="hidden lg:block" :name="auth()->user()->name" />
         </flux:sidebar>
