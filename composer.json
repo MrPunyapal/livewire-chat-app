@@ -1,8 +1,8 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "laravel/livewire-starter-kit",
+    "name": "mrpunyapal/livewire-chat-app",
     "type": "project",
-    "description": "The official Laravel starter kit for Livewire.",
+    "description": "A Livewire chat application built with Laravel.",
     "keywords": [
         "laravel",
         "framework"
@@ -70,17 +70,19 @@
         ],
         "test:refactor": "rector --dry-run",
         "test:types": "phpstan analyse",
-        "lint:check": [
-            "pint --parallel --test"
+        "test:arch": "pest --filter=arch",
+        "test:type-coverage": "pest --type-coverage --min=100",
+        "test:unit": "pest --parallel --coverage --min=100",
+        "test": [
+            "@php artisan config:clear --ansi",
+            "@test:lint",
+            "@test:types",
+            "@test:type-coverage",
+            "@test:unit"
         ],
         "ci:check": [
             "Composer\\Config::disableProcessTimeout",
             "@test"
-        ],
-        "test": [
-            "@php artisan config:clear --ansi",
-            "@lint:check",
-            "@php artisan test"
         ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
