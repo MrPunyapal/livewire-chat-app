@@ -3,22 +3,19 @@
 declare(strict_types=1);
 
 use App\Livewire\Pages\Chats;
-use App\Livewire\Pages\Dashboard;
-use App\Livewire\Pages\Profile;
 use Illuminate\Support\Facades\Route;
 
-Route::view('/', 'welcome');
+Route::view('/', 'welcome')->name('home');
 
-Route::middleware('auth')
-    ->group(function (): void {
-        Route::livewire('dashboard', Dashboard::class)
-            ->name('dashboard');
+Route::middleware(['auth'])->group(function (): void {
+    Route::redirect('profile', 'settings/profile')->name('profile');
+});
 
-        Route::livewire('profile', Profile::class)
-            ->name('profile');
+Route::middleware(['auth', 'verified'])->group(function (): void {
+    Route::view('dashboard', 'dashboard')->name('dashboard');
 
-        Route::livewire('chats', Chats::class)
-            ->name('chats');
-    });
+    Route::livewire('chats', Chats::class)->name('chats');
+});
 
 require __DIR__.'/auth.php';
+require __DIR__.'/settings.php';

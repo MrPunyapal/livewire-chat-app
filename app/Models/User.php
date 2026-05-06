@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Str;
 use Override;
 
 /**
@@ -50,6 +51,18 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Room::class, 'members')
             ->withTimestamps();
+    }
+
+    /**
+     * Get the user's initials.
+     */
+    public function initials(): string
+    {
+        return Str::of($this->name)
+            ->explode(' ')
+            ->take(2)
+            ->map(fn (string $word): string => Str::substr($word, 0, 1))
+            ->implode('');
     }
 
     /**
