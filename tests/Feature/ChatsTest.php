@@ -38,3 +38,17 @@ test('create chat component should be there if room is selected', function (): v
         ->assertSeeLivewire(CreateChat::class)
         ->assertOk();
 });
+
+test('chat header keeps the online status anchored to the avatar', function (): void {
+    $user = User::factory()->create();
+    $room = Room::factory()
+        ->hasAttached($user, relationship: 'users')
+        ->create();
+
+    $this->actingAs($user)
+        ->get('/chats?roomId='.$room->id)
+        ->assertSeeHtml('flex items-center justify-between gap-4')
+        ->assertSeeHtml('relative size-10 flex-shrink-0')
+        ->assertSeeHtml('absolute -bottom-0.5 -right-0.5 w-3 h-3')
+        ->assertOk();
+});

@@ -5,20 +5,20 @@
     <!-- Chat Header -->
     <div class="flex-shrink-0 bg-white dark:bg-zinc-800 border-b border-zinc-200 dark:border-zinc-700 px-6 py-4">
         @if ($room !== null)
-            <div class="flex justify-between">
-                <div class="flex gap-4">
-                    <figure class="relative flex-shrink-0">
+            <div class="flex items-center justify-between gap-4">
+                <div class="flex min-w-0 items-center gap-4">
+                    <figure class="relative size-10 flex-shrink-0">
                         <img
                             src="{{ $room->user->profile }}"
                             alt="{{ $room->user->name }}"
-                            class="w-10 h-10 rounded-full object-cover ring-2 ring-zinc-200 dark:ring-zinc-600"
+                            class="size-10 rounded-full object-cover ring-2 ring-zinc-200 dark:ring-zinc-600"
                         />
                         <div
                             class="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-green-400 border-2 border-white dark:border-zinc-800 rounded-full">
                         </div>
                     </figure>
-                    <div>
-                        <h2 class="text-xl font-semibold text-zinc-900 dark:text-zinc-100">{{ $room->name }}</h2>
+                    <div class="min-w-0">
+                        <h2 class="truncate text-xl font-semibold text-zinc-900 dark:text-zinc-100">{{ $room->name }}</h2>
                         <p class="text-sm text-zinc-500 dark:text-zinc-400">Active now</p>
                     </div>
                 </div>
