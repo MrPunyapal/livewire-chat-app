@@ -1,15 +1,15 @@
-import './bootstrap';
-import { Livewire, Alpine } from '../../vendor/livewire/livewire/dist/livewire.esm'
-import { saveChat } from './save-chat.js'
-import { notifications, notify } from './notification.js'
-import { multiSelect } from "./multi-select.js";
+/**
+ * Echo exposes an expressive API for subscribing to channels and listening
+ * for events that are broadcast by Laravel. Echo and event broadcasting
+ * allow your team to quickly build robust real-time web applications.
+ */
 
-window.Alpine = Alpine
+import './echo';
 
-Alpine.data('saveChat', saveChat)
-Alpine.data('notifications', notifications)
-Alpine.data('multiSelect', multiSelect)
+import { saveChat } from './save-chat';
+import { multiSelect } from './multi-select';
 
-window.Alpine.plugin(notify)
-
-Livewire.start()
+document.addEventListener('alpine:init', () => {
+    Alpine.data('saveChat', saveChat);
+    Alpine.data('multiSelect', multiSelect);
+});
