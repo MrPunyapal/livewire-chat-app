@@ -144,26 +144,30 @@
 
     <!-- Delete Confirmation Modal -->
     @if (is_null($chat->deleted_at) && $isCurrentUser)
-        <flux:modal name="confirm-chat-deletion-{{ $chat->id }}" class="max-w-md">
-            <div class="space-y-6">
-                <div>
-                    <flux:heading size="lg">{{ __('Delete Message') }}</flux:heading>
-                    <flux:text class="mt-2">
+        <flux:modal name="confirm-chat-deletion-{{ $chat->id }}" class="w-full max-w-md">
+            <div class="space-y-4">
+                <div class="flex items-start gap-3">
+                    <div class="flex size-10 shrink-0 items-center justify-center rounded-full bg-red-100 text-red-600 dark:bg-red-500/15 dark:text-red-400">
+                        <flux:icon.trash class="size-5" />
+                    </div>
+
+                    <div class="min-w-0">
+                        <flux:heading size="lg">{{ __('Delete Message') }}</flux:heading>
+                        <flux:text class="mt-1 text-sm text-zinc-600 dark:text-zinc-300">
                         {{ __('Are you sure? This action cannot be undone.') }}
-                    </flux:text>
+                        </flux:text>
+                    </div>
                 </div>
 
-                <div class="rounded-lg bg-zinc-50 dark:bg-zinc-800 p-4">
-                    <flux:text>
-                        &ldquo;{{ Str::limit($chat->message, 100) }}&rdquo;
-                    </flux:text>
+                <div class="w-full border-l-2 border-red-500 pl-3 text-left">
+                    <p class="max-h-20 overflow-y-auto whitespace-pre-wrap break-words text-left text-sm leading-5 text-zinc-700 dark:text-zinc-200">{{ Str::limit($chat->message, 160) }}</p>
                 </div>
 
-                <div class="flex justify-end gap-2">
+                <div class="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
                     <flux:modal.close>
-                        <flux:button>{{ __('Cancel') }}</flux:button>
+                        <flux:button class="w-full sm:w-auto">{{ __('Cancel') }}</flux:button>
                     </flux:modal.close>
-                    <flux:button variant="danger" wire:click="delete" x-on:click="$dispatch('modal-close', { name: 'confirm-chat-deletion-{{ $chat->id }}' })">
+                    <flux:button variant="danger" class="w-full sm:w-auto" wire:click="delete" x-on:click="$dispatch('modal-close', { name: 'confirm-chat-deletion-{{ $chat->id }}' })">
                         {{ __('Delete Message') }}
                     </flux:button>
                 </div>
