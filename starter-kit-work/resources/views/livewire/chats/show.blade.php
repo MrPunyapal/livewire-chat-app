@@ -48,14 +48,14 @@
                             class="p-1.5 rounded-md text-gray-500 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/30 dark:hover:text-blue-400 transition-colors duration-150"
                             title="Edit message"
                         >
-                            <x-icons.edit class="h-3.5 w-3.5" />
+                            <flux:icon.pencil-square class="h-3.5 w-3.5" />
                         </button>
                         <button
-                            x-on:click="$dispatch('open-modal', 'confirm-chat-deletion-{{ $chat->id }}')"
+                            x-on:click="$dispatch('modal:open', 'confirm-chat-deletion-{{ $chat->id }}')"
                             class="p-1.5 rounded-md text-gray-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/30 dark:hover:text-red-400 transition-colors duration-150"
                             title="Delete message"
                         >
-                            <x-icons.trash class="h-3.5 w-3.5" />
+                            <flux:icon.trash class="h-3.5 w-3.5" />
                         </button>
                     @endif
 
@@ -64,7 +64,7 @@
                         class="p-1.5 rounded-md text-gray-500 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/30 dark:hover:text-blue-400 transition-colors duration-150"
                         title="Reply to message"
                     >
-                        <x-icons.reply class="h-3.5 w-3.5" />
+                        <flux:icon.arrow-uturn-left class="h-3.5 w-3.5" />
                     </button>
 
                     <button
@@ -78,7 +78,7 @@
                         ])
                         title="{{ $chat->favoriteUsers->contains(auth()->id()) ? 'Remove from Favorite chats' : 'Mark as Favorite' }}"
                     >
-                        <x-icons.star @class([
+                        <flux:icon.star @class([
                             'h-3.5 w-3.5',
                             'fill-current' => $chat->favoriteUsers->contains(auth()->id()),
                         ]) />
@@ -108,7 +108,7 @@
                                 'text-blue-100' => $isCurrentUser,
                                 'text-gray-600 dark:text-gray-300' => !$isCurrentUser,
                             ])>
-                                <x-icons.reply class="h-3 w-3 flex-shrink-0" />
+                                <flux:icon.arrow-uturn-left class="h-3 w-3 flex-shrink-0" />
                                 @if ($chat->parent->deleted_at === null)
                                     <span class="truncate">{{ Str::limit($chat->parent->message, 80) }}</span>
                                 @else
@@ -124,7 +124,7 @@
                     </p>
                 @else
                     <p class="text-sm leading-relaxed text-red-500 dark:text-red-400 italic flex items-center gap-2">
-                        <x-icons.trash class="h-3 w-3 flex-shrink-0" />
+                        <flux:icon.trash class="h-3 w-3 flex-shrink-0" />
                         This message has been deleted.
                     </p>
                 @endif
@@ -137,68 +137,37 @@
         ])>
             <span>{{ $chat->updated_at->diffForHumans() }}</span>
             @if ($chat->favoriteUsers->contains(auth()->id()))
-                <x-icons.star class="h-3 w-3 text-yellow-500 fill-current" />
+                <flux:icon.star class="h-3 w-3 text-yellow-500 fill-current" />
             @endif
         </div>
     </div>
 
     <!-- Delete Confirmation Modal -->
     @if (is_null($chat->deleted_at) && $isCurrentUser)
-        <x-modal
-            name="confirm-chat-deletion-{{ $chat->id }}"
-            maxWidth="md"
-            focusable
-        >
-            <div class="p-6">
-                <div class="flex items-center gap-4 mb-6">
-                    <div
-                        class="flex-shrink-0 w-12 h-12 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center">
-                        <svg
-                            class="w-6 h-6 text-red-600 dark:text-red-400"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                stroke-width="2"
-                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                            ></path>
-                        </svg>
-                    </div>
-                    <div>
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">
-                            Delete Message
-                        </h3>
-                        <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                            This action cannot be undone.
-                        </p>
-                    </div>
+        <flux:modal name="confirm-chat-deletion-{{ $chat->id }}" class="max-w-md">
+            <div class="space-y-6">
+                <div>
+                    <flux:heading size="lg">{{ __('Delete Message') }}</flux:heading>
+                    <flux:text class="mt-2">
+                        {{ __('Are you sure? This action cannot be undone.') }}
+                    </flux:text>
                 </div>
 
-                <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 mb-6">
-                    <p class="text-sm text-gray-600 dark:text-gray-400">
-                        "{{ Str::limit($chat->message, 100) }}"
-                    </p>
+                <div class="rounded-lg bg-zinc-50 dark:bg-zinc-800 p-4">
+                    <flux:text>
+                        &ldquo;{{ Str::limit($chat->message, 100) }}&rdquo;
+                    </flux:text>
                 </div>
 
-                <div class="flex justify-end gap-3">
-                    <x-secondary-button
-                        x-on:click="$dispatch('close-modal', 'confirm-chat-deletion-{{ $chat->id }}')"
-                        class="px-6 py-2.5"
-                    >
-                        Cancel
-                    </x-secondary-button>
-                    <x-danger-button
-                        wire:click="delete"
-                        x-on:click="$dispatch('close-modal', 'confirm-chat-deletion-{{ $chat->id }}')"
-                        class="px-6 py-2.5"
-                    >
-                        Delete Message
-                    </x-danger-button>
+                <div class="flex justify-end gap-2">
+                    <flux:modal.close>
+                        <flux:button>{{ __('Cancel') }}</flux:button>
+                    </flux:modal.close>
+                    <flux:button variant="danger" wire:click="delete" x-on:click="$dispatch('modal:close', 'confirm-chat-deletion-{{ $chat->id }}')">
+                        {{ __('Delete Message') }}
+                    </flux:button>
                 </div>
             </div>
-        </x-modal>
+        </flux:modal>
     @endif
 </div>

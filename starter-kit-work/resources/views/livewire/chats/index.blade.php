@@ -33,7 +33,7 @@
                         class="px-4 py-2 cursor-pointer"
                         @click="show = !show"
                     >
-                        <x-icons.ellipsis-vertical />
+                        <flux:icon.ellipsis-vertical />
                     </button>
                     <div
                         class="absolute z-30 border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 min-w-36 right-4 rounded-md shadow-lg space-y-2 py-4 px-2"
@@ -51,7 +51,7 @@
                             ])
                         >
                             <span>
-                                <x-icons.star @class([
+                                <flux:icon.star @class([
                                     'size-4!',
                                     'text-yellow-500 fill-yellow-500' => in_array('favorites', $filters),
                                 ]) />

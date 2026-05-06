@@ -2,35 +2,18 @@
     <div class="flex-shrink-0 px-4 py-6 border-b border-gray-200 dark:border-gray-700">
         <div class="flex justify-between items-center">
             <h1 class="hidden md:block text-2xl font-bold text-gray-900 dark:text-gray-100">Chats</h1>
-            <button
-                class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-3 md:py-2.5 md:px-4 rounded-lg shadow-sm transition-colors duration-200 flex items-center gap-2"
-                x-on:click="$dispatch('open-modal', 'create-room')"
-                title="Create Room"
-            >
-                <x-icons.add class="h-5 w-5" />
-                <span class="hidden md:inline">New Chat</span>
-            </button>
-            <x-modal
-                name="create-room"
-                maxWidth="md"
-            >
-                <div class="p-6">
-                    <div class="flex items-center justify-between mb-6">
-                        <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">
-                            Create New Room
-                        </h2>
-                        <button
-                            x-on:click="$dispatch('close-modal', 'create-room')"
-                            x-on:room-created.window="$dispatch('close-modal', 'create-room')"
-                            class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
-                        >
-                            <x-icons.x class="h-6 w-6" />
-                        </button>
-                    </div>
+            <flux:modal.trigger name="create-room">
+                <flux:button icon="plus" size="sm" variant="primary">
+                    <span class="hidden md:inline">{{ __('New Chat') }}</span>
+                </flux:button>
+            </flux:modal.trigger>
 
-                    <livewire:rooms.create />
-                </div>
-            </x-modal>
+            <flux:modal name="create-room" class="md:w-96" x-on:room-created.window="$dispatch('modal:close', 'create-room')">
+                <flux:heading size="lg">{{ __('Create New Room') }}</flux:heading>
+                <flux:subheading class="mb-4">{{ __('Start a new conversation with your team.') }}</flux:subheading>
+
+                <livewire:rooms.create />
+            </flux:modal>
         </div>
     </div>
 
@@ -55,21 +38,17 @@
             </div>
 
             <!-- search room -->
-            @if ($rooms->isNotEmpty() || $search )    
-                <div class="relative flex items-center my-3">
-                
-                    <x-icons.magnifying-glass @class(['absolute left-5 z-50 size-5']) />
-                
-                    <x-text-input 
-                        x-ref="searchInput" 
-                        wire:model.live.debounce.500ms="search" 
-                        name="q" 
+            @if ($rooms->isNotEmpty() || $search)
+                <div class="my-3">
+                    <flux:input
+                        icon="magnifying-glass"
+                        wire:model.live.debounce.500ms="search"
+                        name="q"
                         placeholder="Search for rooms..."
-                        class="w-full mx-1 rounded-2xl! dark:bg-slate-950! bg-slate-50! bg-opacity-80! py-3 pl-14" 
                     />
                 </div>
             @endif
-                     
+
 
             <!-- Rooms list -->
             <div

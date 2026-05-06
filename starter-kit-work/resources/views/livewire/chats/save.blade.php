@@ -43,7 +43,7 @@
                         class="text-gray-400 hover:text-red-500 transition-colors p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 flex-shrink-0"
                         title="Cancel reply"
                     >
-                        <x-icons.close class="h-4 w-4" />
+                        <flux:icon.x-mark class="h-4 w-4" />
                     </button>
                 </div>
             </div>
@@ -52,16 +52,14 @@
         <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-600 p-4">
             <div class="flex items-end gap-3">
                 <div class="flex-1">
-                    <x-text-input
+                    <flux:input
                         wire:model="message"
                         id="message"
                         name="message"
                         type="text"
                         autofocus
-                        class="w-full bg-gray-50 dark:bg-gray-700 rounded-xl px-4 py-3 border-0 focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-800 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 resize-none"
                         placeholder="Type your message here..."
                         @keydown.enter="save"
-                        style="min-height: 44px;"
                     />
                 </div>
 
