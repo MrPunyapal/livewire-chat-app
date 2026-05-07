@@ -110,10 +110,6 @@ class Index extends Component
 
     public function render(): View
     {
-        if ($this->offset > 0) {
-            $this->dispatch('chats:loaded');
-        }
-
         return view('livewire.chats.index', [
             'room' => $this->room,
         ]);

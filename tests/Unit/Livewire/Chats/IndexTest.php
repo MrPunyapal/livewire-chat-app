@@ -120,8 +120,7 @@ it('dispatch the chats:loaded event if offset is greater than zero', function ()
 
     Livewire::actingAs($user)
         ->test(Index::class, ['roomId' => $room->id, 'offset' => 1])
-        ->assertSet('chats', fn ($actual): bool => $actual->pluck('id')->sort()->values()->toArray() === $chats->pluck('id')->sort()->values()->toArray())
-        ->assertDispatched('chats:loaded');
+        ->assertSet('chats', fn ($actual): bool => $actual->pluck('id')->sort()->values()->toArray() === $chats->pluck('id')->sort()->values()->toArray());
 });
 
 it('filters room chats with favorite chats', function (): void {
