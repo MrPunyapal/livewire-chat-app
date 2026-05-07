@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Database\Factories\ChatFactory;
-use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -27,7 +26,6 @@ use Override;
  * @property-read Room $room
  * @property-read User[] $favoriteUsers
  */
-#[Fillable(['parent_id', 'user_id', 'room_id', 'message'])]
 class Chat extends Model
 {
     /** @use HasFactory<ChatFactory> */
