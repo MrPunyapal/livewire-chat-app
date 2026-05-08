@@ -52,7 +52,7 @@ class Index extends Component
         $this->offset = 0;
 
         $this->js(<<<'JS'
-            $wire.$island('chat-list').$refresh()
+            $wire.$island('chat-list').$refresh();
         JS);
     }
 
@@ -71,7 +71,7 @@ class Index extends Component
         $this->offset = 0;
 
         $this->js(<<<'JS'
-            $wire.$island('chat-list').$refresh()
+            $wire.$island('chat-list').$refresh();
         JS);
     }
 

@@ -91,86 +91,93 @@
 
     <!-- Messages Area -->
     <div class="min-h-0 flex-1 overflow-hidden bg-zinc-50 dark:bg-zinc-900">
-        @if ($room !== null)
-            <div
-                class="flex h-full min-h-0 flex-col-reverse overflow-y-auto px-6 py-4 scrollbar-thin scrollbar-thumb-zinc-300 scrollbar-track-transparent dark:scrollbar-thumb-zinc-600">
-                <div class="flex flex-col-reverse gap-6 px-2" id="chat-list">
-                    @island(name: 'chat-list')
+        <div
+            @class([
+                'h-full min-h-0 flex-col-reverse overflow-y-auto px-6 py-4 scrollbar-thin scrollbar-thumb-zinc-300 scrollbar-track-transparent dark:scrollbar-thumb-zinc-600',
+                'flex' => $room !== null,
+                'hidden' => $room === null,
+            ])
+        >
+            <div class="flex flex-col-reverse gap-6 px-2" id="chat-list">
+                @island(name: 'chat-list')
+                    @if ($this->room !== null)
                         @foreach ($this->chats as $chat)
                             <livewire:chats.show
                                 :chat="$chat"
                                 :key="'chat-' . $chat->id"
                             />
                         @endforeach
-                    @endisland
+                    @endif
+                @endisland
 
-                    @if ($offset === 0 && $this->chats->isEmpty())
-                        <div
-                            class="flex justify-center items-center py-12"
-                            id="not-chats-found"
-                        >
-                            <div class="text-center max-w-sm">
-                                <svg
-                                    class="w-16 h-16 text-zinc-300 dark:text-zinc-600 mx-auto mb-4"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="1"
-                                        d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
-                                    ></path>
-                                </svg>
-                                <h3 class="text-lg font-medium text-zinc-400 dark:text-zinc-500 mb-1">No messages yet
-                                </h3>
-                                <p class="text-zinc-400 dark:text-zinc-500 text-sm">Be the first to send a message in
-                                    this room!</p>
-                            </div>
-                        </div>
-                    @else
-                        <div
-                            x-data="{
-                                hasMoreChats: true,
-                            }"
-                            x-on:no-more-chats.document="hasMoreChats = false"
-                        >
-                            <div
-                                x-show="hasMoreChats"
-                                wire:intersect='loadMore'
-                                wire:island.append="chat-list"
+                @if ($room !== null && $offset === 0 && $this->chats->isEmpty())
+                    <div
+                        class="flex justify-center items-center py-12"
+                        id="not-chats-found"
+                    >
+                        <div class="text-center max-w-sm">
+                            <svg
+                                class="w-16 h-16 text-zinc-300 dark:text-zinc-600 mx-auto mb-4"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
                             >
-                                <div class="flex items-center justify-center w-full h-full">
-                                    <div class="animate-pulse">
-                                        <div class="flex space-x-4">
-                                            <div class="w-12 h-12 bg-zinc-200 rounded-full"></div>
-                                            <div class="flex-1 space-y-4 py-1">
-                                                <div class="h-4 bg-zinc-200 rounded w-3/4"></div>
-                                                <div class="space-y-2">
-                                                    <div class="h-4 bg-zinc-200 rounded"></div>
-                                                    <div class="h-4 bg-zinc-200 rounded w-5/6"></div>
-                                                </div>
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="1"
+                                    d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+                                ></path>
+                            </svg>
+                            <h3 class="text-lg font-medium text-zinc-400 dark:text-zinc-500 mb-1">No messages yet
+                            </h3>
+                            <p class="text-zinc-400 dark:text-zinc-500 text-sm">Be the first to send a message in
+                                this room!</p>
+                        </div>
+                    </div>
+                @elseif ($room !== null)
+                    <div
+                        x-data="{
+                            hasMoreChats: true,
+                        }"
+                        x-on:no-more-chats.document="hasMoreChats = false"
+                    >
+                        <div
+                            x-show="hasMoreChats"
+                            wire:intersect='loadMore'
+                            wire:island.append="chat-list"
+                        >
+                            <div class="flex items-center justify-center w-full h-full">
+                                <div class="animate-pulse">
+                                    <div class="flex space-x-4">
+                                        <div class="w-12 h-12 bg-zinc-200 rounded-full"></div>
+                                        <div class="flex-1 space-y-4 py-1">
+                                            <div class="h-4 bg-zinc-200 rounded w-3/4"></div>
+                                            <div class="space-y-2">
+                                                <div class="h-4 bg-zinc-200 rounded"></div>
+                                                <div class="h-4 bg-zinc-200 rounded w-5/6"></div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div
-                                x-show="!hasMoreChats"
-                                class="flex justify-center py-8"
-                            >
-                                <div class="flex items-center gap-3 text-zinc-400 dark:text-zinc-500">
-                                    <div class="h-px bg-zinc-200 dark:bg-zinc-600 flex-1 w-12"></div>
-                                    <span class="text-sm font-medium">You've reached the beginning</span>
-                                    <div class="h-px bg-zinc-200 dark:bg-zinc-600 flex-1 w-12"></div>
-                                </div>
+                        </div>
+                        <div
+                            x-show="!hasMoreChats"
+                            class="flex justify-center py-8"
+                        >
+                            <div class="flex items-center gap-3 text-zinc-400 dark:text-zinc-500">
+                                <div class="h-px bg-zinc-200 dark:bg-zinc-600 flex-1 w-12"></div>
+                                <span class="text-sm font-medium">You've reached the beginning</span>
+                                <div class="h-px bg-zinc-200 dark:bg-zinc-600 flex-1 w-12"></div>
                             </div>
                         </div>
-                    @endif
-                </div>
+                    </div>
+                @endif
             </div>
-        @else
+        </div>
+
+        @if ($room === null)
             <!-- Empty state -->
             <div class="h-full flex items-center justify-center">
                 <div class="text-center max-w-md">
