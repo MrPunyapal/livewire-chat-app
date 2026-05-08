@@ -1,215 +1,127 @@
 @import 'tailwindcss';
+@import '../../vendor/livewire/flux/dist/flux.css';
+@import 'choices.js/public/assets/styles/base.css';
 
-@plugin '@tailwindcss/forms';
-
+@source '../views';
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../vendor/livewire/flux-pro/stubs/**/*.blade.php';
+@source '../../vendor/livewire/flux/stubs/**/*.blade.php';
 
-@import 'choices.js/public/assets/styles/choices.min.css';
-@import './choices-custom.css';
+@custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --font-sans:
-    Figtree, ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
-    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+
+    --color-zinc-50: #fafafa;
+    --color-zinc-100: #f5f5f5;
+    --color-zinc-200: #e5e5e5;
+    --color-zinc-300: #d4d4d4;
+    --color-zinc-400: #a3a3a3;
+    --color-zinc-500: #737373;
+    --color-zinc-600: #525252;
+    --color-zinc-700: #404040;
+    --color-zinc-800: #262626;
+    --color-zinc-900: #171717;
+    --color-zinc-950: #0a0a0a;
+
+    --color-accent: var(--color-neutral-800);
+    --color-accent-content: var(--color-neutral-800);
+    --color-accent-foreground: var(--color-white);
 }
 
-/*
-  The default border color has changed to `currentColor` in Tailwind CSS v4,
-  so we've added these compatibility styles to make sure everything still
-  looks the same as it did with Tailwind CSS v3.
+@layer theme {
+    .dark {
+        --color-accent: var(--color-white);
+        --color-accent-content: var(--color-white);
+        --color-accent-foreground: var(--color-neutral-800);
+    }
+}
 
-  If we ever want to remove these styles, we need to add an explicit border
-  color utility to any element that depends on these defaults.
-*/
 @layer base {
-  *,
-  ::after,
-  ::before,
-  ::backdrop,
-  ::file-selector-button {
-    border-color: var(--color-gray-200, currentColor);
-  }
+
+    *,
+    ::after,
+    ::before,
+    ::backdrop,
+    ::file-selector-button {
+        border-color: var(--color-gray-200, currentColor);
+    }
+
+    [x-cloak] {
+        display: none !important;
+    }
 }
 
-/* Custom scrollbar styles */
-.scrollbar-thin {
-  scrollbar-width: thin;
+[data-flux-field]:not(ui-radio, ui-checkbox) {
+    @apply grid gap-2;
 }
 
-/* Default gray-300 theme for scrollbar */
-.scrollbar-thin.scrollbar-thumb-gray-300 {
-  scrollbar-color: rgb(209 213 219) transparent;
+[data-flux-label] {
+    @apply  !mb-0 !leading-tight;
 }
 
-/* Dark mode gray-600 theme for scrollbar */
-.dark .scrollbar-thin.scrollbar-thumb-gray-600 {
-  scrollbar-color: rgb(75 85 99) transparent;
+input:focus[data-flux-control],
+textarea:focus[data-flux-control],
+select:focus[data-flux-control] {
+    @apply outline-hidden ring-2 ring-accent ring-offset-2 ring-offset-accent-foreground;
 }
 
-.scrollbar-track-transparent {
-  scrollbar-color: transparent transparent;
+/* \[:where(&)\]:size-4 {
+    @apply size-4;
+} */
+
+/* choices.js — match Flux zinc theme */
+.choices {
+    @apply w-full relative;
+}
+.choices__inner {
+    @apply bg-white border border-zinc-200 rounded-lg px-2 py-1.5 min-h-[2.25rem] text-sm text-zinc-900 cursor-pointer;
+}
+.choices__list--dropdown,
+.choices__list[aria-expanded] {
+    display: none;
+}
+.choices__list--dropdown.is-active,
+.choices__list[aria-expanded="true"] {
+    display: block;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    margin-top: 0.25rem;
+    @apply bg-white border border-zinc-200 rounded-lg shadow-lg text-sm text-zinc-900;
+}
+.choices__list--dropdown .choices__item--selectable.is-highlighted,
+.choices__list[aria-expanded="true"] .choices__item--selectable.is-highlighted {
+    @apply bg-zinc-100 text-zinc-900;
+}
+.choices__input {
+    @apply bg-transparent text-zinc-900 placeholder-zinc-400 text-sm border-0 p-0 m-0;
+}
+.choices__item--selectable {
+    @apply px-3 py-1.5;
+}
+.choices[data-type*='select-multiple'] .choices__button,
+.choices[data-type*='text'] .choices__button {
+    @apply border-l border-zinc-300 ml-1 pl-1 opacity-60 hover:opacity-100;
 }
 
-/* Webkit scrollbar styles for all thin scrollbars */
-.scrollbar-thin::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+.dark .choices__inner {
+    @apply bg-zinc-800 border-zinc-700 text-zinc-100;
 }
-
-.scrollbar-thin::-webkit-scrollbar-track {
-  background: transparent;
+.dark .choices__list--dropdown.is-active,
+.dark .choices__list[aria-expanded="true"] {
+    @apply bg-zinc-800 border-zinc-700 text-zinc-100;
 }
-
-/* Default WebKit thumb color (gray-300) */
-.scrollbar-thin::-webkit-scrollbar-thumb {
-  background-color: rgb(209 213 219);
-  border-radius: 3px;
+.dark .choices__list--dropdown .choices__item--selectable.is-highlighted,
+.dark .choices__list[aria-expanded="true"] .choices__item--selectable.is-highlighted {
+    @apply bg-zinc-700 text-zinc-100;
 }
-
-.scrollbar-thin::-webkit-scrollbar-thumb:hover {
-  background-color: rgb(156 163 175);
+.dark .choices__input {
+    @apply text-zinc-100 placeholder-zinc-500;
 }
-
-/* Dark mode WebKit scrollbar styles */
-.dark .scrollbar-thin::-webkit-scrollbar-thumb {
-  background-color: rgb(75 85 99);
-}
-
-.dark .scrollbar-thin::-webkit-scrollbar-thumb:hover {
-  background-color: rgb(107 114 128);
-}
-
-/* Force visibility of scrollbars when content overflows */
-.scrollbar-thin {
-  overflow: auto;
-  scrollbar-gutter: stable;
-}
-
-/* Additional utility to ensure scrollbars are always visible when needed */
-.scrollbar-thin.scrollbar-always {
-  overflow-y: scroll;
-}
-
-/* Fallback styles for browsers that don't support custom scrollbars */
-@supports not (scrollbar-width: thin) {
-  .scrollbar-thin {
-    -webkit-overflow-scrolling: touch;
-  }
-}
-
-/* Ensure proper scrollbar dimensions on different browsers */
-.scrollbar-thin::-webkit-scrollbar-corner {
-  background: transparent;
-}
-
-/* Better scrollbar contrast for accessibility */
-.scrollbar-thin::-webkit-scrollbar-thumb:active {
-  background-color: rgb(107 114 128);
-}
-
-.dark .scrollbar-thin::-webkit-scrollbar-thumb:active {
-  background-color: rgb(156 163 175);
-}
-
-/* Animation for fade-in effect */
-@keyframes fade-in {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.animate-fade-in {
-  animation: fade-in 0.3s ease-out;
-}
-
-/* Chat bubble animation */
-@keyframes slide-in-left {
-  from {
-    opacity: 0;
-    transform: translateX(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes slide-in-right {
-  from {
-    opacity: 0;
-    transform: translateX(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-.animate-slide-in-left {
-  animation: slide-in-left 0.3s ease-out;
-}
-
-.animate-slide-in-right {
-  animation: slide-in-right 0.3s ease-out;
-}
-
-/* Word wrapping for chat messages */
-.word-wrap {
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  hyphens: auto;
-}
-
-/* Chat bubble tails using pseudo-elements for better rendering */
-.chat-bubble-user::after {
-  content: '';
-  position: absolute;
-  right: -8px;
-  bottom: 12px;
-  width: 0;
-  height: 0;
-  border-left: 10px solid #2563eb; /* blue-600 */
-  border-top: 8px solid transparent;
-  border-bottom: 8px solid transparent;
-}
-
-.chat-bubble-other::after {
-  content: '';
-  position: absolute;
-  left: -8px;
-  bottom: 12px;
-  width: 0;
-  height: 0;
-  border-right: 10px solid white;
-  border-top: 8px solid transparent;
-  border-bottom: 8px solid transparent;
-}
-
-@media (prefers-color-scheme: dark) {
-  .chat-bubble-other::after {
-    border-right-color: rgb(55 65 81); /* gray-700 */
-  }
-}
-
-/* Enhanced focus styles for accessibility */
-.focus-visible:focus-visible {
-  outline: 2px solid rgb(59 130 246);
-  outline-offset: 2px;
-  border-radius: 4px;
-}
-
-/* Smooth hover transitions for chat bubbles */
-.group:hover .group-hover\:shadow-lg {
-  transition: box-shadow 0.2s ease-in-out;
-}
-
-/* Better backdrop blur support */
-.backdrop-blur-sm {
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
+.dark .choices[data-type*='select-multiple'] .choices__button,
+.dark .choices[data-type*='text'] .choices__button {
+    @apply border-zinc-600;
 }

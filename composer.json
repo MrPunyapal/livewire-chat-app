@@ -1,33 +1,40 @@
 {
-    "name": "laravel/laravel",
+    "$schema": "https://getcomposer.org/schema.json",
+    "name": "mrpunyapal/livewire-chat-app",
     "type": "project",
-    "description": "The skeleton application for the Laravel framework.",
-    "keywords": ["laravel", "framework"],
+    "description": "A Livewire chat application built with Laravel.",
+    "keywords": [
+        "laravel",
+        "framework"
+    ],
     "license": "MIT",
     "require": {
         "php": "^8.3",
-        "laravel/framework": "^13.5",
-        "laravel/reverb": "^1.10.0",
-        "laravel/tinker": "^3.0.2",
-        "livewire/livewire": "^4.2.4"
+        "laravel/fortify": "^1.34",
+        "laravel/framework": "^13.7",
+        "laravel/reverb": "^1.10",
+        "laravel/tinker": "^3.0",
+        "livewire/flux": "^2.13.1",
+        "livewire/livewire": "^4.1"
     },
     "require-dev": {
-        "driftingly/rector-laravel": "^2.3.0",
-        "fakerphp/faker": "^1.24.1",
-        "larastan/larastan": "^3.9.6",
-        "laravel/boost": "^2.4.4",
-        "laravel/breeze": "^2.4.1",
-        "laravel/pint": "^1.29.1",
-        "laravel/sail": "^1.57",
-        "mockery/mockery": "^1.6.12",
-        "mrpunyapal/rector-pest": "^0.1.9",
+        "driftingly/rector-laravel": "^2.3",
+        "fakerphp/faker": "^1.24",
+        "larastan/larastan": "^3.9",
+        "laravel/boost": "^2.4",
+        "laravel/pail": "^1.2.5",
+        "laravel/pao": "^1.0.6",
+        "laravel/pint": "^1.27",
+        "laravel/sail": "^1.53",
+        "mockery/mockery": "^1.6",
+        "mrpunyapal/rector-pest": "^0.2.12",
         "nunomaduro/collision": "^8.9.3",
-        "nunomaduro/pao": "^0.1.8",
-        "pestphp/pest": "^4.6.3",
+        "pestphp/pest": "^4.7",
         "pestphp/pest-plugin-laravel": "^4.1",
-        "pestphp/pest-plugin-type-coverage": "^4.0.4",
-        "phpstan/phpstan": "^2.1.50",
-        "rector/rector": "^2.4.2"
+        "pestphp/pest-plugin-type-coverage": "^4.0",
+        "phpstan/phpstan": "^2.1",
+        "phpunit/phpunit": "^12.5.23",
+        "rector/rector": "^2.4"
     },
     "autoload": {
         "psr-4": {
@@ -42,6 +49,41 @@
         }
     },
     "scripts": {
+        "setup": [
+            "composer install",
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
+            "@php artisan key:generate",
+            "@php artisan migrate --force",
+            "npm install",
+            "npm run build"
+        ],
+        "dev": [
+            "Composer\\Config::disableProcessTimeout",
+            "npx concurrently -c \"#93c5fd,#c4b5fd,#fb7185,#fdba74\" \"php artisan serve\" \"php artisan queue:listen --tries=1 --timeout=0\" \"php artisan pail --timeout=0\" \"npm run dev\" --names=server,queue,logs,vite --kill-others"
+        ],
+        "lint": [
+            "rector",
+            "pint --parallel"
+        ],
+        "test:lint": [
+            "rector --dry-run",
+            "pint --test --parallel"
+        ],
+        "test:types": "phpstan analyse",
+        "test:arch": "pest --filter=arch",
+        "test:type-coverage": "pest --type-coverage --min=100",
+        "test:unit": "pest --parallel --coverage --min=100",
+        "test": [
+            "@php artisan config:clear --ansi",
+            "@test:lint",
+            "@test:types",
+            "@test:type-coverage",
+            "@test:unit"
+        ],
+        "ci:check": [
+            "Composer\\Config::disableProcessTimeout",
+            "@test"
+        ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi"
@@ -57,24 +99,8 @@
             "@php -r \"file_exists('database/database.sqlite') || touch('database/database.sqlite');\"",
             "@php artisan migrate --graceful --ansi"
         ],
-        "lint": [
-            "rector",
-            "pint --parallel"
-        ],
-        "test:lint": [
-            "rector --dry-run",
-            "pint --test --parallel"
-        ],
-        "test:refactor": "rector --dry-run",
-        "test:types": "phpstan analyse",
-        "test:arch": "pest --filter=arch",
-        "test:type-coverage": "pest --type-coverage --min=100",
-        "test:unit": "pest --parallel --coverage --min=100",
-        "test": [
-            "@test:lint",
-            "@test:types",
-            "@test:type-coverage",
-            "@test:unit"
+        "pre-package-uninstall": [
+            "Illuminate\\Foundation\\ComposerScripts::prePackageUninstall"
         ]
     },
     "extra": {

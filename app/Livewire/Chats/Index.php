@@ -52,7 +52,7 @@ class Index extends Component
         $this->offset = 0;
 
         $this->js(<<<'JS'
-            $wire.$island('chat-list').$refresh()
+            $wire.$island('chat-list').$refresh();
         JS);
     }
 
@@ -71,7 +71,7 @@ class Index extends Component
         $this->offset = 0;
 
         $this->js(<<<'JS'
-            $wire.$island('chat-list').$refresh()
+            $wire.$island('chat-list').$refresh();
         JS);
     }
 
@@ -110,10 +110,6 @@ class Index extends Component
 
     public function render(): View
     {
-        if ($this->offset > 0) {
-            $this->dispatch('chats:loaded');
-        }
-
         return view('livewire.chats.index', [
             'room' => $this->room,
         ]);
