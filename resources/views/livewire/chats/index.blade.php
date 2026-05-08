@@ -7,6 +7,14 @@
         @if ($room !== null)
             <div class="flex items-center justify-between gap-4">
                 <div class="flex min-w-0 items-center gap-4">
+                    <button
+                        type="button"
+                        class="inline-flex size-10 flex-shrink-0 cursor-pointer items-center justify-center rounded-md border border-zinc-200 text-zinc-600 hover:bg-zinc-100 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-700 lg:hidden"
+                        x-on:click="$dispatch('open-rooms')"
+                        aria-label="Show rooms"
+                    >
+                        <flux:icon.bars-3 class="size-5" />
+                    </button>
                     <figure class="relative size-10 flex-shrink-0">
                         <img
                             src="{{ $room->user->profile }}"
@@ -63,6 +71,14 @@
             </div>
         @else
             <div class="flex gap-3">
+                <button
+                    type="button"
+                    class="inline-flex size-10 flex-shrink-0 cursor-pointer items-center justify-center rounded-md border border-zinc-200 text-zinc-600 hover:bg-zinc-100 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-700 lg:hidden"
+                    x-on:click="$dispatch('open-rooms')"
+                    aria-label="Show rooms"
+                >
+                    <flux:icon.bars-3 class="size-5" />
+                </button>
                 <div class="w-10 h-10 bg-zinc-200 dark:bg-zinc-600 rounded-full flex items-center justify-center">
                     <svg
                         class="w-5 h-5 text-zinc-400 dark:text-zinc-500"

@@ -1,12 +1,26 @@
-<aside class="flex h-dvh max-h-dvh min-h-0 w-16 shrink-0 flex-col border-r border-zinc-200 bg-white dark:border-zinc-700 dark:bg-zinc-800 md:w-80">
+<aside
+    class="fixed inset-y-0 left-0 z-50 flex h-dvh max-h-dvh min-h-0 w-80 max-w-[calc(100vw-2rem)] shrink-0 -translate-x-full flex-col border-r border-zinc-200 bg-white shadow-xl transition-transform duration-200 dark:border-zinc-700 dark:bg-zinc-800 lg:static lg:z-auto lg:max-w-none lg:translate-x-0 lg:shadow-none"
+    x-bind:class="roomsOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'"
+>
     <div class="flex-shrink-0 px-4 py-6 border-b border-zinc-200 dark:border-zinc-700">
         <div class="flex justify-between items-center">
-            <h1 class="hidden md:block text-2xl font-bold text-zinc-900 dark:text-zinc-100">Chats</h1>
-            <flux:modal.trigger name="create-room">
-                <flux:button icon="plus" size="sm" variant="primary">
-                    <span class="hidden md:inline">{{ __('New Chat') }}</span>
-                </flux:button>
-            </flux:modal.trigger>
+            <h1 class="text-2xl font-bold text-zinc-900 dark:text-zinc-100">Chats</h1>
+            <div class="flex items-center gap-2">
+                <flux:modal.trigger name="create-room">
+                    <flux:button icon="plus" size="sm" variant="primary">
+                        <span class="hidden sm:inline">{{ __('New Chat') }}</span>
+                    </flux:button>
+                </flux:modal.trigger>
+
+                <button
+                    type="button"
+                    class="inline-flex size-8 cursor-pointer items-center justify-center rounded-md text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-700 dark:hover:text-zinc-100 lg:hidden"
+                    x-on:click="$dispatch('close-rooms')"
+                    aria-label="Hide rooms"
+                >
+                    <flux:icon.x-mark class="size-5" />
+                </button>
+            </div>
 
             <flux:modal name="create-room" class="md:w-96" x-on:room-created.window="$dispatch('modal-close', { name: 'create-room' })">
                 <flux:heading size="lg">{{ __('Create New Room') }}</flux:heading>
@@ -19,24 +33,6 @@
 
     <div class="flex min-h-0 flex-1 overflow-hidden">
         <div class="flex min-h-0 flex-1 flex-col px-4 pb-4">
-            <!-- Mobile chat icon -->
-            <div class="flex justify-center md:hidden mb-4">
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="1.5"
-                    stroke="currentColor"
-                    class="w-8 h-8 text-blue-600 dark:text-blue-400"
-                >
-                    <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M8.625 12a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 0 1-2.555-.337A5.972 5.972 0 0 1 5.41 20.97a5.969 5.969 0 0 1-.474-.065 4.48 4.48 0 0 0 .978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25Z"
-                    ></path>
-                </svg>
-            </div>
-
             <!-- search room -->
             @if ($rooms->isNotEmpty() || $search)
                 <div class="my-3">
@@ -52,7 +48,8 @@
 
             <!-- Rooms list -->
             <div
-                class="hidden min-h-0 flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent dark:scrollbar-thumb-gray-600 md:block">
+                class="min-h-0 flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent dark:scrollbar-thumb-gray-600"
+            >
                 <div class="space-y-2">
                     @forelse ($rooms as $room)
                         <div
