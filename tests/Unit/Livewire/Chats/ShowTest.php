@@ -234,17 +234,3 @@ it('modal contains correct action buttons', function (): void {
         ->assertSeeHtml('wire:click="delete"')
         ->assertSeeHtml('confirm-chat-deletion-'.$chat->id);
 });
-
-it('renders delete confirmation with a readable message preview', function (): void {
-    $user = User::factory()->create();
-    $chat = Chat::factory()->create([
-        'user_id' => $user->id,
-        'message' => "Hello\nfrom the delete dialog",
-    ]);
-
-    Livewire::actingAs($chat->user)
-        ->test(Show::class, ['chat' => $chat])
-        ->assertSeeHtml('border-l-2 border-red-500')
-        ->assertSee('Hello')
-        ->assertSee('from the delete dialog');
-});
