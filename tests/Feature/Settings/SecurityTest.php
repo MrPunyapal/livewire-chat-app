@@ -1,14 +1,17 @@
 <?php
 
 declare(strict_types=1);
+
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Fortify\Features;
 use Livewire\Livewire;
-uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
 
-beforeEach(function () {
+uses(RefreshDatabase::class);
+
+beforeEach(function (): void {
     $this->skipUnlessFortifyHas(Features::twoFactorAuthentication());
 
     Features::twoFactorAuthentication([
@@ -16,7 +19,7 @@ beforeEach(function () {
         'confirmPassword' => true,
     ]);
 });
-test('security settings page can be rendered', function () {
+test('security settings page can be rendered', function (): void {
     $user = User::factory()->create();
 
     $this->actingAs($user)
@@ -26,7 +29,7 @@ test('security settings page can be rendered', function () {
         ->assertSee('Two-factor authentication')
         ->assertSee('Enable 2FA');
 });
-test('security settings page requires password confirmation when enabled', function () {
+test('security settings page requires password confirmation when enabled', function (): void {
     $user = User::factory()->create();
 
     $response = $this->actingAs($user)
@@ -34,7 +37,7 @@ test('security settings page requires password confirmation when enabled', funct
 
     $response->assertRedirect(route('password.confirm'));
 });
-test('security settings page renders without two factor when feature is disabled', function () {
+test('security settings page renders without two factor when feature is disabled', function (): void {
     config(['fortify.features' => []]);
 
     $user = User::factory()->create();
@@ -46,7 +49,7 @@ test('security settings page renders without two factor when feature is disabled
         ->assertSee('Update password')
         ->assertDontSee('Two-factor authentication');
 });
-test('two factor authentication disabled when confirmation abandoned between requests', function () {
+test('two factor authentication disabled when confirmation abandoned between requests', function (): void {
     $user = User::factory()->create();
 
     $user->forceFill([
@@ -67,7 +70,7 @@ test('two factor authentication disabled when confirmation abandoned between req
         'two_factor_recovery_codes' => null,
     ]);
 });
-test('password can be updated', function () {
+test('password can be updated', function (): void {
     $user = User::factory()->create([
         'password' => Hash::make('password'),
     ]);
@@ -84,7 +87,7 @@ test('password can be updated', function () {
 
     expect(Hash::check('new-password', $user->refresh()->password))->toBeTrue();
 });
-test('correct password must be provided to update password', function () {
+test('correct password must be provided to update password', function (): void {
     $user = User::factory()->create([
         'password' => Hash::make('password'),
     ]);

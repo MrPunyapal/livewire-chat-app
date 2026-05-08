@@ -1,14 +1,17 @@
 <?php
 
 declare(strict_types=1);
-use App\Models\User;
-uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
 
-test('guests are redirected to the login page', function () {
+use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+
+uses(RefreshDatabase::class);
+
+test('guests are redirected to the login page', function (): void {
     $response = $this->get(route('dashboard'));
     $response->assertRedirect(route('login'));
 });
-test('authenticated users can visit the dashboard', function () {
+test('authenticated users can visit the dashboard', function (): void {
     $user = User::factory()->create();
     $this->actingAs($user);
 
@@ -16,7 +19,7 @@ test('authenticated users can visit the dashboard', function () {
     $response->assertOk();
     $response->assertSee(route('chats'));
 });
-test('authenticated users can visit the chats route', function () {
+test('authenticated users can visit the chats route', function (): void {
     $user = User::factory()->create();
     $this->actingAs($user);
 
@@ -24,7 +27,7 @@ test('authenticated users can visit the chats route', function () {
 
     $response->assertOk();
 });
-test('authenticated users are redirected to profile settings from profile route', function () {
+test('authenticated users are redirected to profile settings from profile route', function (): void {
     $user = User::factory()->create();
     $this->actingAs($user);
 
