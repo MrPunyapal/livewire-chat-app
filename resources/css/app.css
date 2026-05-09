@@ -66,6 +66,16 @@ select:focus[data-flux-control] {
     @apply outline-hidden ring-2 ring-accent ring-offset-2 ring-offset-accent-foreground;
 }
 
+[data-app-sidebar][data-flux-sidebar-collapsed-desktop] {
+    cursor: default;
+}
+
+[data-app-sidebar][data-flux-sidebar-collapsed-desktop] [data-flux-sidebar-item],
+[data-app-sidebar][data-flux-sidebar-collapsed-desktop] [data-flux-sidebar-collapse],
+[data-app-sidebar][data-flux-sidebar-collapsed-desktop] [data-flux-sidebar-collapse] button {
+    cursor: pointer;
+}
+
 /* \[:where(&)\]:size-4 {
     @apply size-4;
 } */
