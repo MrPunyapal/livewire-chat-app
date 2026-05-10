@@ -1,0 +1,24 @@
+{
+    "agents": [
+        "claude_code",
+        "codex",
+        "cursor",
+        "copilot",
+        "opencode",
+        "junie"
+    ],
+    "cloud": false,
+    "guidelines": true,
+    "mcp": true,
+    "nightwatch": false,
+    "sail": false,
+    "skills": [
+        "fortify-development",
+        "laravel-best-practices",
+        "fluxui-development",
+        "livewire-development",
+        "pest-testing",
+        "tailwindcss-development",
+        "echo-development"
+    ]
+}
