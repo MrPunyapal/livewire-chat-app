@@ -1,5 +1,5 @@
-<div class="overflow-y-auto max-h-[600px]">
-    <form wire:submit="store" class="space-y-6">
+<div>
+    <form wire:submit="store" class="space-y-5">
         <flux:field>
             <flux:label>{{ __('Room Name') }}</flux:label>
             <flux:input
@@ -27,8 +27,14 @@
             <flux:error name="members" />
         </flux:field>
 
-        <div class="flex items-center justify-end gap-4 pt-4 border-t border-zinc-200 dark:border-zinc-700">
-            <flux:button variant="primary" type="submit">
+        <div class="flex flex-col-reverse gap-3 border-t border-zinc-200 pt-5 dark:border-zinc-700 sm:flex-row sm:justify-end">
+            <flux:modal.close>
+                <flux:button type="button" variant="filled" class="w-full sm:w-auto">
+                    {{ __('Cancel') }}
+                </flux:button>
+            </flux:modal.close>
+
+            <flux:button variant="primary" type="submit" class="w-full sm:w-auto">
                 {{ __('Create Room') }}
             </flux:button>
         </div>

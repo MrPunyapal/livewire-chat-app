@@ -3,11 +3,11 @@
     x-bind:class="roomsOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'"
 >
     <div class="flex-shrink-0 px-4 py-6 border-b border-zinc-200 dark:border-zinc-700">
-        <div class="flex justify-between items-center">
+        <div class="flex items-center justify-between gap-3">
             <h1 class="text-2xl font-bold text-zinc-900 dark:text-zinc-100">Chats</h1>
             <div class="flex items-center gap-2">
                 <flux:modal.trigger name="create-room">
-                    <flux:button icon="plus" size="sm" variant="primary">
+                    <flux:button icon="plus" size="sm" variant="primary" class="shrink-0">
                         <span class="hidden sm:inline">{{ __('New Chat') }}</span>
                     </flux:button>
                 </flux:modal.trigger>
@@ -21,15 +21,31 @@
                     <flux:icon.x-mark class="size-5" />
                 </button>
             </div>
-
-            <flux:modal name="create-room" class="md:w-96" x-on:room-created.window="$dispatch('modal-close', { name: 'create-room' })">
-                <flux:heading size="lg">{{ __('Create New Room') }}</flux:heading>
-                <flux:subheading class="mb-4">{{ __('Start a new conversation with your team.') }}</flux:subheading>
-
-                <livewire:rooms.create />
-            </flux:modal>
         </div>
     </div>
+
+    <flux:modal
+        name="create-room"
+        class="w-full max-w-lg"
+        x-on:room-created.window="$dispatch('modal-close', { name: 'create-room' })"
+    >
+        <div class="space-y-6">
+            <div class="flex items-start gap-3">
+                <div class="flex size-10 shrink-0 items-center justify-center rounded-lg bg-blue-50 text-blue-600 dark:bg-blue-500/15 dark:text-blue-300">
+                    <flux:icon.chat-bubble-left-right class="size-5" />
+                </div>
+
+                <div class="min-w-0">
+                    <flux:heading size="lg">{{ __('Create New Room') }}</flux:heading>
+                    <flux:text class="mt-1 text-sm text-zinc-600 dark:text-zinc-300">
+                        {{ __('Start a new conversation with your team.') }}
+                    </flux:text>
+                </div>
+            </div>
+
+            <livewire:rooms.create />
+        </div>
+    </flux:modal>
 
     <div class="flex min-h-0 flex-1 overflow-hidden">
         <div class="flex min-h-0 flex-1 flex-col px-4 pb-4">
