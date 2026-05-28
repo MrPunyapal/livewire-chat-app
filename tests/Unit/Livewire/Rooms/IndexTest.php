@@ -5,7 +5,6 @@ declare(strict_types=1);
 use App\Livewire\Rooms\Index;
 use App\Models\Room;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Collection;
 use Livewire\Livewire;
 
 test('sidebar component limits rooms and keeps newest first', function (): void {
@@ -22,7 +21,7 @@ test('sidebar component limits rooms and keeps newest first', function (): void 
 
     Livewire::actingAs($user)
         ->test(Index::class)
-        ->assertViewHas('rooms', fn (Collection $rooms): bool => $rooms->count() === Index::LIMIT)
+        ->assertCount('rooms', Index::LIMIT)
         ->assertDontSee('No rooms found');
 });
 
@@ -41,7 +40,7 @@ test('sidebar component loads more rooms and stops when exhausted', function ():
         ->test(Index::class)
         ->call('loadMore')
         ->assertSet('offset', Index::LIMIT)
-        ->assertViewHas('rooms', fn (Collection $rooms): bool => $rooms->count() === 2)
+        ->assertCount('rooms', 2)
         ->assertDispatched('no-more-rooms');
 });
 
@@ -81,7 +80,7 @@ test('search rooms', function (): void {
         ->set('search', 'Room 12');
 
     $component->assertSet('offset', 0)
-        ->assertViewHas('rooms', fn (Collection $rooms): bool => $rooms->count() === 1)
+        ->assertCount('rooms', 1)
         ->assertHasNoErrors('search')
         ->assertOk();
 });
@@ -95,6 +94,6 @@ test('search with no match shows empty state', function (): void {
 
     Livewire::actingAs($user)
         ->test(Index::class, ['search' => 'room-that-does-not-exist'])
-        ->assertViewHas('rooms', fn ($rooms) => $rooms->isEmpty())
+        ->assertCount('rooms', 0)
         ->assertSee('No rooms found');
 });

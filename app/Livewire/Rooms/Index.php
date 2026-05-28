@@ -71,8 +71,6 @@ class Index extends Component
 
     public function render(): View
     {
-        return view('livewire.rooms.index', [
-            'rooms' => $this->rooms,
-        ]);
+        return view('livewire.rooms.index');
     }
 }
