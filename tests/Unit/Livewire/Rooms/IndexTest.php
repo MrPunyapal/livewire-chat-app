@@ -5,23 +5,44 @@ declare(strict_types=1);
 use App\Livewire\Rooms\Index;
 use App\Models\Room;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Collection;
 use Livewire\Livewire;
 
-test('sidebar component contains rooms', function (): void {
+test('sidebar component limits rooms and keeps newest first', function (): void {
     $user = User::factory()
         ->create();
 
-    $rooms = Room::factory(5)
-        ->hasAttached($user, relationship: 'users')
-        ->create();
-
-    $room = Room::factory()->create();
+    foreach (range(1, Index::LIMIT + 2) as $index) {
+        Room::factory()
+            ->hasAttached($user, relationship: 'users')
+            ->create([
+                'name' => 'Room '.$index,
+            ]);
+    }
 
     Livewire::actingAs($user)
         ->test(Index::class)
-        ->assertViewHas('rooms', $rooms)
-        ->assertDontSee($room->name)
+        ->assertViewHas('rooms', fn (Collection $rooms): bool => $rooms->count() === Index::LIMIT)
         ->assertDontSee('No rooms found');
+});
+
+test('sidebar component loads more rooms and stops when exhausted', function (): void {
+    $user = User::factory()->create();
+
+    foreach (range(1, Index::LIMIT + 2) as $index) {
+        Room::factory()
+            ->hasAttached($user, relationship: 'users')
+            ->create([
+                'name' => 'Room '.$index,
+            ]);
+    }
+
+    Livewire::actingAs($user)
+        ->test(Index::class)
+        ->call('loadMore')
+        ->assertSet('offset', Index::LIMIT)
+        ->assertViewHas('rooms', fn (Collection $rooms): bool => $rooms->count() === 2)
+        ->assertDispatched('no-more-rooms');
 });
 
 test('sidebar component without rooms', function (): void {
@@ -46,18 +67,21 @@ test('search rooms', function (): void {
     $user = User::factory()
         ->create();
 
-    $rooms = Room::factory(5)
-        ->hasAttached($user, relationship: 'users')
-        ->create();
+    foreach (range(1, Index::LIMIT + 2) as $index) {
+        Room::factory()
+            ->hasAttached($user, relationship: 'users')
+            ->create([
+                'name' => 'Room '.$index,
+            ]);
+    }
 
     $component = Livewire::actingAs($user)
         ->test(Index::class)
-        ->set('search', $rooms->first()->name);
+        ->set('offset', Index::LIMIT)
+        ->set('search', 'Room 12');
 
-    $component->assertSee($rooms->first()->name)
-        ->assertDontSee($rooms->last()->name)
-        ->assertSet('search', $rooms->first()->name)
-        ->assertViewHas('rooms')
+    $component->assertSet('offset', 0)
+        ->assertViewHas('rooms', fn (Collection $rooms): bool => $rooms->count() === 1)
         ->assertHasNoErrors('search')
         ->assertOk();
 });

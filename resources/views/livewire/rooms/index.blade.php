@@ -50,7 +50,7 @@
     <div class="flex min-h-0 flex-1 overflow-hidden">
         <div class="flex min-h-0 flex-1 flex-col px-4 pb-4">
             <!-- search room -->
-            @if ($rooms->isNotEmpty() || $search)
+            @if ($this->rooms->isNotEmpty() || $this->search)
                 <div class="my-3">
                     <flux:input
                         icon="magnifying-glass"
@@ -67,8 +67,10 @@
                 class="min-h-0 flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent dark:scrollbar-thumb-gray-600"
             >
                 <div class="space-y-2">
-                    @forelse ($rooms as $room)
+                    @island(name: 'room-list')
+                    @foreach ($this->rooms as $room)
                         <div
+                            wire:key="room-{{ $room->id }}"
                             @class([
                                 'rounded-xl p-4 cursor-pointer transition-all duration-200 hover:shadow-md',
                                 'bg-blue-50 dark:bg-blue-900/20 border-2 border-blue-200 dark:border-blue-700 shadow-sm' =>
@@ -109,29 +111,62 @@
                                 </div>
                             </div>
                         </div>
-                    @empty
-                        <div
-                            class="mt-4 bg-white dark:bg-zinc-700 rounded-xl p-6 text-center border border-zinc-200 dark:border-zinc-600">
-                            <div class="text-zinc-400 dark:text-zinc-500 mb-2">
-                                <svg
-                                    class="w-12 h-12 mx-auto"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
-                                    ></path>
-                                </svg>
+                    @endforeach
+                    @endisland
+
+                    @if ($offset === 0 && $this->rooms->isEmpty())
+                        <div class="mt-8 flex justify-center py-10 text-center">
+                            <div class="max-w-xs">
+                                <div class="mx-auto mb-4 flex size-14 items-center justify-center rounded-2xl bg-zinc-100 text-zinc-400 dark:bg-zinc-700 dark:text-zinc-500">
+                                    <flux:icon.chat-bubble-left-right class="size-7" />
+                                </div>
+                                <h3 class="text-lg font-semibold text-zinc-600 dark:text-zinc-300">
+                                    No rooms found
+                                </h3>
+                                <p class="mt-1 text-sm text-zinc-400 dark:text-zinc-500">
+                                    Create your first room to start chatting with your team.
+                                </p>
                             </div>
-                            <p class="text-zinc-500 dark:text-zinc-400 text-sm">No rooms found</p>
-                            <p class="text-zinc-400 dark:text-zinc-500 text-xs mt-1">Create your first room to get
-                                started</p>
                         </div>
-                    @endforelse
+                    @else
+                    <div
+                        x-data="{
+                            hasMoreRooms: true,
+                        }"
+                        x-on:no-more-rooms.document="hasMoreRooms = false"
+                    >
+                        <div
+                            x-show="hasMoreRooms"
+                            wire:intersect='loadMore'
+                            wire:island.append="room-list"
+                        >
+                            <div class="flex items-center justify-center w-full h-full">
+                                <div class="animate-pulse">
+                                    <div class="flex space-x-4">
+                                        <div class="w-12 h-12 bg-zinc-200 rounded-full"></div>
+                                        <div class="flex-1 space-y-4 py-1">
+                                            <div class="h-4 bg-zinc-200 rounded w-3/4"></div>
+                                            <div class="space-y-2">
+                                                <div class="h-4 bg-zinc-200 rounded"></div>
+                                                <div class="h-4 bg-zinc-200 rounded w-5/6"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            x-show="!hasMoreRooms"
+                            class="flex justify-center py-8"
+                        >
+                            <div class="flex items-center gap-3 text-zinc-400 dark:text-zinc-500">
+                                <div class="h-px bg-zinc-200 dark:bg-zinc-600 flex-1 w-12"></div>
+                                <span class="text-sm font-medium">You've reached the end</span>
+                                <div class="h-px bg-zinc-200 dark:bg-zinc-600 flex-1 w-12"></div>
+                            </div>
+                        </div>
+                    </div>
+                    @endif
                 </div>
             </div>
         </div>
