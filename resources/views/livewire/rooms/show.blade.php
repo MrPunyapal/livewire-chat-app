@@ -39,10 +39,7 @@
                     {{ $room->created_at->diffForHumans(short: true) }}
                 </span>
             </div>
-            <p class="truncate text-sm text-zinc-500 dark:text-zinc-400">
-                <!-- todo: add last message here -->
-                Click to start chatting...
-            </p>
+            <p class="truncate text-sm text-zinc-500 dark:text-zinc-400">{{ $room->lastChat?->message }}</p>
         </div>
     </div>
 </div>
