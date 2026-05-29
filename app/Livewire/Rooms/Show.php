@@ -12,8 +12,6 @@ class Show extends Component
 {
     public Room $room;
 
-    public bool $isActive = false;
-
     public function render(): View
     {
         return view('livewire.rooms.show');
