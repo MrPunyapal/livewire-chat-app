@@ -52,14 +52,14 @@ test('sidebar component without rooms', function (): void {
         ->assertSee('No rooms found');
 });
 
-test('sidebar component can show active room', function (): void {
+test('sidebar component do refresh on room-created event', function (): void {
     $user = User::factory()->create();
     $room = Room::factory()->create();
 
     Livewire::actingAs($user)
         ->test(Index::class)
-        ->dispatch('room-selected', id: $room->id)
-        ->assertSet('activeRoomId', $room->id);
+        ->dispatch('room-created', id: $room->id)
+        ->assertSet('offset', 0);
 });
 
 test('search rooms', function (): void {

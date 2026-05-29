@@ -16,22 +16,23 @@ use Livewire\Component;
 /**
  * @property-read Collection<array-key, Room> $rooms
  */
-#[On('room-created')]
 class Index extends Component
 {
     const int LIMIT = 10;
-
-    public ?int $activeRoomId = null;
 
     #[Url(as: 'q')]
     public ?string $search = null;
 
     public int $offset = 0;
 
-    #[On('room-selected')]
-    public function getActiveRoomId(int $id): void
+    #[On('room-created')]
+    public function refresh(): void
     {
-        $this->activeRoomId = $id;
+        $this->offset = 0;
+
+        $this->js(<<<'JS'
+            $wire.$island('room-list').$refresh();
+        JS);
     }
 
     public function updatedSearch(string $value): void
