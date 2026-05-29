@@ -7,21 +7,41 @@ use App\Models\Room;
 use App\Models\User;
 use Livewire\Livewire;
 
-test('sidebar component contains rooms', function (): void {
+test('sidebar component limits rooms and keeps newest first', function (): void {
     $user = User::factory()
         ->create();
 
-    $rooms = Room::factory(5)
-        ->hasAttached($user, relationship: 'users')
-        ->create();
-
-    $room = Room::factory()->create();
+    foreach (range(1, Index::LIMIT + 2) as $index) {
+        Room::factory()
+            ->hasAttached($user, relationship: 'users')
+            ->create([
+                'name' => 'Room '.$index,
+            ]);
+    }
 
     Livewire::actingAs($user)
         ->test(Index::class)
-        ->assertViewHas('rooms', $rooms)
-        ->assertDontSee($room->name)
+        ->assertCount('rooms', Index::LIMIT)
         ->assertDontSee('No rooms found');
+});
+
+test('sidebar component loads more rooms and stops when exhausted', function (): void {
+    $user = User::factory()->create();
+
+    foreach (range(1, Index::LIMIT + 2) as $index) {
+        Room::factory()
+            ->hasAttached($user, relationship: 'users')
+            ->create([
+                'name' => 'Room '.$index,
+            ]);
+    }
+
+    Livewire::actingAs($user)
+        ->test(Index::class)
+        ->call('loadMore')
+        ->assertSet('offset', Index::LIMIT)
+        ->assertCount('rooms', 2)
+        ->assertDispatched('no-more-rooms');
 });
 
 test('sidebar component without rooms', function (): void {
@@ -32,32 +52,35 @@ test('sidebar component without rooms', function (): void {
         ->assertSee('No rooms found');
 });
 
-test('sidebar component can show active room', function (): void {
+test('sidebar component do refresh on room-created event', function (): void {
     $user = User::factory()->create();
     $room = Room::factory()->create();
 
     Livewire::actingAs($user)
         ->test(Index::class)
-        ->dispatch('room-selected', id: $room->id)
-        ->assertSet('activeRoomId', $room->id);
+        ->dispatch('room-created', id: $room->id)
+        ->assertSet('offset', 0);
 });
 
 test('search rooms', function (): void {
     $user = User::factory()
         ->create();
 
-    $rooms = Room::factory(5)
-        ->hasAttached($user, relationship: 'users')
-        ->create();
+    foreach (range(1, Index::LIMIT + 2) as $index) {
+        Room::factory()
+            ->hasAttached($user, relationship: 'users')
+            ->create([
+                'name' => 'Room '.$index,
+            ]);
+    }
 
     $component = Livewire::actingAs($user)
         ->test(Index::class)
-        ->set('search', $rooms->first()->name);
+        ->set('offset', Index::LIMIT)
+        ->set('search', 'Room 12');
 
-    $component->assertSee($rooms->first()->name)
-        ->assertDontSee($rooms->last()->name)
-        ->assertSet('search', $rooms->first()->name)
-        ->assertViewHas('rooms')
+    $component->assertSet('offset', 0)
+        ->assertCount('rooms', 1)
         ->assertHasNoErrors('search')
         ->assertOk();
 });
@@ -71,6 +94,6 @@ test('search with no match shows empty state', function (): void {
 
     Livewire::actingAs($user)
         ->test(Index::class, ['search' => 'room-that-does-not-exist'])
-        ->assertViewHas('rooms', fn ($rooms) => $rooms->isEmpty())
+        ->assertCount('rooms', 0)
         ->assertSee('No rooms found');
 });
