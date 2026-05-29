@@ -79,6 +79,7 @@ class Save extends Component
 
             $this->createdChat = $chat;
             $this->dispatch('chat:created');
+            $this->dispatch('chat:created-for-room-'.$this->roomId);
 
             $this->parentId = null;
             $this->replyMessage = '';
@@ -100,6 +101,7 @@ class Save extends Component
             ))->toOthers();
 
             $this->dispatch('chat:updated.'.$this->chatId);
+            $this->dispatch('chat:updated-for-room-'.$this->roomId);
 
             $this->chatId = null;
 
@@ -119,6 +121,7 @@ class Save extends Component
         $this->createdChat = $chat;
 
         $this->dispatch('chat:created');
+        $this->dispatch('chat:created-for-room-'.$this->roomId);
     }
 
     /**
