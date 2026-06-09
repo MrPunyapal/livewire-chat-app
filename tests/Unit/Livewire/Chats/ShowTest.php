@@ -90,6 +90,23 @@ it('can delete', function (): void {
     Event::assertDispatched(ChatUpdated::class, fn (ChatUpdated $event): bool => $event->chatId === $chat->id && $event->roomId === $chat->room_id);
 });
 
+it('can delete chat which is marked as favorite by many users', function (): void {
+    $chat = Chat::factory()->create();
+    $chat->favoriteUsers()->attach(User::factory()->count(3)->create()->pluck('id'));
+
+    expect($chat->favoriteUsers()->count())->toBe(3);
+
+    Livewire::actingAs($chat->user)
+        ->test(Show::class, ['chat' => $chat])
+        ->call('delete')
+        ->assertDispatched('chat:deleted', chatId: $chat->id);
+
+    expect($chat->fresh()->deleted_at)->not()->toBeNull();
+    expect($chat->favoriteUsers()->count())->toBe(0);
+
+    Event::assertDispatched(ChatUpdated::class, fn (ChatUpdated $event): bool => $event->chatId === $chat->id && $event->roomId === $chat->room_id);
+});
+
 it('can not delete if the user is not the owner of the chat', function (): void {
     $chat = Chat::factory()->create();
 
