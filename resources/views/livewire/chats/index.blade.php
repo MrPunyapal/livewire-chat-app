@@ -18,7 +18,7 @@
                     >
                         <flux:icon.bars-3 class="size-5" />
                     </button>
-                        <figure  class="cursor-pointer relative size-10 shrink-0"  x-on:click="$dispatch('show-room-profile')">
+                        <figure  class="cursor-pointer relative size-10 shrink-0"  x-on:click="$dispatch('show-room-profile',{ roomId: {{ $room->id }} })">
                             <img
                                 src="{{ $room->user->profile }}"
                                 alt="{{ $room->user->name }}"
@@ -28,7 +28,7 @@
                         </figure>
                         <div class="min-w-0">
                             <h2
-                                x-on:click="$dispatch('show-room-profile')"
+                                x-on:click="$dispatch('show-room-profile',{ roomId: {{ $room->id }} })"
                                 class="cursor-pointer truncate text-xl font-semibold text-zinc-900 dark:text-zinc-100">{{ $room->name }}</h2>
                             <p class="text-sm text-zinc-500 dark:text-zinc-400">Active now</p>
                         </div>
