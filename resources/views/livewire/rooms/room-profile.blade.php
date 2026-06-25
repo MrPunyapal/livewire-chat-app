@@ -1,50 +1,37 @@
-   <section  class="
-        overflow-y-auto
-        transition-all
-        duration-300
-        bg-white
-        dark:bg-zinc-800
-        border-l
-        dark:border-zinc-700
-        xl:max-w-lg
-        flex-col
-    "
-    :class="showRoomProfile
-        ? 'w-full max-w-full flex'
-        : 'w-0'"
-    x-cloak
-    >
-        <header class="flex items-center gap-4 px-6 py-5 border-b border-zinc-200 dark:border-zinc-700">
-            <flux:button x-on:click="$dispatch('show-room-profile',{roomId: 0}) ;showRoomProfile = false" icon="x-mark" icon:variant="outline" variant="subtle" />
-            <flux:heading variant="strong">Room info</flux:heading>
-            <flux:button icon="pencil" class="ml-auto" icon:variant="outline" variant="subtle" />
-        </header>
-        <div class="p-4 dark:border-zinc-700 flex flex-col items-center space-y-2 h-full">
-            <div class="flex flex-col items-center w-full lg:max-w-md mx-auto space-y-2">
-                <div>
-                    <img src="https://images.pexels.com/photos/34598816/pexels-photo-34598816.png"
-                        class="w-28 h-28 rounded-full object-cover" alt="" />
-                </div>
-                <h1 class="text-lg md:text-2xl">{{ $room->name }}</h1>
-                <p class="text-sm md:text-base text-zinc-500 dark:text-zinc-400">About</p>
-                <p class="text-sm md:text-base text-zinc-500 dark:text-zinc-200">{{ $room->description ?: '--'  }}</p>
+<div>
+    <header class="flex items-center gap-4 px-6 py-5 border-b border-zinc-200 dark:border-zinc-700">
+            <flux:button x-on:click="showRoomProfile = false; $dispatch('toggle-room-profile',{ showRoomProfile: false, roomId: 0 })" icon="x-mark" icon:variant="outline" variant="subtle" />
+        <flux:heading variant="strong">Room info</flux:heading>
+        <flux:button icon="pencil" class="ml-auto" icon:variant="outline" variant="subtle" />
+    </header>
+    <div class="p-4 dark:border-zinc-700 flex flex-col items-center space-y-2 h-full">
+        <div class="flex flex-col items-center w-full lg:max-w-md mx-auto space-y-2">
+            <div>
+                <img src="https://images.pexels.com/photos/34598816/pexels-photo-34598816.png"
+                    class="w-28 h-28 rounded-full object-cover" alt="" />
+            </div>
+            <h1 class="text-lg md:text-2xl">{{ $room->name }}</h1>
+            <p class="text-sm md:text-base text-zinc-500 dark:text-zinc-400">About</p>
+            <p class="text-sm md:text-base text-zinc-500 dark:text-zinc-200">{{ $room->description ?: '--' }}</p>
+        </div>
+
+        <flux:separator class="my-5" />
+
+
+        {{-- show members list --}}
+        <div class="w-full space-y-1">
+            <div class="mb-2 flex items-center justify-between w-full">
+                <flux:text>{{ $room->users->count() }} members</flux:text>
+                <flux:button icon="magnifying-glass" icon:variant="outline" variant="subtle" />
             </div>
 
-            <flux:separator class="my-5"/>
-
-
-            {{--show members list --}}
-            <div class="w-full space-y-1">
-                <div class="mb-2 flex items-center justify-between w-full">
-                    <flux:text>{{ $room->users->count()}} members</flux:text>
-                    <flux:button icon="magnifying-glass" icon:variant="outline" variant="subtle" />
-                </div>
-
-                <ul class="flex flex-col gap-5">
-                    @forelse($members as $member)
+            <ul class="flex flex-col gap-5">
+                @forelse($members as $member)
                     <li class="flex gap-4 items-center">
                         {{-- image --}}
-                        <img class="size-12 rounded-full " src="https://ui-avatars.com/api/?name={{ $member->name }}&color=7F9CF5&background=EBF4FF" alt="">
+                        <img class="size-12 rounded-full "
+                            src="https://ui-avatars.com/api/?name={{ $member->name }}&color=7F9CF5&background=EBF4FF"
+                            alt="">
 
                         <div>
                             {{-- name --}}
@@ -53,12 +40,12 @@
                             <flux:text>{{ $member?->bio ?: '--' }}</flux:text>
                         </div>
                     </li>
-                    @empty
+                @empty
                     <div>
                         <flux:text>No members exists</flux:text>
                     </div>
-                    @endforelse
-                </ul>
-            </div>
+                @endforelse
+            </ul>
         </div>
-    </section>
+    </div>
+</div>

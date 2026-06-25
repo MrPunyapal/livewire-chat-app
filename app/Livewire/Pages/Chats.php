@@ -17,10 +17,10 @@ class Chats extends Component
 
     public int $roomId;
 
-    #[On('show-room-profile')]
-    public function updateRoomProfile(int $roomId){
-        $this->showRoomProfile = $roomId ? true : false;
-        if($this->showRoomProfile){
+    #[On('toggle-room-profile')]
+    public function toggleShowRoomProfile(bool $showRoomProfile = false,int $roomId){
+        $this->showRoomProfile = $showRoomProfile;
+        if($showRoomProfile){
             $this->roomId = $roomId;
         }
     }

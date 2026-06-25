@@ -4,7 +4,7 @@
     x-on:open-rooms.window="roomsOpen = true"
     x-on:close-rooms.window="roomsOpen = false"
     x-on:room-selected.window="roomsOpen = false"
-    x-on:keydown.escape.window="roomsOpen = false; showRoomProfile = false;"
+    x-on:keydown.escape.window="roomsOpen = false; showRoomProfile = false; $dispatch('toggle-room-profile',{ showRoomProfile: false, roomId: 0 })"
     x-on:show-room-profile.window="showRoomProfile = true"
 >
     <div
@@ -20,7 +20,25 @@
     <livewire:chats />
 
     {{-- Room Profile sidebar - Right --}}
-    @if ($this->showRoomProfile)
-        <livewire:rooms.room-profile :$roomId lazy />
-    @endif
+    <section
+            class="
+                overflow-y-auto
+                transition-all
+                duration-300
+                bg-white
+                dark:bg-zinc-800
+                border-l
+                dark:border-zinc-700
+                xl:max-w-lg
+                flex-col
+            "
+            :class="showRoomProfile
+                ? 'w-full max-w-full flex'
+                : 'w-0'"
+            x-cloak
+        >
+        @if ($this->showRoomProfile)
+            <livewire:rooms.room-profile :$roomId lazy />
+        @endif
+    </section>
 </div>
