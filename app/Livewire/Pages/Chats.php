@@ -12,15 +12,15 @@ use Livewire\Component;
 #[Title('Chats')]
 class Chats extends Component
 {
-
     public bool $showRoomProfile = false;
 
     public int $roomId;
 
     #[On('toggle-room-profile')]
-    public function toggleShowRoomProfile(bool $showRoomProfile = false,int $roomId){
+    public function toggleShowRoomProfile(bool $showRoomProfile = false, int $roomId = 0): void
+    {
         $this->showRoomProfile = $showRoomProfile;
-        if($showRoomProfile){
+        if ($showRoomProfile) {
             $this->roomId = $roomId;
         }
     }

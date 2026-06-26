@@ -24,9 +24,15 @@
                 <flux:text>{{ $room->users->count() }} members</flux:text>
                 <flux:button icon="magnifying-glass" icon:variant="outline" variant="subtle" />
             </div>
-
+            <div class="w-full mb-3">
+                <flux:modal.trigger name="add-members">
+                    <flux:button icon="user-plus" variant="ghost" class="shrink-0 w-full justify-start! cursor-pointer">
+                        {{ __('Add member') }}
+                    </flux:button>
+                </flux:modal.trigger>
+            </div>
             <ul class="flex flex-col gap-5">
-                @forelse($members as $member)
+                @forelse($existingMembers as $member)
                     <li class="flex gap-4 items-center">
                         {{-- image --}}
                         <img class="size-12 rounded-full "
@@ -48,4 +54,13 @@
             </ul>
         </div>
     </div>
+
+    {{-- add members model --}}
+        <flux:modal
+            name="add-members"
+            class="w-full max-w-lg"
+            x-on:members-added.window="$dispatch('modal-close', { name: 'add-members' })"
+        >
+            <livewire:rooms.add-members :$existingMembers :$room />
+        </flux:modal>
 </div>
