@@ -6,6 +6,7 @@ namespace App\Livewire\Rooms;
 
 use App\Models\Room;
 use App\Models\User;
+use Flux\Flux;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Collection;
@@ -59,6 +60,7 @@ class AddMembers extends Component
         $this->room->users()->sync($this->members);
 
         $this->dispatch('members-added', id: $this->room->id);
+        Flux::toast(variant: 'success',text:"member(s) added to the group");
     }
 
     public function render(): Factory|View
