@@ -42,7 +42,7 @@
                         <div>
                             {{-- name --}}
                             <flux:text variant="strong" class="text-base">{{ $member->name }}</flux:text>
-                            {{-- bio --}}
+                            {{-- bio @TODO add bio field in user profile --}}
                             <flux:text>{{ $member?->bio ?: '--' }}</flux:text>
                         </div>
                     </li>
