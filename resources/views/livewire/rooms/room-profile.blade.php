@@ -7,7 +7,7 @@
     <div class="p-4 dark:border-zinc-700 flex flex-col items-center space-y-2 h-full">
         <div class="flex flex-col items-center w-full lg:max-w-md mx-auto space-y-2">
             <div>
-                <img src="https://images.pexels.com/photos/34598816/pexels-photo-34598816.png"
+                <img src="{{ $room->user->profile }}"
                     class="w-28 h-28 rounded-full object-cover" alt="" />
             </div>
             <h1 class="text-lg md:text-2xl">{{ $room->name }}</h1>
