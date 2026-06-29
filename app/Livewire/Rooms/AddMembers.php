@@ -27,10 +27,13 @@ class AddMembers extends Component
     public Collection $existingMembers;
 
     /**
-     * @var array<array-key, int>
+     * @var array<int,int>
      */
     public array $members = [];
 
+    /**
+     * @return array<string,list<string>>
+     */
     public function rules(): array
     {
         return [
@@ -50,8 +53,7 @@ class AddMembers extends Component
             ->get();
 
         $this->members = $this->existingMembers
-            ->pluck('id')
-            ->all();
+            ->modelKeys();
     }
 
     public function submit(): void
@@ -60,7 +62,7 @@ class AddMembers extends Component
         $this->room->users()->sync($this->members);
 
         $this->dispatch('members-added', id: $this->room->id);
-        Flux::toast(variant: 'success',text:"member(s) added to the group");
+        Flux::toast(variant: 'success', text: 'member(s) added to the group');
     }
 
     public function render(): Factory|View
