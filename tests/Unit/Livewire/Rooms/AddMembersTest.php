@@ -22,7 +22,6 @@ it('can render add member component', function (): void {
 });
 
 it('validates the members field', function (): void {
-    $user = User::factory()->create();
     $room = Room::factory()
         ->hasAttached(User::factory(3)->create(), relationship: 'users')
         ->create();
