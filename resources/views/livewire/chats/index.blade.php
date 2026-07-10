@@ -18,20 +18,25 @@
                     >
                         <flux:icon.bars-3 class="size-5" />
                     </button>
-                        <figure  class="cursor-pointer relative size-10 shrink-0"  x-on:click="showRoomProfile = true; $dispatch('toggle-room-profile',{ showRoomProfile: true, roomId: {{ $room->id }} })">
-                            <img
-                                src="{{ $room->user->profile }}"
-                                alt="{{ $room->user->name }}"
-                                class="size-10 w-full rounded-full object-cover ring-2 ring-zinc-200 dark:ring-zinc-600"
-                            />
-                            <div class="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-green-400 border-2 border-white dark:border-zinc-800 rounded-full"></div>
-                        </figure>
-                        <div class="min-w-0">
-                            <h2
-                                x-on:click="showRoomProfile = true; $dispatch('toggle-room-profile',{ showRoomProfile: true, roomId: {{ $room->id }} })"
-                                class="cursor-pointer truncate text-xl font-semibold text-zinc-900 dark:text-zinc-100">{{ $room->name }}</h2>
-                            <p class="text-sm text-zinc-500 dark:text-zinc-400">Active now</p>
-                        </div>
+                         <button
+                            type="button"
+                            class="flex min-w-0 items-center gap-4 cursor-pointer text-left"
+                            x-on:click="showRoomProfile = true; $dispatch('toggle-room-profile', { showRoomProfile: true, roomId: {{ $room->id }} })"
+                            aria-label="Show room info for {{ $room->name }}"
+                        >
+                            <figure class="relative size-10 shrink-0">
+                                <img
+                                    src="{{ $room->user->profile }}"
+                                    alt="{{ $room->user->name }}"
+                                    class="size-10 w-full rounded-full object-cover ring-2 ring-zinc-200 dark:ring-zinc-600"
+                                />
+                                <div class="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-green-400 border-2 border-white dark:border-zinc-800 rounded-full"></div>
+                            </figure>
+                            <div class="min-w-0">
+                                <h2 class="truncate text-xl font-semibold text-zinc-900 dark:text-zinc-100">{{ $room->name }}</h2>
+                                <p class="text-sm text-zinc-500 dark:text-zinc-400">Active now</p>
+                            </div>
+                        </button>
                 </div>
                 {{-- Chat filter options --}}
                 <div
