@@ -41,4 +41,13 @@ it('validates the members field', function (): void {
         ->set('members', $existingMemberIds)
         ->call('submit')
         ->assertHasNoErrors();
+
+    // silently replacing existing member by other user
+
+    $otherUser = User::factory()->create();
+    $existingMemberIds = array_merge($room->users->take(2)->pluck('id')->toArray(), [$otherUser->id], [$room->user->id]);
+    Livewire::test(AddMembers::class, ['room' => $room, 'existingMembers' => $room->users])
+        ->set('members', $existingMemberIds)
+        ->call('submit')
+        ->assertHasErrors(['members']);
 });

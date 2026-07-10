@@ -6,6 +6,7 @@ namespace App\Livewire\Rooms;
 
 use App\Models\Room;
 use App\Models\User;
+use Closure;
 use Flux\Flux;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -32,14 +33,30 @@ class AddMembers extends Component
     public array $members = [];
 
     /**
-     * @return array<string,list<string>>
+     * @return array<string, list<mixed>>
      */
     public function rules(): array
     {
         return [
-            'members' => ['array', 'min:'.$this->existingMembers->count()],
+            'members' => [
+                'array',
+                'min:'.$this->existingMembers->count(),
+                function (string $attribute, mixed $value, Closure $fail): void {
+
+                    /** @var list<int> $value */
+                    $removedMembers = array_diff(
+                        $this->existingMembers->modelKeys(),
+                        $value,
+                    );
+
+                    if ($removedMembers !== []) {
+                        $fail('Existing members cannot be removed.');
+                    }
+                },
+            ],
             'members.*' => [
                 'required',
+                'integer',
                 'exists:users,id',
             ],
         ];
