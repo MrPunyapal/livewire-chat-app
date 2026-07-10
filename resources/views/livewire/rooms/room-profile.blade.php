@@ -36,8 +36,8 @@
                     <li class="flex gap-4 items-center">
                         {{-- image --}}
                         <img class="size-12 rounded-full "
-                            src="https://ui-avatars.com/api/?name={{ $member->name }}&color=7F9CF5&background=EBF4FF"
-                            alt="">
+                            src="{{ $member->profile }}"
+                            alt="{{ $member->name }}">
 
                         <div>
                             {{-- name --}}
