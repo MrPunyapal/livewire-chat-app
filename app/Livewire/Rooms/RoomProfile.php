@@ -7,6 +7,7 @@ namespace App\Livewire\Rooms;
 use App\Models\Room;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Gate;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
@@ -20,6 +21,8 @@ class RoomProfile extends Component
     public function mount(): void
     {
         $this->room = Room::query()->findOrFail($this->roomId);
+
+        abort_if(Gate::denies('show-roomProfile', $this->room), 403, 'You are not authorized to view this room profile.');
     }
 
     public function render(): Factory|View
