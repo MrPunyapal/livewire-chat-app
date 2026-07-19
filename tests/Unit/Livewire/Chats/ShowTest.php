@@ -101,8 +101,8 @@ it('can delete chat which is marked as favorite by many users', function (): voi
         ->call('delete')
         ->assertDispatched('chat:deleted', chatId: $chat->id);
 
-    expect($chat->fresh()->deleted_at)->not()->toBeNull();
-    expect($chat->favoriteUsers()->count())->toBe(0);
+    expect($chat->fresh()->deleted_at)->not()->toBeNull()
+        ->and($chat->favoriteUsers()->count())->toBe(0);
 
     Event::assertDispatched(ChatUpdated::class, fn (ChatUpdated $event): bool => $event->chatId === $chat->id && $event->roomId === $chat->room_id);
 });

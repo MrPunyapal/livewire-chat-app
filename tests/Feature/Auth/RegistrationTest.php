@@ -1,11 +1,7 @@
 <?php
 
 declare(strict_types=1);
-
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Fortify\Features;
-
-uses(RefreshDatabase::class);
 
 beforeEach(function (): void {
     $this->skipUnlessFortifyHas(Features::registration());
