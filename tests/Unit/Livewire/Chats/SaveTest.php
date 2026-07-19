@@ -32,12 +32,12 @@ it('validates the message field', function (): void {
 it('checks for exception when roomId is invalid', function (): void {
     $this->actingAs(User::factory()->create());
 
-    $this->expectException(ModelNotFoundException::class);
-
-    Livewire::test(Save::class, ['roomId' => 123])
-        ->set('message', 'test message')
-        ->call('save')
-        ->assertNotFound();
+    expect(
+        fn () => Livewire::test(Save::class, ['roomId' => 123])
+            ->set('message', 'test message')
+            ->call('save')
+            ->assertNotFound()
+    )->toThrow(ModelNotFoundException::class);
 });
 
 it('can create a chat', function (): void {
