@@ -22,6 +22,7 @@ yarn-error.log
 boost.json
 CLAUDE.md
 AGENTS.md
+opencode.json
 /.claude/skills
 /.cursor
 /.junie
