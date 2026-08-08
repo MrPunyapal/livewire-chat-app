@@ -1,8 +1,8 @@
 <aside
-    class="fixed inset-y-0 left-0 z-50 flex h-dvh max-h-dvh min-h-0 w-80 max-w-[calc(100vw-2rem)] shrink-0 -translate-x-full flex-col border-r border-zinc-200 bg-white shadow-xl transition-transform duration-200 dark:border-zinc-700 dark:bg-zinc-800 lg:static lg:z-auto lg:max-w-none lg:translate-x-0 lg:shadow-none"
+    class="fixed inset-y-0 left-0 z-50 flex h-dvh max-h-dvh min-h-0 w-80 max-w-[calc(100vw-2rem)] shrink-0 -translate-x-full flex-col border-r border-zinc-200 bg-white shadow-xl transition-transform duration-200 lg:static lg:z-auto lg:max-w-none lg:translate-x-0 lg:shadow-none dark:border-zinc-700 dark:bg-zinc-800"
     x-bind:class="roomsOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'"
 >
-    <div class="flex-shrink-0 px-4 py-6 border-b border-zinc-200 dark:border-zinc-700">
+    <div class="flex-shrink-0 border-b border-zinc-200 px-4 py-6 dark:border-zinc-700">
         <div class="flex items-center justify-between gap-3">
             <h1 class="text-2xl font-bold text-zinc-900 dark:text-zinc-100">Chats</h1>
             <div class="flex items-center gap-2">
@@ -14,7 +14,7 @@
 
                 <button
                     type="button"
-                    class="inline-flex size-8 cursor-pointer items-center justify-center rounded-md text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-700 dark:hover:text-zinc-100 lg:hidden"
+                    class="inline-flex size-8 cursor-pointer items-center justify-center rounded-md text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 lg:hidden dark:text-zinc-400 dark:hover:bg-zinc-700 dark:hover:text-zinc-100"
                     x-on:click="$dispatch('close-rooms')"
                     aria-label="Hide rooms"
                 >
@@ -61,19 +61,13 @@
                 </div>
             @endif
 
-
             <!-- Rooms list -->
-            <div
-                class="min-h-0 flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent dark:scrollbar-thumb-gray-600"
-            >
+            <div class="min-h-0 flex-1 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent overflow-y-auto dark:scrollbar-thumb-gray-600">
                 <div class="space-y-2">
                     @island(name: 'room-list')
-                    @foreach ($this->rooms as $room)
-                        <livewire:rooms.show
-                            :room="$room"
-                            :key="'room-'.$room->id"
-                        />
-                    @endforeach
+                        @foreach ($this->rooms as $room)
+                            <livewire:rooms.show :room="$room" :key="'room-'.$room->id" />
+                        @endforeach
                     @endisland
 
                     @if ($offset === 0 && $this->rooms->isEmpty())
@@ -82,52 +76,43 @@
                                 <div class="mx-auto mb-4 flex size-14 items-center justify-center rounded-2xl bg-zinc-100 text-zinc-400 dark:bg-zinc-700 dark:text-zinc-500">
                                     <flux:icon.chat-bubble-left-right class="size-7" />
                                 </div>
-                                <h3 class="text-lg font-semibold text-zinc-600 dark:text-zinc-300">
-                                    No rooms found
-                                </h3>
+                                <h3 class="text-lg font-semibold text-zinc-600 dark:text-zinc-300">No rooms found</h3>
                                 <p class="mt-1 text-sm text-zinc-400 dark:text-zinc-500">
                                     Create your first room to start chatting with your team.
                                 </p>
                             </div>
                         </div>
                     @else
-                    <div
-                        x-data="{
-                            hasMoreRooms: true,
-                        }"
-                        x-on:no-more-rooms.document="hasMoreRooms = false"
-                    >
                         <div
-                            x-show="hasMoreRooms"
-                            wire:intersect='loadMore'
-                            wire:island.append="room-list"
+                            x-data="{
+                                hasMoreRooms: true,
+                            }"
+                            x-on:no-more-rooms.document="hasMoreRooms = false"
                         >
-                            <div class="flex items-center justify-center w-full h-full">
-                                <div class="animate-pulse">
-                                    <div class="flex space-x-4">
-                                        <div class="w-12 h-12 bg-zinc-200 rounded-full"></div>
-                                        <div class="flex-1 space-y-4 py-1">
-                                            <div class="h-4 bg-zinc-200 rounded w-3/4"></div>
-                                            <div class="space-y-2">
-                                                <div class="h-4 bg-zinc-200 rounded"></div>
-                                                <div class="h-4 bg-zinc-200 rounded w-5/6"></div>
+                            <div x-show="hasMoreRooms" wire:intersect="loadMore" wire:island.append="room-list">
+                                <div class="flex h-full w-full items-center justify-center">
+                                    <div class="animate-pulse">
+                                        <div class="flex space-x-4">
+                                            <div class="h-12 w-12 rounded-full bg-zinc-200"></div>
+                                            <div class="flex-1 space-y-4 py-1">
+                                                <div class="h-4 w-3/4 rounded bg-zinc-200"></div>
+                                                <div class="space-y-2">
+                                                    <div class="h-4 rounded bg-zinc-200"></div>
+                                                    <div class="h-4 w-5/6 rounded bg-zinc-200"></div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div
-                            x-show="!hasMoreRooms"
-                            class="flex justify-center py-8"
-                        >
-                            <div class="flex items-center gap-3 text-zinc-400 dark:text-zinc-500">
-                                <div class="h-px bg-zinc-200 dark:bg-zinc-600 flex-1 w-12"></div>
-                                <span class="text-sm font-medium">You've reached the end</span>
-                                <div class="h-px bg-zinc-200 dark:bg-zinc-600 flex-1 w-12"></div>
+                            <div x-show="! hasMoreRooms" class="flex justify-center py-8">
+                                <div class="flex items-center gap-3 text-zinc-400 dark:text-zinc-500">
+                                    <div class="h-px w-12 flex-1 bg-zinc-200 dark:bg-zinc-600"></div>
+                                    <span class="text-sm font-medium">You've reached the end</span>
+                                    <div class="h-px w-12 flex-1 bg-zinc-200 dark:bg-zinc-600"></div>
+                                </div>
                             </div>
                         </div>
-                    </div>
                     @endif
                 </div>
             </div>

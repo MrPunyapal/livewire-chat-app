@@ -9,9 +9,9 @@
             @class([
                 'w-10 h-10 object-cover rounded-full ring-2 ring-offset-2',
                 'ring-blue-500/30 ring-offset-white dark:ring-offset-zinc-900' => $isCurrentUser,
-                'ring-zinc-300/50 ring-offset-white dark:ring-offset-zinc-900' => !$isCurrentUser,
+                'ring-zinc-300/50 ring-offset-white dark:ring-offset-zinc-900' => ! $isCurrentUser,
             ])
-        >
+        />
     </figure>
 
     <div @class([
@@ -26,11 +26,9 @@
                 'flex items-center gap-1.5',
                 'flex-row-reverse' => $isCurrentUser,
             ])>
-                <span class="font-medium text-sm text-zinc-700 dark:text-zinc-300">
-                    {{ $chat->user->name }}
-                </span>
+                <span class="text-sm font-medium text-zinc-700 dark:text-zinc-300"> {{ $chat->user->name }} </span>
                 @if ($chat->updated_at > $chat->created_at && is_null($chat->deleted_at))
-                    <span class="text-xs text-zinc-500 dark:text-zinc-400 italic">(edited)</span>
+                    <span class="text-xs text-zinc-500 italic dark:text-zinc-400">(edited)</span>
                 @endif
             </div>
 
@@ -38,21 +36,21 @@
             <div @class([
                 'flex gap-1 opacity-0 group-hover:opacity-100 transition-all duration-200 z-20',
                 'bg-white/95 dark:bg-zinc-800/95 backdrop-blur-sm rounded-lg px-2 py-1 shadow-lg border border-zinc-200/80 dark:border-zinc-600/80',
-                'ml-2' => !$isCurrentUser,
+                'ml-2' => ! $isCurrentUser,
                 'mr-2' => $isCurrentUser,
             ])>
                 @if (is_null($chat->deleted_at))
                     @if ($isCurrentUser)
                         <button
                             wire:click="edit"
-                            class="p-1.5 rounded-md text-zinc-500 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/30 dark:hover:text-blue-400 transition-colors duration-150"
+                            class="rounded-md p-1.5 text-zinc-500 transition-colors duration-150 hover:bg-blue-50 hover:text-blue-600 dark:hover:bg-blue-900/30 dark:hover:text-blue-400"
                             title="Edit message"
                         >
                             <flux:icon.pencil-square class="h-3.5 w-3.5" />
                         </button>
                         <button
                             x-on:click="$dispatch('modal-show', { name: 'confirm-chat-deletion-{{ $chat->id }}' })"
-                            class="p-1.5 rounded-md text-zinc-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/30 dark:hover:text-red-400 transition-colors duration-150"
+                            class="rounded-md p-1.5 text-zinc-500 transition-colors duration-150 hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-900/30 dark:hover:text-red-400"
                             title="Delete message"
                         >
                             <flux:icon.trash class="h-3.5 w-3.5" />
@@ -61,7 +59,7 @@
 
                     <button
                         wire:click="reply"
-                        class="p-1.5 rounded-md text-zinc-500 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/30 dark:hover:text-blue-400 transition-colors duration-150"
+                        class="rounded-md p-1.5 text-zinc-500 transition-colors duration-150 hover:bg-blue-50 hover:text-blue-600 dark:hover:bg-blue-900/30 dark:hover:text-blue-400"
                         title="Reply to message"
                     >
                         <flux:icon.arrow-uturn-left class="h-3.5 w-3.5" />
@@ -94,36 +92,34 @@
             <div @class([
                 'relative px-4 py-2 rounded-2xl shadow-sm max-w-full word-wrap break-words',
                 'bg-blue-600 text-white chat-bubble-user' => $isCurrentUser,
-                'bg-white dark:bg-zinc-700 dark:text-zinc-100 text-zinc-900 border border-zinc-200 dark:border-zinc-600 chat-bubble-other' => !$isCurrentUser,
+                'bg-white dark:bg-zinc-700 dark:text-zinc-100 text-zinc-900 border border-zinc-200 dark:border-zinc-600 chat-bubble-other' => ! $isCurrentUser,
             ])>
                 @if ($chat->deleted_at === null)
                     @if ($chat->parent)
                         <div @class([
                             'mb-2 p-2 rounded-lg text-xs border-l-2 bg-black/5 dark:bg-white/5',
                             'border-blue-300' => $isCurrentUser,
-                            'border-zinc-300 dark:border-zinc-500' => !$isCurrentUser,
+                            'border-zinc-300 dark:border-zinc-500' => ! $isCurrentUser,
                         ])>
                             <p @class([
                                 'flex items-center gap-2 text-sm font-medium',
                                 'text-blue-100' => $isCurrentUser,
-                                'text-zinc-600 dark:text-zinc-300' => !$isCurrentUser,
+                                'text-zinc-600 dark:text-zinc-300' => ! $isCurrentUser,
                             ])>
                                 <flux:icon.arrow-uturn-left class="h-3 w-3 flex-shrink-0" />
                                 @if ($chat->parent->deleted_at === null)
                                     <span class="truncate">{{ Str::limit($chat->parent->message, 80) }}</span>
                                 @else
-                                    <span class="text-red-400 dark:text-red-500 italic">
+                                    <span class="text-red-400 italic dark:text-red-500">
                                         This message has been deleted.
                                     </span>
                                 @endif
                             </p>
                         </div>
                     @endif
-                    <p class="text-sm leading-relaxed">
-                        {{ $chat->message }}
-                    </p>
+                    <p class="text-sm leading-relaxed">{{ $chat->message }}</p>
                 @else
-                    <p class="text-sm leading-relaxed text-red-500 dark:text-red-400 italic flex items-center gap-2">
+                    <p class="flex items-center gap-2 text-sm leading-relaxed text-red-500 italic dark:text-red-400">
                         <flux:icon.trash class="h-3 w-3 flex-shrink-0" />
                         This message has been deleted.
                     </p>
@@ -137,7 +133,7 @@
         ])>
             <span>{{ $chat->updated_at->diffForHumans() }}</span>
             @if ($chat->favoriteUsers->contains(auth()->id()))
-                <flux:icon.star class="h-3 w-3 text-yellow-500 fill-current" />
+                <flux:icon.star class="h-3 w-3 fill-current text-yellow-500" />
             @endif
         </div>
     </div>
@@ -154,20 +150,27 @@
                     <div class="min-w-0">
                         <flux:heading size="lg">{{ __('Delete Message') }}</flux:heading>
                         <flux:text class="mt-1 text-sm text-zinc-600 dark:text-zinc-300">
-                        {{ __('Are you sure? This action cannot be undone.') }}
+                            {{ __('Are you sure? This action cannot be undone.') }}
                         </flux:text>
                     </div>
                 </div>
 
                 <div class="w-full border-l-2 border-red-500 pl-3 text-left">
-                    <p class="max-h-20 overflow-y-auto whitespace-pre-wrap break-words text-left text-sm leading-5 text-zinc-700 dark:text-zinc-200">{{ Str::limit($chat->message, 160) }}</p>
+                    <p class="max-h-20 overflow-y-auto text-left text-sm leading-5 break-words whitespace-pre-wrap text-zinc-700 dark:text-zinc-200">
+                        {{ Str::limit($chat->message, 160) }}
+                    </p>
                 </div>
 
                 <div class="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
                     <flux:modal.close>
                         <flux:button class="w-full sm:w-auto">{{ __('Cancel') }}</flux:button>
                     </flux:modal.close>
-                    <flux:button variant="danger" class="w-full sm:w-auto" wire:click="delete" x-on:click="$dispatch('modal-close', { name: 'confirm-chat-deletion-{{ $chat->id }}' })">
+                    <flux:button
+                        variant="danger"
+                        class="w-full sm:w-auto"
+                        wire:click="delete"
+                        x-on:click="$dispatch('modal-close', { name: 'confirm-chat-deletion-{{ $chat->id }}' })"
+                    >
                         {{ __('Delete Message') }}
                     </flux:button>
                 </div>

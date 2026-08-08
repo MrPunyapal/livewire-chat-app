@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Concerns\PasswordValidationRules;
 use Flux\Flux;
 use Illuminate\Support\Facades\Auth;
@@ -11,11 +13,14 @@ use Livewire\Attributes\On;
 use Livewire\Attributes\Title;
 use Livewire\Component;
 
-new #[Title('Security settings')] class extends Component {
+new #[Title('Security settings')] class extends Component
+{
     use PasswordValidationRules;
 
     public string $current_password = '';
+
     public string $password = '';
+
     public string $password_confirmation = '';
 
     public bool $canManageTwoFactor;
@@ -91,7 +96,10 @@ new #[Title('Security settings')] class extends Component {
 
     <flux:heading class="sr-only">{{ __('Security settings') }}</flux:heading>
 
-    <x-pages::settings.layout :heading="__('Update password')" :subheading="__('Ensure your account is using a long, random password to stay secure')">
+    <x-pages::settings.layout
+        :heading="__('Update password')"
+        :subheading="__('Ensure your account is using a long, random password to stay secure')"
+    >
         <form method="POST" wire:submit="updatePassword" class="mt-6 space-y-6">
             <flux:input
                 wire:model="current_password"
@@ -130,7 +138,7 @@ new #[Title('Security settings')] class extends Component {
                 <flux:heading>{{ __('Two-factor authentication') }}</flux:heading>
                 <flux:subheading>{{ __('Manage your two-factor authentication settings') }}</flux:subheading>
 
-                <div class="flex flex-col w-full mx-auto space-y-6 text-sm" wire:cloak>
+                <div class="mx-auto flex w-full flex-col space-y-6 text-sm" wire:cloak>
                     @if ($twoFactorEnabled)
                         <div class="space-y-4">
                             <flux:text>
@@ -138,10 +146,7 @@ new #[Title('Security settings')] class extends Component {
                             </flux:text>
 
                             <div class="flex justify-start">
-                                <flux:button
-                                    variant="danger"
-                                    wire:click="disable"
-                                >
+                                <flux:button variant="danger" wire:click="disable">
                                     {{ __('Disable 2FA') }}
                                 </flux:button>
                             </div>
@@ -155,10 +160,7 @@ new #[Title('Security settings')] class extends Component {
                             </flux:text>
 
                             <flux:modal.trigger name="two-factor-setup-modal">
-                                <flux:button
-                                    variant="primary"
-                                    wire:click="$dispatch('start-two-factor-setup')"
-                                >
+                                <flux:button variant="primary" wire:click="$dispatch('start-two-factor-setup')">
                                     {{ __('Enable 2FA') }}
                                 </flux:button>
                             </flux:modal.trigger>

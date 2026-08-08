@@ -27,11 +27,9 @@
             <flux:error name="members" />
         </flux:field>
 
-        <div class="flex flex-col-reverse gap-3 border-t border-zinc-200 pt-5 dark:border-zinc-700 sm:flex-row sm:justify-end">
+        <div class="flex flex-col-reverse gap-3 border-t border-zinc-200 pt-5 sm:flex-row sm:justify-end dark:border-zinc-700">
             <flux:modal.close>
-                <flux:button type="button" variant="filled" class="w-full sm:w-auto">
-                    {{ __('Cancel') }}
-                </flux:button>
+                <flux:button type="button" variant="filled" class="w-full sm:w-auto"> {{ __('Cancel') }} </flux:button>
             </flux:modal.close>
 
             <flux:button variant="primary" type="submit" class="w-full sm:w-auto">

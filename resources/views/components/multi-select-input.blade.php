@@ -12,13 +12,14 @@
 @php
     $id = $id ?: $name;
     $wireModelName = $wireModel ?: $name;
-    $formattedOptions = collect($options)->map(fn($label, $value) => [
+    $formattedOptions = collect($options)->map(fn ($label, $value) => [
         'value' => (string) $value,
-        'label' => $label
+        'label' => $label,
     ])->values()->toArray();
 @endphp
 
-<div class="w-full"
+<div
+    class="w-full"
     x-data="multiSelect({
         multiple: @js($multiple),
         value: @js($selected),
@@ -26,9 +27,7 @@
         wireModel: @js($name),
         placeholder: @js($placeholder),
     })"
-
     wire:ignore
-    >
-
+>
     <select x-ref="select" :multiple="multiple" {{ $disabled ? 'disabled' : '' }}></select>
 </div>

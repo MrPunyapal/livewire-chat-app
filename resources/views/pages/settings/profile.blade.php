@@ -1,17 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Concerns\ProfileValidationRules;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Flux\Flux;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Title;
 use Livewire\Component;
 
-new #[Title('Profile settings')] class extends Component {
+new #[Title('Profile settings')] class extends Component
+{
     use ProfileValidationRules;
 
     public string $name = '';
+
     public string $email = '';
 
     /**
@@ -92,11 +96,13 @@ new #[Title('Profile settings')] class extends Component {
                         <flux:text class="mt-4">
                             {{ __('Your email address is unverified.') }}
 
-                            <flux:link class="text-sm cursor-pointer" wire:click.prevent="resendVerificationNotification">
+                            <flux:link
+                                class="cursor-pointer text-sm"
+                                wire:click.prevent="resendVerificationNotification"
+                            >
                                 {{ __('Click here to re-send the verification email.') }}
                             </flux:link>
                         </flux:text>
-
                     </div>
                 @endif
             </div>
