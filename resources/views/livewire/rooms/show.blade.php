@@ -40,8 +40,7 @@
                 </span>
             </div>
             <p class="truncate text-sm text-zinc-500 dark:text-zinc-400">
-                <!-- todo: add last message here -->
-                Click to start chatting...
+                {{ $room->lastChat->message ?? 'No messages yet' }}
             </p>
         </div>
     </div>

@@ -53,6 +53,7 @@ class Index extends Component
         $search = filled($this->search) ? trim($this->search) : null;
 
         return Room::query()
+            ->with('lastChat:chats.room_id,message')
             ->when($search, fn (Builder $query) => $query->whereLike('name', sprintf('%%%s%%', $search)))
             ->whereRelation('users', 'users.id', auth()->id())
             ->latest()
