@@ -18,3 +18,13 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+.mcp.json
+boost.json
+CLAUDE.md
+AGENTS.md
+/.claude/skills
+/.cursor
+/.junie
+/.agents
+/.codex
+/.github/skills
