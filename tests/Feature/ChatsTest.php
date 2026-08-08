@@ -10,7 +10,6 @@ use App\Livewire\Rooms\Index as RoomsIndex;
 use App\Livewire\Rooms\RoomProfile;
 use App\Models\Room;
 use App\Models\User;
-use Livewire\Livewire;
 
 test('chats page is displayed', function (): void {
     $user = User::factory()->create();
@@ -26,7 +25,7 @@ test('chats page is displayed', function (): void {
         ->assertOk();
 });
 
-test('create chat component should be there if room is selected', function (): void {
+test('create chat and room profile components should be rendered if room is selected', function (): void {
     $user = User::factory()->create();
     $room = Room::factory()
         ->hasAttached($user, relationship: 'users')
@@ -39,42 +38,19 @@ test('create chat component should be there if room is selected', function (): v
         ->assertSeeLivewire(RoomsIndex::class)
         ->assertSeeLivewire(CreateRoom::class)
         ->assertSeeLivewire(CreateChat::class)
+        ->assertSeeLivewire(RoomProfile::class)
         ->assertOk();
 });
 
-test('room profile component does not appear by default', function (): void {
-
+test('room profile component does not appear when no room is selected', function (): void {
     $user = User::factory()->create();
-    $room = Room::factory()
-        ->hasAttached($user, relationship: 'users')
-        ->create();
 
     $this->actingAs($user)
-        ->get('/chats?roomId='.$room->id)
+        ->get('/chats')
         ->assertSeeLivewire(Chats::class)
         ->assertSeeLivewire(ChatsIndex::class)
         ->assertSeeLivewire(RoomsIndex::class)
         ->assertSeeLivewire(CreateRoom::class)
-        ->assertSeeLivewire(CreateChat::class)
         ->assertDontSeeLivewire(RoomProfile::class)
         ->assertOk();
-});
-
-test('toggle room profile component', function (): void {
-    $user = User::factory()->create();
-    $room = Room::factory()
-        ->hasAttached($user, relationship: 'users')
-        ->create();
-
-    Livewire::actingAs($user)
-        ->test(Chats::class, ['roomId' => $room->id])
-        ->assertSet('showRoomProfile', false)
-        ->dispatch('toggle-room-profile', showRoomProfile: true, roomId : $room->id)
-        ->assertSet('showRoomProfile', true)
-        ->assertSet('roomId', $room->id)
-        ->assertSeeLivewire(RoomProfile::class)
-        ->dispatch('toggle-room-profile', showRoomProfile: false, roomId : $room->id)
-        ->assertSet('showRoomProfile', false)
-        ->assertSet('roomId', $room->id)
-        ->assertDontSeeLivewire(RoomProfile::class);
 });

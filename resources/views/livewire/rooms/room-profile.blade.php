@@ -1,6 +1,6 @@
 <div>
     <header class="flex items-center gap-4 px-6 py-5 border-b border-zinc-200 dark:border-zinc-700">
-            <flux:button x-on:click="showRoomProfile = false; $dispatch('toggle-room-profile',{ showRoomProfile: false, roomId: 0 })" icon="x-mark" icon:variant="outline" variant="subtle" />
+        <flux:button x-on:click="showRoomProfile = false" icon="x-mark" icon:variant="outline" variant="subtle" />
         <flux:heading variant="strong">Room info</flux:heading>
         <flux:button icon="pencil" class="ml-auto" icon:variant="outline" variant="subtle" />
     </header>
