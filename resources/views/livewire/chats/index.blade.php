@@ -2,27 +2,25 @@
     use App\Enums\ChatFilterEnum;
 @endphp
 <div
-    class="flex h-full min-h-0 w-full"
+    class="relative flex h-full min-h-0 w-full"
     x-data="{ showRoomProfile: false }"
     x-on:keydown.escape.window="showRoomProfile = false"
 >
-    <div
-        class="flex flex-1 min-h-0 flex-col bg-white dark:bg-zinc-800"
-        :class="showRoomProfile ? 'max-xl:hidden' : ''"
-    >
+    <div class="flex flex-1 min-h-0 flex-col bg-white dark:bg-zinc-800">
         <!-- Chat Header -->
         <div class="flex-shrink-0 bg-white dark:bg-zinc-800 border-b border-zinc-200 dark:border-zinc-700 px-6 py-4">
             @if ($room !== null)
                 <div class="flex items-center justify-between gap-4">
                     <div class="flex min-w-0 items-center gap-4">
-                        <button
-                            type="button"
-                            class="px-2 py-2 cursor-pointer lg:hidden"
-                            x-on:click="$dispatch('open-rooms')"
-                            aria-label="Show rooms"
-                        >
-                            <flux:icon.panel-left />
-                        </button>
+                        <flux:tooltip content="Toggle rooms" position="bottom">
+                            <flux:button
+                                icon="panel-left"
+                                variant="subtle"
+                                class="lg:hidden cursor-pointer"
+                                x-on:click="$dispatch('open-rooms')"
+                                aria-label="Toggle rooms"
+                            />
+                        </flux:tooltip>
                         <button
                             type="button"
                             class="flex min-w-0 items-center gap-4 cursor-pointer text-left"
@@ -50,13 +48,15 @@
                             x-data="{ show: false }"
                             @click.away="show = false"
                         >
-                            <button
-                                type="button"
-                                class="px-4 py-2 cursor-pointer"
-                                @click="show = !show"
-                            >
-                                <flux:icon.ellipsis-vertical />
-                            </button>
+                            <flux:tooltip content="Filter chats" position="bottom">
+                                <flux:button
+                                    icon="ellipsis-vertical"
+                                    variant="subtle"
+                                    class="cursor-pointer"
+                                    @click="show = !show"
+                                    aria-label="Filter chats"
+                                />
+                            </flux:tooltip>
                             <div
                                 class="absolute z-30 border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 min-w-36 right-4 rounded-md shadow-lg space-y-2 py-4 px-2"
                                 x-show="show"
@@ -84,26 +84,28 @@
                         </div>
 
                         {{-- Toggle Room Profile --}}
-                        <button
-                            type="button"
-                            class="px-2 py-2 cursor-pointer"
-                            x-on:click="showRoomProfile = !showRoomProfile"
-                            aria-label="Toggle room info"
-                        >
-                            <flux:icon.panel-right />
-                        </button>
+                        <flux:tooltip content="Toggle room profile" position="bottom">
+                            <flux:button
+                                icon="panel-right"
+                                variant="subtle"
+                                class="cursor-pointer"
+                                x-on:click="showRoomProfile = !showRoomProfile"
+                                aria-label="Toggle room info"
+                            />
+                        </flux:tooltip>
                     </div>
                 </div>
             @else
-                <div class="flex gap-3">
-                    <button
-                        type="button"
-                        class="px-2 py-2 cursor-pointer lg:hidden"
-                        x-on:click="$dispatch('open-rooms')"
-                        aria-label="Show rooms"
-                    >
-                        <flux:icon.panel-left />
-                    </button>
+                <div class="flex gap-3 items-center">
+                    <flux:tooltip content="Toggle rooms" position="bottom">
+                        <flux:button
+                            icon="panel-left"
+                            variant="subtle"
+                            class="lg:hidden cursor-pointer"
+                            x-on:click="$dispatch('open-rooms')"
+                            aria-label="Toggle rooms"
+                        />
+                    </flux:tooltip>
                     <div class="w-10 h-10 bg-zinc-200 dark:bg-zinc-600 rounded-full flex items-center justify-center">
                         <svg
                             class="w-5 h-5 text-zinc-400 dark:text-zinc-500"
@@ -253,16 +255,28 @@
         @endif
     </div>
 
-    {{-- Room Profile sidebar - Right --}}
+    {{-- Mobile backdrop --}}
+    <div
+        class="fixed inset-0 z-40 bg-zinc-950/50 xl:hidden"
+        x-cloak
+        x-show="showRoomProfile"
+        x-transition.opacity
+        x-on:click="showRoomProfile = false"
+    ></div>
+
+    {{-- Room Profile Sidebar (Slide-over drawer on mobile/tablet, smooth expandable column on desktop) --}}
     @if ($this->room !== null)
         <section
-            class="h-full shrink-0 overflow-y-auto overflow-x-hidden bg-white dark:bg-zinc-800 border-zinc-200 dark:border-zinc-700 flex flex-col transition-[width] duration-300 ease-in-out"
+            class="
+                fixed inset-y-0 right-0 z-50 flex h-dvh max-h-dvh min-h-0 w-full sm:max-w-md flex-col overflow-y-auto bg-white shadow-2xl transition-all duration-300 ease-in-out dark:bg-zinc-800
+                xl:static xl:z-auto xl:h-full xl:max-w-none xl:shadow-none xl:overflow-x-hidden xl:transition-[width]
+            "
             :class="showRoomProfile
-                ? 'w-full xl:w-96 border-l'
-                : 'w-0 border-l-0! pointer-events-none'"
+                ? 'translate-x-0 xl:w-96 xl:border-l xl:border-zinc-200 xl:dark:border-zinc-700'
+                : 'translate-x-full xl:translate-x-0 xl:w-0 xl:border-l-0! xl:pointer-events-none pointer-events-none'"
             x-cloak
         >
-            <div class="w-full xl:w-96 shrink-0">
+            <div class="w-full xl:w-96 shrink-0 flex flex-col h-full">
                 <livewire:rooms.room-profile :roomId="$room->id" :key="'room-profile-'.$room->id" lazy />
             </div>
         </section>

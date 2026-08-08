@@ -1,43 +1,23 @@
-{{-- Credit: Lucide (https://lucide.dev) --}}
-
 @props([
     'variant' => 'outline',
 ])
 
 @php
-    if ($variant === 'solid') {
-        throw new \Exception('The "solid" variant is not supported in Lucide.');
-    }
-
-    $classes = Flux::classes('shrink-0')->add(
-        match ($variant) {
-            'outline' => '[:where(&)]:size-6',
-            'solid' => '[:where(&)]:size-6',
-            'mini' => '[:where(&)]:size-5',
-            'micro' => '[:where(&)]:size-4',
-        },
-    );
-
-    $strokeWidth = match ($variant) {
-        'outline' => 2,
-        'mini' => 2.25,
-        'micro' => 2.5,
-    };
+    $classes = Flux::classes('shrink-0 [:where(&)]:size-5 text-zinc-500 dark:text-zinc-400');
 @endphp
 
 <svg
     {{ $attributes->class($classes) }}
     data-flux-icon
     xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 24 24"
+    viewBox="0 0 20 20"
     fill="none"
     stroke="currentColor"
-    stroke-width="{{ $strokeWidth }}"
+    stroke-width="1.25"
     stroke-linecap="round"
     stroke-linejoin="round"
     aria-hidden="true"
     data-slot="icon"
 >
-    <rect width="18" height="18" x="3" y="3" rx="2" />
-    <path d="M15 3v18" />
+    <path d="M12.5 3.75V16.25M3.4375 16.25H16.5625C17.08 16.25 17.5 15.83 17.5 15.3125V4.6875C17.5 4.17 17.08 3.75 16.5625 3.75H3.4375C2.92 3.75 2.5 4.17 2.5 4.6875V15.3125C2.5 15.83 2.92 16.25 3.4375 16.25Z" />
 </svg>
