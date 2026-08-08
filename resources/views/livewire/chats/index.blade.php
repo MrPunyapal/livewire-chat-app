@@ -17,11 +17,11 @@
                     <div class="flex min-w-0 items-center gap-4">
                         <button
                             type="button"
-                            class="inline-flex size-10 flex-shrink-0 cursor-pointer items-center justify-center rounded-md border border-zinc-200 text-zinc-600 hover:bg-zinc-100 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-700 lg:hidden"
+                            class="px-2 py-2 cursor-pointer lg:hidden"
                             x-on:click="$dispatch('open-rooms')"
                             aria-label="Show rooms"
                         >
-                            <flux:icon.bars-3 class="size-5" />
+                            <flux:icon.panel-left />
                         </button>
                         <button
                             type="button"
@@ -98,11 +98,11 @@
                 <div class="flex gap-3">
                     <button
                         type="button"
-                        class="inline-flex size-10 flex-shrink-0 cursor-pointer items-center justify-center rounded-md border border-zinc-200 text-zinc-600 hover:bg-zinc-100 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-700 lg:hidden"
+                        class="px-2 py-2 cursor-pointer lg:hidden"
                         x-on:click="$dispatch('open-rooms')"
                         aria-label="Show rooms"
                     >
-                        <flux:icon.bars-3 class="size-5" />
+                        <flux:icon.panel-left />
                     </button>
                     <div class="w-10 h-10 bg-zinc-200 dark:bg-zinc-600 rounded-full flex items-center justify-center">
                         <svg
