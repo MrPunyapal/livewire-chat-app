@@ -7,17 +7,17 @@ use App\Models\Room;
 use App\Models\User;
 use Livewire\Livewire;
 
-it('can render add member component', function (): void {
+it('can render add member component with non-member users', function (): void {
     $room = Room::factory()
         ->hasAttached(User::factory()->create(), relationship: 'users')
-        ->hasAttached(User::factory(3)->create(), relationship: 'users')
         ->create();
+
+    $nonMember = User::factory()->create(['name' => 'Non Member User']);
 
     Livewire::test(AddMembers::class, ['room' => $room, 'existingMembers' => $room->users])
         ->assertStatus(200)
         ->assertSee('Add member')
-        ->assertSee($room->users->first()->name)
-        ->assertSee($room->users->last()->name)
+        ->assertSee('Non Member User')
         ->assertViewIs('livewire.rooms.add-members');
 });
 
@@ -36,18 +36,9 @@ it('validates the members field', function (): void {
         ->call('submit')
         ->assertHasErrors(['members.*']);
 
-    $existingMemberIds = array_merge($room->users->pluck('id')->toArray(), [$room->user->id]);
+    $newMember = User::factory()->create();
     Livewire::test(AddMembers::class, ['room' => $room, 'existingMembers' => $room->users])
-        ->set('members', $existingMemberIds)
+        ->set('members', [$newMember->id])
         ->call('submit')
         ->assertHasNoErrors();
-
-    // silently replacing existing member by other user
-
-    $otherUser = User::factory()->create();
-    $existingMemberIds = array_merge($room->users->take(2)->pluck('id')->toArray(), [$otherUser->id], [$room->user->id]);
-    Livewire::test(AddMembers::class, ['room' => $room, 'existingMembers' => $room->users])
-        ->set('members', $existingMemberIds)
-        ->call('submit')
-        ->assertHasErrors(['members']);
 });

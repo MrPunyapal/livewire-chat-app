@@ -8,7 +8,7 @@
         <div class="flex flex-col items-center w-full lg:max-w-md mx-auto space-y-2">
             <div>
                 <img src="{{ $room->user->profile }}"
-                    class="w-28 h-28 rounded-full object-cover" alt="" />
+                    class="w-28 h-28 rounded-full object-cover" alt="{{ $room->user->name }}" />
             </div>
             <h1 class="text-lg md:text-2xl">{{ $room->name }}</h1>
             <p class="text-sm md:text-base text-zinc-500 dark:text-zinc-400">About</p>
@@ -55,12 +55,27 @@
         </div>
     </div>
 
-    {{-- add members model --}}
-        <flux:modal
-            name="add-members"
-            class="w-full max-w-lg"
-            x-on:members-added.window="$dispatch('modal-close', { name: 'add-members' })"
-        >
+    {{-- add members modal --}}
+    <flux:modal
+        name="add-members"
+        class="w-full max-w-lg"
+        x-on:members-added.window="$dispatch('modal-close', { name: 'add-members' })"
+    >
+        <div class="space-y-6">
+            <div class="flex items-start gap-3">
+                <div class="flex size-10 shrink-0 items-center justify-center rounded-lg bg-blue-50 text-blue-600 dark:bg-blue-500/15 dark:text-blue-300">
+                    <flux:icon.user-plus class="size-5" />
+                </div>
+
+                <div class="min-w-0">
+                    <flux:heading size="lg">{{ __('Add Members') }}</flux:heading>
+                    <flux:text class="mt-1 text-sm text-zinc-600 dark:text-zinc-300">
+                        {{ __('Add new members to :room.', ['room' => $room->name]) }}
+                    </flux:text>
+                </div>
+            </div>
+
             <livewire:rooms.add-members :$existingMembers :$room />
-        </flux:modal>
+        </div>
+    </flux:modal>
 </div>

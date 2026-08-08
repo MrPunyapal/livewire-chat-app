@@ -6,7 +6,6 @@ namespace App\Livewire\Rooms;
 
 use App\Models\Room;
 use App\Models\User;
-use Closure;
 use Flux\Flux;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -20,39 +19,23 @@ class AddMembers extends Component
     /**
      * @var Collection<int, User>
      */
-    public Collection $allUsers;
-
-    /**
-     * @var Collection<int, User>
-     */
     public Collection $existingMembers;
 
     /**
-     * @var array<int,int>
+     * @var array<int, int>
      */
     public array $members = [];
 
     /**
-     * @return array<string, list<mixed>>
+     * @return array<string, list<string>>
      */
     public function rules(): array
     {
         return [
             'members' => [
+                'required',
                 'array',
-                'min:'.$this->existingMembers->count(),
-                function (string $attribute, mixed $value, Closure $fail): void {
-
-                    /** @var list<int> $value */
-                    $removedMembers = array_diff(
-                        $this->existingMembers->modelKeys(),
-                        $value,
-                    );
-
-                    if ($removedMembers !== []) {
-                        $fail('Existing members cannot be removed.');
-                    }
-                },
+                'min:1',
             ],
             'members.*' => [
                 'required',
@@ -64,19 +47,16 @@ class AddMembers extends Component
 
     public function mount(): void
     {
-        $this->allUsers = User::query()
-            ->select(['id', 'name'])
-            ->orderBy('name')
-            ->get();
-
-        $this->members = $this->existingMembers
-            ->modelKeys();
+        $this->members = [];
     }
 
     public function submit(): void
     {
         $this->validate();
-        $this->room->users()->sync($this->members);
+
+        $this->room->users()->syncWithoutDetaching($this->members);
+
+        $this->reset('members');
 
         $this->dispatch('members-added', id: $this->room->id);
         Flux::toast(variant: 'success', text: 'member(s) added to the group');
@@ -84,6 +64,13 @@ class AddMembers extends Component
 
     public function render(): Factory|View
     {
-        return view('livewire.rooms.add-members');
+        $existingUserIds = $this->room->users()->pluck('users.id')->push($this->room->user_id)->unique();
+
+        return view('livewire.rooms.add-members', [
+            'users' => User::query()
+                ->whereNotIn('id', $existingUserIds)
+                ->orderBy('name')
+                ->pluck('name', 'id'),
+        ]);
     }
 }
