@@ -5,10 +5,7 @@ declare(strict_types=1);
 use App\Livewire\Rooms\AddMembers;
 use App\Models\Room;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
-
-uses(RefreshDatabase::class);
 
 test('user can add new members to the room', function (): void {
 
