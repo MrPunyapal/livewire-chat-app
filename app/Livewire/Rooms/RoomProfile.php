@@ -25,6 +25,8 @@ class RoomProfile extends Component
 
     public Room $room;
 
+    public ?string $description = null;
+
     #[Validate('nullable|image|mimes:jpeg,jpg,png,webp,gif|max:2048')]
     public ?TemporaryUploadedFile $image = null;
 
@@ -33,6 +35,8 @@ class RoomProfile extends Component
         $this->room = Room::query()->findOrFail($this->roomId);
 
         abort_if(Gate::denies('show-roomProfile', $this->room), 403, 'You are not authorized to view this room profile.');
+
+        $this->description = $this->room->description;
     }
 
     public function updatedImage(): void
@@ -62,6 +66,25 @@ class RoomProfile extends Component
         Flux::toast(variant: 'success', text: 'Room image updated successfully.');
 
         $this->dispatch('room-updated', roomId: $this->roomId);
+    }
+
+    public function saveDescription(): void
+    {
+        $this->validate([
+            'description' => 'nullable|string|max:2000',
+        ]);
+
+        $this->room->update([
+            'description' => (in_array($this->description, [null, '', '0'], true)) ? null : trim($this->description),
+        ]);
+
+        Flux::toast(variant: 'success', text: 'Room description changed.');
+
+        $this->dispatch(
+            'description-saved',
+            roomId: $this->roomId,
+            description: $this->room->description,
+        );
     }
 
     public function render(): Factory|View

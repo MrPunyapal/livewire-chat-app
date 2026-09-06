@@ -66,7 +66,87 @@
             </div>
             <h1 class="text-lg md:text-2xl">{{ $room->name }}</h1>
             <p class="text-sm text-zinc-500 md:text-base dark:text-zinc-400">About</p>
-            <p class="text-sm text-zinc-500 md:text-base dark:text-zinc-200">{{ $room->description ?: '--' }}</p>
+            <form
+                x-data="{
+                    isEditing: false,
+                    isDescriptionEmpty: ! @js($room->description),
+                    description: @js($room->description),
+
+                    editDescription() {
+                        this.isEditing = true;
+
+                        this.$nextTick(() => {
+                            this.$refs.textarea.focus();
+                            this.resizeTextarea();
+                        });
+                    },
+
+                     resizeTextarea() {
+                        const textarea = this.$refs.textarea;
+
+                        textarea.style.height = 'auto';
+                        textarea.style.height = textarea.scrollHeight + 'px';
+                    },
+
+                    resetForm(savedDescription) {
+                        this.isEditing = false;
+                        this.description = savedDescription;
+                        this.isDescriptionEmpty = ! savedDescription;
+                    }
+                }"
+                class="flex w-full items-center justify-between"
+                wire:submit="saveDescription"
+                x-on:description-saved.window="
+                    if ($event.detail.roomId === $wire.roomId) {
+                        resetForm($event.detail.description);
+                    }
+                "
+            >
+                <flux:button
+                    x-show="isDescriptionEmpty && ! isEditing"
+                    size="xs"
+                    variant="subtle"
+                    class="text-green-500!"
+                    @click="editDescription()"
+                >Add group description</flux:button>
+                <p x-show="! isEditing" class="text-sm md:text-base dark:text-zinc-200">{{ $room->description }}</p>
+                <textarea
+                    x-show="isEditing"
+                    x-ref="textarea"
+                    x-init="resizeTextarea()"
+                    @input="resizeTextarea()"
+                    wire:model="description"
+                    class="w-full resize-none border-0 px-2 py-1 focus:ring-0 focus:outline-none"
+                >{{ $room->description }}</textarea>
+                <div class="ml-auto self-start">
+                    <flux:button
+                        x-show="! isEditing"
+                        icon="pencil"
+                        variant="subtle"
+                        icon:variant="outline"
+                        @click="editDescription()"
+                    />
+                    <flux:button
+                        type="submit"
+                        x-show="isEditing"
+                        icon="check"
+                        variant="subtle"
+                        icon:variant="outline"
+                    />
+                </div>
+            </form>
+            {{-- description error --}}
+            @if ($errors->has('description'))
+                <div
+                    x-data="{ show: true }"
+                    x-init="setTimeout(() => (show = false), 3000)"
+                    x-show="show"
+                    x-transition.opacity.duration.300ms
+                    class="block w-full"
+                >
+                    <flux:error name="description" class="text-sm" />
+                </div>
+            @endif
         </div>
 
         <flux:separator class="my-5" />

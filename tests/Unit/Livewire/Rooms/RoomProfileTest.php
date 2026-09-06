@@ -86,3 +86,48 @@ test('room profile does nothing when no image is uploaded', function (): void {
 
     Storage::disk('public')->assertExists($room->image);
 });
+
+test('add group description for a room on room profile component', function (): void {
+    $room = Room::factory()->create([
+        'name' => 'Laravel Developers',
+        'description' => null,
+    ]);
+
+    $description = 'A place for Laravel developers to discuss PHP, Livewire, APIs, database design & other stuff';
+
+    expect($room->description)
+        ->toBeNull();
+
+    Livewire::actingAs($room->user)
+        ->test(RoomProfile::class, ['roomId' => $room->id])
+        ->set('description', $description)
+        ->call('saveDescription')
+        ->assertSuccessful()
+        ->assertSee($description)
+        ->assertDispatched('description-saved');
+
+    $room->refresh();
+
+    expect($room->description)
+        ->not()->toBeNull();
+});
+
+test('remove room description from room profile component', function (): void {
+    $room = Room::factory()->create();
+
+    $description = $room->description;
+
+    expect($room->description)->not()->toBeNull();
+
+    Livewire::actingAs($room->user)
+        ->test(RoomProfile::class, ['roomId' => $room->id])
+        ->set('description')
+        ->call('saveDescription')
+        ->assertSuccessful()
+        ->assertDontSee($description)
+        ->assertDispatched('description-saved');
+
+    $room->refresh();
+
+    expect($room->description)->toBeNull();
+});
