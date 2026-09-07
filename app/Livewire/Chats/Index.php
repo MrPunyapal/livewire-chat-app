@@ -108,6 +108,16 @@ class Index extends Component
             ->get();
     }
 
+    #[On('room-updated')]
+    public function refreshRoom(int $roomId): void
+    {
+        if ($this->roomId !== $roomId) {
+            return;
+        }
+
+        unset($this->room);
+    }
+
     public function render(): View
     {
         return view('livewire.chats.index', [

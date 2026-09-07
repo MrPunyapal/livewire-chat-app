@@ -2,20 +2,151 @@
     <header class="flex items-center gap-4 border-b border-zinc-200 px-6 py-5 dark:border-zinc-700">
         <flux:button x-on:click="showRoomProfile = false" icon="x-mark" icon:variant="outline" variant="subtle" />
         <flux:heading variant="strong">Room info</flux:heading>
-        <flux:button icon="pencil" class="ml-auto" icon:variant="outline" variant="subtle" />
     </header>
     <div class="flex h-full flex-col items-center space-y-2 p-4 dark:border-zinc-700">
-        <div class="mx-auto flex w-full flex-col items-center space-y-2 lg:max-w-md">
-            <div>
-                <img
-                    src="{{ $room->user->profile }}"
-                    class="h-28 w-28 rounded-full object-cover"
-                    alt="{{ $room->user->name }}"
+        {{-- Current room image upload --}}
+        <div class="mx-auto flex w-full flex-col items-center space-y-2 pt-2 lg:max-w-md">
+            <div class="group relative">
+                @if ($image && $image->isPreviewable())
+                    <img
+                        src="{{ $image->temporaryUrl() }}"
+                        class="h-28 w-28 rounded-full object-cover ring-4 ring-white dark:ring-zinc-800"
+                        alt="{{ $room->name }}"
+                    />
+                @else
+                    <img
+                        src="{{ $room->image }}"
+                        class="h-28 w-28 rounded-full object-cover ring-4 ring-white dark:ring-zinc-800"
+                        alt="{{ $room->image }}"
+                    />
+                @endif
+
+                <label
+                    for="room-image-upload"
+                    class="absolute inset-0 flex cursor-pointer items-center justify-center rounded-full bg-zinc-900/50 opacity-0 backdrop-blur-[1px] transition-opacity duration-200 group-hover:opacity-100 focus-within:opacity-100"
+                    aria-label="{{ __('Change Room Image') }}"
+                >
+                    <span class="flex flex-col items-center gap-1 text-white">
+                        <flux:icon.camera class="size-6" />
+                        <span class="text-xs font-medium">{{ __('Change') }}</span>
+                    </span>
+                </label>
+
+                <input
+                    id="room-image-upload"
+                    type="file"
+                    wire:model.live="image"
+                    accept="image/jpeg,image/png,image/jpg,image/webp,image/gif"
+                    class="hidden"
                 />
+
+                <div
+                    wire:loading
+                    wire:target="image"
+                    class="absolute inset-0 flex items-center justify-center rounded-full bg-white/80 dark:bg-zinc-900/80"
+                >
+                    <flux:icon.loading class="size-6 animate-spin text-zinc-600 dark:text-zinc-300" />
+                </div>
+            </div>
+
+            @if ($errors->has('image'))
+                <div
+                    x-data="{ show: true }"
+                    x-init="setTimeout(() => (show = false), 3000)"
+                    x-show="show"
+                    x-transition.opacity.duration.300ms
+                >
+                    <flux:error name="image" class="text-sm" />
+                </div>
+            @endif
+            {{-- <flux:error name="image" class="text-sm"/> --}}
+
+            <div wire:loading wire:target="image" class="text-xs text-zinc-500 dark:text-zinc-400">
+                {{ __('Uploading...') }}
             </div>
             <h1 class="text-lg md:text-2xl">{{ $room->name }}</h1>
             <p class="text-sm text-zinc-500 md:text-base dark:text-zinc-400">About</p>
-            <p class="text-sm text-zinc-500 md:text-base dark:text-zinc-200">{{ $room->description ?: '--' }}</p>
+            <form
+                x-data="{
+                    isEditing: false,
+                    isDescriptionEmpty: ! @js($room->description),
+                    description: @js($room->description),
+
+                    editDescription() {
+                        this.isEditing = true;
+
+                        this.$nextTick(() => {
+                            this.$refs.textarea.focus();
+                            this.resizeTextarea();
+                        });
+                    },
+
+                     resizeTextarea() {
+                        const textarea = this.$refs.textarea;
+
+                        textarea.style.height = 'auto';
+                        textarea.style.height = textarea.scrollHeight + 'px';
+                    },
+
+                    resetForm(savedDescription) {
+                        this.isEditing = false;
+                        this.description = savedDescription;
+                        this.isDescriptionEmpty = ! savedDescription;
+                    }
+                }"
+                class="flex w-full items-center justify-between"
+                wire:submit="saveDescription"
+                x-on:description-saved.window="
+                    if ($event.detail.roomId === $wire.roomId) {
+                        resetForm($event.detail.description);
+                    }
+                "
+            >
+                <flux:button
+                    x-show="isDescriptionEmpty && ! isEditing"
+                    size="xs"
+                    variant="subtle"
+                    class="text-green-500!"
+                    @click="editDescription()"
+                >Add group description</flux:button>
+                <p x-show="! isEditing" class="text-sm md:text-base dark:text-zinc-200">{{ $room->description }}</p>
+                <textarea
+                    x-show="isEditing"
+                    x-ref="textarea"
+                    x-init="resizeTextarea()"
+                    @input="resizeTextarea()"
+                    wire:model="description"
+                    class="w-full resize-none border-0 px-2 py-1 focus:ring-0 focus:outline-none"
+                >{{ $room->description }}</textarea>
+                <div class="ml-auto self-start">
+                    <flux:button
+                        x-show="! isEditing"
+                        icon="pencil"
+                        variant="subtle"
+                        icon:variant="outline"
+                        @click="editDescription()"
+                    />
+                    <flux:button
+                        type="submit"
+                        x-show="isEditing"
+                        icon="check"
+                        variant="subtle"
+                        icon:variant="outline"
+                    />
+                </div>
+            </form>
+            {{-- description error --}}
+            @if ($errors->has('description'))
+                <div
+                    x-data="{ show: true }"
+                    x-init="setTimeout(() => (show = false), 3000)"
+                    x-show="show"
+                    x-transition.opacity.duration.300ms
+                    class="block w-full"
+                >
+                    <flux:error name="description" class="text-sm" />
+                </div>
+            @endif
         </div>
 
         <flux:separator class="my-5" />
