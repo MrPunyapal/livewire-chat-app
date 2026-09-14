@@ -27,7 +27,7 @@ class RoomProfile extends Component
 
     public ?string $description = null;
 
-    #[Validate('nullable|image|mimes:jpeg,jpg,png,webp,gif|max:2048')]
+    #[Validate('nullable|image|mimes:jpeg,jpg,png,webp|max:2048')]
     public ?TemporaryUploadedFile $image = null;
 
     public function mount(): void

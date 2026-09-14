@@ -36,7 +36,7 @@
                     id="room-image-upload"
                     type="file"
                     wire:model.live="image"
-                    accept="image/jpeg,image/png,image/jpg,image/webp,image/gif"
+                    accept="image/jpeg,image/png,image/jpg,image/webp"
                     class="hidden"
                 />
 
