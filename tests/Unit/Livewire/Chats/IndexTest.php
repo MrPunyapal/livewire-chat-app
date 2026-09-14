@@ -185,3 +185,35 @@ it('loads more chats without dispatching no-more-chats when more chats remain', 
         ->assertSet('offset', Index::LIMIT)
         ->assertNotDispatched('no-more-chats');
 });
+
+it('refreshes the computed room after a matching room-updated event', function (): void {
+    $user = User::factory()->create();
+    $room = Room::factory()
+        ->hasAttached($user, relationship: 'users')
+        ->create();
+
+    $room->update(['image' => 'room/'.$room->id.'/old-image.png']);
+
+    $component = Livewire::actingAs($user)
+        ->test(Index::class, ['roomId' => $room->id]);
+
+    $newImage = 'room/'.$room->id.'/new-image.png';
+    $room->update(['image' => $newImage]);
+
+    $component
+        ->dispatch('room-updated', roomId: $room->id)
+        ->assertSeeHtml('src="'.$newImage.'"');
+});
+
+it('ignores a room-updated event for another room', function (): void {
+    $user = User::factory()->create();
+    $room = Room::factory()
+        ->hasAttached($user, relationship: 'users')
+        ->create();
+    $otherRoom = Room::factory()->create();
+
+    Livewire::actingAs($user)
+        ->test(Index::class, ['roomId' => $room->id])
+        ->dispatch('room-updated', roomId: $otherRoom->id)
+        ->assertSet('roomId', $room->id);
+});

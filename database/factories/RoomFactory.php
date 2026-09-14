@@ -26,6 +26,7 @@ class RoomFactory extends Factory
             'name' => $this->faker->name,
             'description' => $this->faker->text,
             'user_id' => User::factory(),
+            'image' => null,
         ];
     }
 }
