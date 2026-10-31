@@ -74,8 +74,11 @@ class RoomProfile extends Component
             'description' => 'nullable|string|max:2000',
         ]);
 
+        $description = is_string($this->description) ? trim($this->description) : null;
+        $description = $description === '' ? null : $description;
+
         $this->room->update([
-            'description' => (in_array($this->description, [null, '', '0'], true)) ? null : trim($this->description),
+            'description' => $description,
         ]);
 
         Flux::toast(variant: 'success', text: 'Room description changed.');

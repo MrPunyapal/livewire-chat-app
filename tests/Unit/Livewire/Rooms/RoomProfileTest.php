@@ -131,3 +131,28 @@ test('remove room description from room profile component', function (): void {
 
     expect($room->description)->toBeNull();
 });
+
+test('whitespace-only description is saved as null', function (): void {
+    $room = Room::factory()->create([
+        'description' => 'Existing description',
+    ]);
+
+    Livewire::actingAs($room->user)
+        ->test(RoomProfile::class, ['roomId' => $room->id])
+        ->set('description', '   ')
+        ->call('saveDescription')
+        ->assertSuccessful()
+        ->assertDispatched('description-saved');
+
+    expect($room->fresh()->description)->toBeNull();
+});
+
+test('description cannot exceed 2000 characters', function (): void {
+    $room = Room::factory()->create();
+
+    Livewire::actingAs($room->user)
+        ->test(RoomProfile::class, ['roomId' => $room->id])
+        ->set('description', str_repeat('a', 2001))
+        ->call('saveDescription')
+        ->assertHasErrors(['description' => 'max']);
+});

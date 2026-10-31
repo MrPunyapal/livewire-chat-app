@@ -17,7 +17,7 @@
                     <img
                         src="{{ $room->image }}"
                         class="h-28 w-28 rounded-full object-cover ring-4 ring-white dark:ring-zinc-800"
-                        alt="{{ $room->image }}"
+                        alt="{{ $room->name }}"
                     />
                 @endif
 
@@ -59,7 +59,6 @@
                     <flux:error name="image" class="text-sm" />
                 </div>
             @endif
-            {{-- <flux:error name="image" class="text-sm"/> --}}
 
             <div wire:loading wire:target="image" class="text-xs text-zinc-500 dark:text-zinc-400">
                 {{ __('Uploading...') }}
@@ -96,6 +95,7 @@
                 }"
                 class="flex w-full items-center justify-between"
                 wire:submit="saveDescription"
+                @keydown.escape="resetForm(description)"
                 x-on:description-saved.window="
                     if ($event.detail.roomId === $wire.roomId) {
                         resetForm($event.detail.description);
@@ -109,14 +109,20 @@
                     class="text-green-500!"
                     @click="editDescription()"
                 >Add group description</flux:button>
-                <p x-show="! isEditing" class="text-sm md:text-base dark:text-zinc-200">{{ $room->description }}</p>
+                <p
+                    x-show="! isEditing && ! isDescriptionEmpty"
+                    x-text="description"
+                    class="text-sm md:text-base dark:text-zinc-200"
+                >
+                    {{ $room->description }}
+                </p>
                 <textarea
                     x-show="isEditing"
                     x-ref="textarea"
                     x-init="resizeTextarea()"
                     @input="resizeTextarea()"
                     wire:model="description"
-                    class="w-full resize-none border-0 px-2 py-1 focus:ring-0 focus:outline-none"
+                    class="w-full resize-none border-0 bg-transparent px-2 py-1 text-zinc-900 focus:ring-0 focus:outline-none dark:text-zinc-200"
                 >{{ $room->description }}</textarea>
                 <div class="ml-auto self-start">
                     <flux:button
