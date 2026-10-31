@@ -9,6 +9,9 @@ use Illuminate\View\View;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
+#[On('chat:created-for-room-{room.id}')]
+#[On('echo-private:chats.{room.id},.chat-created')]
+#[On('echo-private:chats.{room.id},.chat-updated')]
 class Show extends Component
 {
     public Room $room;
