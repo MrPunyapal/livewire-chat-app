@@ -8,7 +8,7 @@
 >
     <div class="flex min-h-0 flex-1 flex-col bg-white dark:bg-zinc-800">
         <!-- Chat Header -->
-        <div class="flex-shrink-0 border-b border-zinc-200 bg-white px-6 py-4 dark:border-zinc-700 dark:bg-zinc-800">
+        <div class="shrink-0 border-b border-zinc-200 bg-white px-6 py-4 dark:border-zinc-700 dark:bg-zinc-800">
             @if ($room !== null)
                 <div class="flex items-center justify-between gap-4">
                     <div class="flex min-w-0 items-center gap-4">
@@ -29,8 +29,8 @@
                         >
                             <figure class="relative size-10 shrink-0">
                                 <img
-                                    src="{{ $room->user->profile }}"
-                                    alt="{{ $room->user->name }}"
+                                    src="{{ $room->image }}"
+                                    alt="{{ $room->name }}"
                                     class="size-10 w-full rounded-full object-cover ring-2 ring-zinc-200 dark:ring-zinc-600"
                                 />
                                 <div class="absolute -right-0.5 -bottom-0.5 h-3 w-3 rounded-full border-2 border-white bg-green-400 dark:border-zinc-800"></div>

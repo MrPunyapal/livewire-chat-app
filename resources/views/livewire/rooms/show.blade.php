@@ -21,10 +21,10 @@
     x-on:room-selected.window="isActive = $event.detail.id === {{ $room->id }}"
 >
     <div class="flex items-center gap-3">
-        <figure class="relative flex-shrink-0">
+        <figure class="relative shrink-0">
             <img
-                src="{{ $room->user->profile }}"
-                alt="{{ $room->user->name }}"
+                src="{{ $room->image }}"
+                alt="{{ $room->name }}"
                 class="h-12 w-12 rounded-full object-cover ring-2 ring-zinc-200 dark:ring-zinc-600"
             />
             <div class="absolute -right-0.5 -bottom-0.5 h-4 w-4 rounded-full border-2 border-white bg-green-400 dark:border-zinc-800"></div>
